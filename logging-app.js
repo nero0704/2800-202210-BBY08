@@ -116,15 +116,15 @@ function authenticate(email, pwd, callback) {
       host: "localhost",
       user: "root",
       password: "",
-      database: "WebApp"
+      database: "COMP2800"
     });
     connection.connect();
     connection.query(
-      "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
+      "SELECT * FROM BBY_8user WHERE email = ? AND password = ?", [email, pwd],
       function(error, results, fields) {
           // results is an array of records, in JSON format
           // fields contains extra meta data about results
-          //console.log("Results from DB", results, "and the # of records returned", results.length);
+          console.log("Results from DB", results, "and the # of records returned", results.length);
 
           if (error) {
               // in production, you'd really want to send an email to admin but for now, just console
@@ -149,52 +149,22 @@ function authenticate(email, pwd, callback) {
 //  * removed before deploying the app but is great for
 //  * development/testing purposes.
 //  */
-// async function init() {
+async function init() {
 
 //     // we'll go over promises in COMP 2537, for now know that it allows us
 //     // to execute some code in a synchronous manner
-//     const mysql = require("mysql2/promise");
-//     const connection = await mysql.createConnection({
-//       host: "localhost",
-//       user: "root",
-//       password: "",
-//       multipleStatements: true
-//     });
-//     const createDBAndTables = `CREATE DATABASE IF NOT EXISTS WebApp;
-//         use WebApp;
-//         CREATE TABLE IF NOT EXISTS user (
-//         ID int NOT NULL AUTO_INCREMENT,
-//         firstName varchar(30),
-//         lastName varchar(30),
-//         email varchar(30),
-//         password varchar(30),
-//         role char,
-//         userName varchar(30),
-//         age int,
-//         PRIMARY KEY (ID));
-//         `;
-//     await connection.query(createDBAndTables);
+        const mysql = require("mysql2/promise");
+        const connection = await mysql.createConnection({
+            host: "localhost",
+            user: "root",
+            password: "",
+            multipleStatements: true
+        });
+        const sql = fs.readFileSync("./public/mysql/Database.sql", "utf8");
+        await connection.query(sql);
 
-//     // await allows for us to wait for this line to execute ... synchronously
-//     // also ... destructuring. There's that term again!
-//     let [rows, fields] = await connection.query("SELECT * FROM user");
-//     // no records? Let's add a couple - for testing purposes
-//     if(rows.length == 0) {
-//         // no records, so let's add a couple
-//         let userRecords = "insert into user (firstName, lastName, email, password, role, userName, age) values ?";
-//         let recordValues = [
-//           ["John", "Smith", "JS@test.ca", "1234", 'A', "JohnCena420", "69"],
-//           ["Jason", "Turner", "jasonTurn@tec.ca", "4312", 'R', "JasonSparrow", "34"],
-//           ["Amy", "Santiago", "AMS@brook.ca", "JQRIBVQIX23", 'R', "TheTerminator", "30"],
-//           ["Diego", "Cuenca Espino", "dce@my.bcit.ca", "notabc123", 'A', "DCE", "21"]
-//         ];
-//         await connection.query(userRecords, [recordValues]);
-//     }
-
-//     //console.log(rows);
-
-//     console.log("Listening on port " + port + "!");
-// }
+      console.log("Listening on port " + port + "!");
+ }
 
 // RUN SERVER
 let port = 8000;
