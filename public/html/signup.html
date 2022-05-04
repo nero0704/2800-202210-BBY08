@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+
+<body>
+    <div class="module">
+        <div class="card">
+            <div class="title">Sign Up</div>
+            <form action="/signup" method="post">
+                <div class="input">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form" id="email" placeholder="email@email.com">
+                </div>
+                <div class="input">
+                    <label>First Name</label>
+                    <input type="text" name="fname" class="form" id="fname" placeholder="John">
+                </div>
+                <div class="input">
+                    <label>Last Name</label>
+                    <input type="text" name="lname" class="form" id="lname" placeholder="Doe">
+                </div>
+                <div class="input">
+                    <label>Password</label>
+                    <input type="text" name="password" class="form" id="password" placeholder="********">
+                </div>
+                <div class="input">
+                    <label>Username</label>
+                    <input type="text" name="username" class="form" id="username" placeholder="JDoe">
+                </div>
+                <div class="input">
+                    <label>MBTI Personality</label>
+                    <input type="text" name="mbti" class="form" id="mbti" placeholder="INFJ">
+                </div>
+                <div class="input">
+                    <label>Age</label>
+                    <input type="text" name="age" class="form" id="age" placeholder="24">
+                </div>
+                <input type="button" value="Register" id="submit"/>
+                <input type="button" value="Login" id="login"/>
+            </form>
+        </div>
+    </div>
+    <p><span id="serverMsg"></span></p>
+    <p id="errorMsg">&nbsp;</p>
+    <script src="/js/signup.js"></script>
+</body>
+</html>

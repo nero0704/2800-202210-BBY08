@@ -1,5 +1,3 @@
-
-
 ready(function() {
 
     console.log("Client script loaded.");
@@ -43,18 +41,23 @@ ready(function() {
         xhr.send(params);
     }
 
-    document.querySelector("#register").addEventListener("click", function(e) {
+    document.querySelector("#login").addEventListener("click", function(e) {
         e.preventDefault();
-        window.location.replace("/signup");
+        window.location.replace("/");
     })
 
-    // POST TO THE SERVER
     document.querySelector("#submit").addEventListener("click", function(e) {
         e.preventDefault();
         let email = document.getElementById("email");
         let password = document.getElementById("password");
-        let queryString = "email=" + email.value + "&password=" + password.value;
-        ajaxPOST("/login", function(data) {
+        let fname = document.getElementById("fname");
+        let lname = document.getElementById("lname");
+        let username = document.getElementById("username");
+        let age = document.getElementById("age");
+        let mbti = document.getElementById("mbti");
+
+        let queryString = "email=" + email.value + "&password=" + password.value + "&fname=" + fname.value + "&lname=" + lname.value + "&username=" + username.value + "&mbti=" + mbti.value + "&age=" + age.value ;
+        ajaxPOST("/signup", function(data) {
 
             if(data) {
                 let dataParsed = JSON.parse(data);
@@ -62,7 +65,7 @@ ready(function() {
                 if(dataParsed.status == "fail") {
                     document.getElementById("errorMsg").innerHTML = dataParsed.msg;
                 } else {
-                    window.location.replace("/main");
+                    window.location.replace("/");
                 }
             }
 
@@ -79,3 +82,5 @@ function ready(callback) {
         console.log("Listener was invoked");
     }
 }
+
+
