@@ -19,3 +19,5 @@ INSERT INTO BBY_8user (firstName, lastname, email, password, role, userName, age
     VALUES ("Amy", "Santiago", "AMS@brook.ca", "JQRIBVQIX23", 'R', "TheTerminator", "30", "INTP");
 INSERT INTO BBY_8user (firstName, lastname, email, password, role, userName, age, personality)
     VALUES ("Diego", "Cuenca Espino", "dce@my.bcit.ca", "notabc123", 'A', "DCE", "21", "INTP");
+INSERT INTO BBY_8user (firstName, lastname, email, password, role, userName, age, personality)
+    VALUES ("Jane", "Doe", "jdoe@hotmail.com", "123456", 'R', "JDoe", "24", "INFJ");
