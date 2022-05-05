@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Raleway', sans-serif;
+  src: url();
+}
+
+* {
+  font-family: Raleway;
+  color: #B4CDED;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #0D1821;
+}
+
+#general-container {
+  display: grid;
+  grid-template-areas: "header" "login-form";
+  grid-template-columns: auto;
+  grid-template-rows: 10vh 90vh;
+  justify-items: center;
+  margin: auto;
+}
+
+#header-container {
+  grid-area: header;
+  width: 100vw;
+  background-color: #344966;
+}
+
+#header-container header {
+  display: grid;
+  grid-template-columns: 7vh auto;
+  column-gap: 10px;
+  align-items: center;
+  width: fit-content;
+  margin: 1.5vh auto;
+}
+
+#header-container #logo {
+  height: 7vh;
+}
+
+#header-container h1 {
+  width: fit-content;
+  margin: auto;
+  font-size: 40pt;
+  color: #ff575a !important;
+}
+
+#loginForm {
+  grid-area: login-form;
+  width: fit-content;
+  height: fit-content;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+#loginForm #email {
+  width: fit-content;
+}
+
+#loginForm #password {
+  width: fit-content;
+}
+
+#loginForm input {
+  padding: 20px;
+  border: 3px solid #344966;
+  border-radius: 7px;
+  color: #B4CDED;
+  background-color: #0D1821;
+}
+
+#loginForm .input-text {
+  font-size: 13pt;
+  font-weight: 600;
+}
