@@ -1,13 +1,16 @@
+
+
+
 footer{
 
-    
+    position: absolute;
     bottom:0;
     left: 0;
     right: 0;
 
     background: #696969;
     height: auto;
-    width: 100vw;
+    width: 100%;
     padding-top: 50px;
     color: white;
 }
