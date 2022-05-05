@@ -58,11 +58,12 @@ ready(function() {
 
             if(data) {
                 let dataParsed = JSON.parse(data);
-                console.log(dataParsed);
                 if(dataParsed.status == "fail") {
                     document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                } else if (dataParsed.role == 'A'){
+                    window.location.replace("../html/admindashboard.html");
                 } else {
-                    window.location.replace("/main");
+                    window.location.replace("/main")
                 }
             }
 

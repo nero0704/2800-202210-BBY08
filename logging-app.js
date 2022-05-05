@@ -23,8 +23,14 @@ app.use(
 );
 
 app.get("/", function (req, res) {
-    if (req.session.loggedIn) {
-        res.redirect("/main");
+
+    if(req.session.loggedIn) {
+        if (req.session.role = "A"){
+            res.redirect("/admindashboard");
+        }
+        else{
+            res.redirect("/main");
+        }
     } else {
         let doc = fs.readFileSync("./public/html/index.html", "utf8");
 
@@ -58,6 +64,24 @@ app.get("/main", function (req, res) {
     }
 });
 
+app.get("/admindashboard", function(req, res) {
+
+    // check for a session first!
+    if(req.session.loggedIn) {
+
+        let main = fs.readFileSync("./public/html/admindashboard.html", "utf8");
+        let mainDOM = new JSDOM(main);
+        res.set("Server", "Wazubi Engine");
+        res.set("X-Powered-By", "Wazubi");
+        res.send(mainDOM.serialize());
+
+    } else {
+        // not logged in - no session and no access, redirect to home!
+        res.redirect("/");
+    }
+
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -65,7 +89,8 @@ app.use(express.urlencoded({ extended: true }));
 app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
 
-    console.log("What was sent", req.body.email, req.body.password);
+
+    //console.log("What was sent", req.body.email, req.body.password);
 
     let results = authenticate(
         req.body.email,
@@ -76,7 +101,7 @@ app.post("/login", function (req, res) {
                 // server couldn't find that, so use AJAX response and inform
                 // the user. when we get success, we will do a complete page
                 // change. Ask why we would do this in lecture/lab :)
-                res.send({ status: "fail", msg: "User account not found." });
+                res.send({ status: "fail", msg: "User account not found." , role: ""});
             } else {
                 // authenticate the user, create a session
                 req.session.loggedIn = true;
@@ -87,8 +112,9 @@ app.post("/login", function (req, res) {
                 req.session.gender = userRecord.gender;
                 req.session.age = userRecord.age;
                 req.session.role = userRecord.role;
-                req.session.save(function (err) { });
-                res.send({ status: "success", msg: "Logged in." });
+                req.session.save(function(err) {
+                });
+                res.send({ status: "success", msg: "Logged in.", role: userRecord.role});
             }
         }
     );
@@ -131,6 +157,11 @@ app.post('/signup', function (req, res) {
         })
     });
 })
+app.post("/userInfo", function(req, res){
+    let results = getUserInfo(req.body.role, function(userRecords){
+        res.send(userRecords);
+    });
+});
 
 app.get("/logout", function (req, res) {
     if (req.session) {
@@ -154,54 +185,56 @@ function authenticate(email, pwd, callback) {
     });
     connection.connect();
     connection.query(
-        "SELECT * FROM BBY_8user WHERE email = ? AND password = ?",
-        [email, pwd],
-        function (error, results, fields) {
-            // results is an array of records, in JSON format
-            // fields contains extra meta data about results
-            console.log(
-                "Results from DB",
-                results,
-                "and the # of records returned",
-                results.length
-            );
+      "SELECT * FROM BBY_8user WHERE email = ? AND password = ?", [email, pwd],
+      function(error, results, fields) {
+          // results is an array of records, in JSON format
+          // fields contains extra meta data about results
+          //console.log("Results from DB", results, "and the # of records returned", results.length);
 
-            if (error) {
-                // in production, you'd really want to send an email to admin but for now, just console
-                console.log(error);
-            }
-            if (results.length > 0) {
-                // email and password found
-                return callback(results[0]);
-            } else {
-                // user not found
-                return callback(null);
-            }
-        }
+          if (error) {
+              // in production, you'd really want to send an email to admin but for now, just console
+              console.log(error);
+          }
+          if(results.length > 0) {
+              // email and password found
+              return callback(results[0]);
+          } else {
+              // user not found
+              return callback(null);
+          }
+
+      }
     );
 }
 
-// /*
-//  * Function that connects to the DBMS and checks if the DB exists, if not
-//  * creates it, then populates it with a couple of records. This would be
-//  * removed before deploying the app but is great for
-//  * development/testing purposes.
-//  */
-// async function init() {
-//     //     // we'll go over promises in COMP 2537, for now know that it allows us
-//     //     // to execute some code in a synchronous manner
-//     const mysql = require("mysql2/promise");
-//     const connection = await mysql.createConnection({
-//         host: "localhost",
-//         user: "root",
-//         password: "",
-//         multipleStatements: true,
-//     });
-//     const sql = fs.readFileSync("./public/mysql/Database.sql", "utf8");
-//     await connection.query(sql);
-
-//     console.log("Listening on port " + port + "!");
-// }
+function getUserInfo(userType, callback){
+    const mysql = require("mysql2");
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "COMP2800"
+    });
+    connection.connect();
+    connection.query(
+        "SELECT * FROM BBY_8user WHERE role = ?", [userType],  
+        function(error, results, fields) {
+            // results is an array of records, in JSON format
+            // fields contains extra meta data about results
+    
+            if (error) {
+                console.log(error);
+            }
+            if(results.length > 0) {
+                return callback(results);
+            } else {
+                // user not found
+                return callback([]);
+            }
+    
+        }
+    );
+}
 
 // RUN SERVER
 let port = 8000;
