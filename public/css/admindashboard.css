@@ -1,0 +1,20 @@
+#Dashboard{
+    display: grid;
+    grid-template-columns: 2;
+    grid-template-rows: 1;
+}
+
+.users{
+    text-align: center;
+    background-color: azure;
+    border: solid;
+    border-color: black;
+}
+
+#regular{
+    grid-column: 1;
+}
+
+#admins{
+    grid-column: 2;
+}
