@@ -54,7 +54,7 @@ body {
   display: grid;
   grid-area: login-form;
   row-gap: 20px;
-  width: fit-content;
+  width: 35vw;
   height: fit-content;
   margin-top: 60px;
   padding: 20px;
@@ -68,21 +68,32 @@ body {
   background-color: #0D1821;
 }
 
-#loginForm #email {
-  width: fit-content;
-}
-
-#loginForm #password {
-  width: fit-content;
-}
-
 #loginForm [type="button"] {
-  padding: 10px;
-  font-size: 15pt;
-  font-weight: 700;
+  padding: 12px 18px;
+  border: 3px solid #ff575a;
+  border-radius: 40px;
+  font-size: 13pt;
+  font-weight: 600;
+  color: #f0f4ef;
+  background-color: #ff575a;
 }
 
 #loginForm .input-text {
   font-size: 13pt;
   font-weight: 600;
+}
+
+#loginForm #register {
+  padding: 12px 18px;
+  border: 3px solid #344966;
+  font-size: 13pt;
+  font-weight: 500;
+  color: #f0f4ef;
+  background-color: #0D1821;
+}
+
+#loginForm #login-row {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  align-items: center;
 }

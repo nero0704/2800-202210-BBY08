@@ -65,11 +65,10 @@ ready(function() {
       ajaxPOST("/login", function(data) {
         if (data) {
           let dataParsed = JSON.parse(data);
-          console.log(dataParsed);
-          if (dataParsed.status == "fail") {
-            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-          } else {
+          if (dataParsed.status != "fail") {
             window.location.replace("/main");
+          } else if (dataParsed.role == 'A') {
+            window.location.replace("../html/admindashboard.html");
           }
         }
 

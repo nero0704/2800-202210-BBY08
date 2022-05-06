@@ -2,52 +2,66 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="signup.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/css/signup.css">
 </head>
 
 <body>
-    <div class="module">
-        <div class="card">
-            <div class="title">Sign Up</div>
-            <form action="/signup" method="post">
-                <div class="input">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form" id="email" placeholder="email@email.com">
-                </div>
-                <div class="input">
-                    <label>First Name</label>
-                    <input type="text" name="fname" class="form" id="fname" placeholder="John">
-                </div>
-                <div class="input">
-                    <label>Last Name</label>
-                    <input type="text" name="lname" class="form" id="lname" placeholder="Doe">
-                </div>
-                <div class="input">
-                    <label>Password</label>
-                    <input type="text" name="password" class="form" id="password" placeholder="********">
-                </div>
-                <div class="input">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form" id="username" placeholder="JDoe">
-                </div>
-                <div class="input">
-                    <label>MBTI Personality</label>
-                    <input type="text" name="mbti" class="form" id="mbti" placeholder="INFJ">
-                </div>
-                <div class="input">
-                    <label>Age</label>
-                    <input type="text" name="age" class="form" id="age" placeholder="24">
-                </div>
-                <input type="button" value="Register" id="submit"/>
-                <input type="button" value="Login" id="login"/>
-            </form>
-        </div>
+  <div id="general-container">
+    <div id="header-container">
+      <header>
+        <img id="logo" src="/img/AudioCave_Logo_Blue_Red.png" alt="">
+        <h1>Audio Cave</h1>
+      </header>
     </div>
-    <p><span id="serverMsg"></span></p>
-    <p id="errorMsg">&nbsp;</p>
-    <script src="/js/signup.js"></script>
+
+    <form id="signupForm" action="/signup" method="post">
+      <div class="input-name">
+        <div class="input">
+          <label>First Name</label>
+          <input type="text" name="fname" class="form input-text" id="fname" placeholder="John" required="required">
+        </div>
+        <div class="input">
+          <label>Last Name</label>
+          <input type="text" name="lname" class="form input-text" id="lname" placeholder="Doe" required="required">
+        </div>
+      </div>
+      <div class="input">
+        <label>Email</label>
+        <input type="email" name="email" class="form input-text" id="email" placeholder="email@email.com" required="required">
+      </div>
+      <div class="input">
+        <label>Password</label>
+        <input type="text" name="password" class="form input-text" id="password" placeholder="********" required="required">
+      </div>
+      <div class="input">
+        <label>Username</label>
+        <input type="text" name="username" class="form input-text" id="username" placeholder="JDoe" required="required">
+      </div>
+      <div class="input">
+        <label>MBTI Personality</label>
+        <input type="text" name="mbti" class="form input-text" id="mbti" placeholder="INFJ" required="required">
+      </div>
+      <div class="input">
+        <label>Age</label>
+        <input type="text" name="age" class="form input-text" id="age" placeholder="24" required="required">
+      </div>
+      <div id="error">
+        <p><span id="serverMsg"></span></p>
+        <p id="errorMsg">&nbsp;</p>
+      </div>
+      <input type="button" value="REGISTER" id="submit" />
+      <div id="login-row">
+        <label for="login">Already have an account?</label>
+        <input id="login" type="button" value="LOG IN" />
+      </div>
+
+    </form>
+  </div>
+
+  <script src="/js/signup.js"></script>
 </body>
+
 </html>
