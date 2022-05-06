@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Web App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  </style>
+  <link href="/css/login.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="general-container">
+    <div id="header-container">
+      <header>
+        <img id="logo" src="/img/AudioCave_Logo_Blue_Red.png" alt="">
+        <h1>Audio Cave</h1>
+      </header>
+    </div>
+
+    <form id="loginForm">
+      <input id="email" class="input-text" type="email" required="required" placeholder="Email" />
+      <input id="password" class="input-text" type="password" required="required" placeholder="Password" />
+      <div id="login-row">
+        <div id="remember-me">
+          <input id="save-login" type="checkbox" value="SavePassword">
+          <label for="save-login">Remember me</label>
+        </div>
+        <input id="submit" type="button" value="LOG IN" /></div>
+      <br>
+      <label for="register">Don't have an account?</label>
+      <input id="register" type="button" value="SIGN UP FOR AUDIOCAVE" />
+      <div id="error">
+        <p><span id="serverMsg"></span></p>
+        <p id="errorMsg">&nbsp;</p>
+      </div>
+    </form>
+  </div>
+  <script src="/js/login.js"></script>
+</body>
+
+</html>

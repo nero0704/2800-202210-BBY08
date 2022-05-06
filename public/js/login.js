@@ -41,23 +41,60 @@ ready(function() {
     xhr.send(params);
   }
 
-  document.querySelector("#login").addEventListener("click", function(e) {
+  function getSavedLogin() {
+    return new Promise((resolve, reject) => {
+      if (localStorage.getItem("AudioCave_Email") != null &&
+        localStorage.getItem("AudioCave_Password") != null) {
+        let email = localStorage.getItem("AudioCave_Email");
+        let password = localStorage.getItem("AudioCave_Password");
+        let credential = {
+          email: email,
+          password: password
+        };
+        resolve(credential);
+      } else {
+        reject(new Error("No Saved Login."));
+      }
+    })
+  }
+
+  getSavedLogin()
+    .then((cred) => {
+      let queryString = "email=" + cred.email + "&password=" + cred.password;
+      console.log(queryString);
+      ajaxPOST("/login", function(data) {
+        if (data) {
+          let dataParsed = JSON.parse(data);
+          if (dataParsed.status != "fail") {
+            window.location.replace("/main");
+          } else if (dataParsed.role == 'A') {
+            window.location.replace("../html/admindashboard.html");
+          }
+        }
+
+      }, queryString);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+
+  document.querySelector("#register").addEventListener("click", function(e) {
     e.preventDefault();
-    window.location.replace("/");
+    window.location.replace("/signup");
   })
 
+  // POST TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function(e) {
     e.preventDefault();
     let email = document.getElementById("email");
     let password = document.getElementById("password");
-    let fname = document.getElementById("fname");
-    let lname = document.getElementById("lname");
-    let username = document.getElementById("username");
-    let age = document.getElementById("age");
-    let mbti = document.getElementById("mbti");
-
-    let queryString = "email=" + email.value + "&password=" + password.value + "&fname=" + fname.value + "&lname=" + lname.value + "&username=" + username.value + "&mbti=" + mbti.value + "&age=" + age.value;
-    ajaxPOST("/signup", function(data) {
+    let saveLogin = document.getElementById("save-login");
+    let queryString = "email=" + email.value + "&password=" + password.value;
+    if (saveLogin) {
+      localStorage.setItem("AudioCave_Email", email.value);
+      localStorage.setItem("AudioCave_Password", password.value);
+    }
+    ajaxPOST("/login", function(data) {
 
       if (data) {
         let dataParsed = JSON.parse(data);
@@ -65,7 +102,7 @@ ready(function() {
         if (dataParsed.status == "fail") {
           document.getElementById("errorMsg").innerHTML = dataParsed.msg;
         } else {
-          window.location.replace("/");
+          window.location.replace("/main");
         }
       }
 

@@ -17,10 +17,11 @@ body {
 
 #general-container {
   display: grid;
+  height: inherit;
   width: inherit;
   grid-template-areas: "header" "login-form";
   grid-template-columns: auto;
-  grid-template-rows: 10vh auto;
+  grid-template-rows: 10vh auto auto;
   justify-items: center;
   margin: auto;
 }
@@ -51,43 +52,40 @@ body {
   color: #ff575a !important;
 }
 
-#signupForm {
+#loginForm {
   display: grid;
   grid-area: login-form;
-  grid-template-columns: auto;
-  column-gap: 20px;
-  row-gap: 10px;
+  row-gap: 20px;
   width: 35vw;
   height: fit-content;
-  margin-top: 30px;
+  margin-top: 60px;
   padding: 20px;
 }
 
-#signupForm label {
-  align-self: center;
-  font-size: 13pt;
-  font-weight: 300;
-}
-
-#signupForm input {
-  padding: 16px;
+#loginForm input {
+  padding: 20px;
   border: 3px solid #344966;
   border-radius: 7px;
   color: #B4CDED;
   background-color: #0D1821;
 }
 
-#signupForm [type="button"] {
-  padding: 8px 10px;
+#loginForm [type="button"] {
+  padding: 12px 18px;
   border: 3px solid #ff575a;
   border-radius: 40px;
-  font-size: 15pt;
-  font-weight: 500;
+  font-size: 13pt;
+  font-weight: 600;
   color: #f0f4ef;
   background-color: #ff575a;
 }
 
-#signupForm #login {
+#loginForm .input-text {
+  font-size: 13pt;
+  font-weight: 600;
+}
+
+#loginForm #register {
   padding: 12px 18px;
   border: 3px solid #344966;
   font-size: 13pt;
@@ -96,56 +94,8 @@ body {
   background-color: #0D1821;
 }
 
-#signupForm .input {
-  display: grid;
-  row-gap: 6px;
-}
-
-#signupForm .input-name {
-  display: grid;
-  grid-template-columns: auto auto;
-  column-gap: 20px;
-}
-
-#signupForm .input-text {
-  font-size: 13pt;
-  font-weight: 600;
-}
-
-#signupForm #login-row {
+#loginForm #login-row {
   display: grid;
   grid-template-columns: 70% 30%;
-}
-
-footer {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: auto;
-  width: 100vw;
-  padding: 20px 0;
-  color: white;
-  text-align: center;
-  background-color: #696969;
-}
-
-.links {
-  margin: 16px 0 48px 0;
-  align-items: center;
-  justify-content: center;
-  list-style: none;
-}
-
-.links li {
-  margin: 0 10px;
-}
-
-.links a {
-  text-decoration: none;
-  color: white;
-}
-
-.links a:hover {
-  color: orange;
 }
