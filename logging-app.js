@@ -136,14 +136,14 @@ app.post('/signup', function(req, res) {
 
   connection.connect(function(err) {
     if (err) throw err;
-    var sql = "SELECT * FROM BBY_8user WHERE email =?";
+    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, email, function(err, data, fields) {
       if (err) throw err;
       if (data.length > 1) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
-        var sql = "INSERT INTO BBY_8user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')"
+        var sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')"
         connection.query(sql, function(err, result) {
           if (err) throw err;
           console.log("1 record inserted");
