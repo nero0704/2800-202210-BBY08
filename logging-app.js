@@ -111,7 +111,7 @@ app.post("/login", function(req, res) {
         req.session.age = userRecord.age;
         req.session.role = userRecord.role;
         req.session.save(function(err) {});
-        res.send({ status: "success", msg: "Logged in." });
+        res.send({ status: "success", msg: "Logged in.", role: userRecord.role});
       }
     }
   );
