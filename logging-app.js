@@ -208,6 +208,35 @@ function authenticate(email, pwd, callback) {
   );
 }
 
+function getUserInfo(userType, callback){
+    const mysql = require("mysql2");
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "COMP2800"
+    });
+    connection.connect();
+    connection.query(
+        "SELECT * FROM BBY_8user WHERE role = ?", [userType],  
+        function(error, results, fields) {
+            // results is an array of records, in JSON format
+            // fields contains extra meta data about results
+    
+            if (error) {
+                console.log(error);
+            }
+            if(results.length > 0) {
+                return callback(results);
+            } else {
+                // user not found
+                return callback([]);
+            }
+    
+        }
+    );
+}
+
 // RUN SERVER
 let port = 8000;
 app.listen(port);
