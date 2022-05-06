@@ -17,9 +17,11 @@ body {
 
 #general-container {
   display: grid;
+  height: inherit;
+  width: inherit;
   grid-template-areas: "header" "login-form";
   grid-template-columns: auto;
-  grid-template-rows: 10vh 90vh;
+  grid-template-rows: 10vh auto auto;
   justify-items: center;
   margin: auto;
 }

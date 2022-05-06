@@ -17,9 +17,10 @@ body {
 
 #general-container {
   display: grid;
+  width: inherit;
   grid-template-areas: "header" "login-form";
   grid-template-columns: auto;
-  grid-template-rows: 10vh 90vh;
+  grid-template-rows: 10vh auto;
   justify-items: center;
   margin: auto;
 }
@@ -114,4 +115,37 @@ body {
 #signupForm #login-row {
   display: grid;
   grid-template-columns: 70% 30%;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 100vw;
+  padding: 20px 0;
+  color: white;
+  text-align: center;
+  background-color: #696969;
+}
+
+.links {
+  margin: 16px 0 48px 0;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+
+.links li {
+  margin: 0 10px;
+}
+
+.links a {
+  text-decoration: none;
+  color: white;
+}
+
+.links a:hover {
+  color: orange;
 }
