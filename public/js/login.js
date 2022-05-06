@@ -88,7 +88,7 @@ ready(function() {
     let password = document.getElementById("password");
     let saveLogin = document.getElementById("save-login");
     let queryString = "email=" + email.value + "&password=" + password.value;
-    if (saveLogin) {
+    if (saveLogin.checked == true) {
       localStorage.setItem("AudioCave_Email", email.value);
       localStorage.setItem("AudioCave_Password", password.value);
     }
