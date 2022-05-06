@@ -65,9 +65,7 @@ ready(function() {
       ajaxPOST("/login", function(data) {
         if (data) {
           let dataParsed = JSON.parse(data);
-          if (dataParsed.status != "fail") {
-            window.location.replace("/main");
-          } else if (dataParsed.role == 'A') {
+          if (dataParsed.role == 'A') {
             window.location.replace("../html/admindashboard.html");
           }
         }
@@ -95,17 +93,17 @@ ready(function() {
       localStorage.setItem("AudioCave_Password", password.value);
     }
     ajaxPOST("/login", function(data) {
-
       if (data) {
         let dataParsed = JSON.parse(data);
         console.log(dataParsed);
         if (dataParsed.status == "fail") {
           document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+        } else if (dataParsed.role == 'A') {
+          window.location.replace("../html/admindashboard.html");
         } else {
           window.location.replace("/main");
         }
       }
-
     }, queryString);
   });
 });
