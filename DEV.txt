@@ -1,8 +1,1 @@
-<<<<<<< HEAD
 This is dev.
-Author: David Nam
-Branch: Web Template
-=======
-This is dev wyman.
-footer template
->>>>>>> origin/Wyman_Footer_template
