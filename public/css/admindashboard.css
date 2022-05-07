@@ -1,20 +1,36 @@
-#Dashboard{
+#Dashboard {
+  display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: 1;
+}
+
+.users {
+  border: solid;
+  border-color: black;
+  text-align: center;
+  background-color: azure;
+}
+
+#regular {
+  grid-column: 1;
+}
+
+#admins {
+  grid-column: 2;
+}
+
+@media only screen and (max-width: 768px) {
+  #Dashboard {
     display: grid;
-    grid-template-columns: 2;
-    grid-template-rows: 1;
-}
-
-.users{
-    text-align: center;
-    background-color: azure;
-    border: solid;
-    border-color: black;
-}
-
-#regular{
+    grid-template-columns: 1;
+    grid-template-rows: 2;
+  }
+  #admins {
     grid-column: 1;
-}
-
-#admins{
-    grid-column: 2;
+    grid-row: 1;
+  }
+  #regular {
+    grid-column: 1;
+    grid-row: 2;
+  }
 }

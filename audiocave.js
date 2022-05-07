@@ -111,7 +111,7 @@ app.post("/login", function(req, res) {
         req.session.age = userRecord.age;
         req.session.role = userRecord.role;
         req.session.save(function(err) {});
-        res.send({ status: "success", msg: "Logged in.", role: userRecord.role});
+        res.send({ status: "success", msg: "Logged in.", role: userRecord.role });
       }
     }
   );
@@ -124,7 +124,7 @@ app.post('/signup', function(req, res) {
     host: "localhost",
     user: "root",
     password: "",
-    database: "COMP2800",
+    database: "comp2800",
   });
   var fname = req.body.fname;
   var lname = req.body.lname;
@@ -136,14 +136,14 @@ app.post('/signup', function(req, res) {
 
   connection.connect(function(err) {
     if (err) throw err;
-    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
+    var sql = "SELECT * FROM bby_8_user WHERE email =?";
     connection.query(sql, email, function(err, data, fields) {
       if (err) throw err;
       if (data.length > 1) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
-        var sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')"
+        var sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')"
         connection.query(sql, function(err, result) {
           if (err) throw err;
           console.log("1 record inserted");
@@ -178,11 +178,11 @@ function authenticate(email, pwd, callback) {
     host: "localhost",
     user: "root",
     password: "",
-    database: "COMP2800",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM BBY_8user WHERE email = ? AND password = ?", [email, pwd],
+    "SELECT * FROM bby_8_user WHERE email = ? AND password = ?", [email, pwd],
     function(error, results, fields) {
       // results is an array of records, in JSON format
       // fields contains extra meta data about results
@@ -214,11 +214,11 @@ function getUserInfo(userType, callback) {
     host: "localhost",
     user: "root",
     password: "",
-    database: "COMP2800"
+    database: "comp2800"
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM BBY_8user WHERE role = ?", [userType],
+    "SELECT * FROM bby_8_user WHERE role = ?", [userType],
     function(error, results, fields) {
       // results is an array of records, in JSON format
       // fields contains extra meta data about results
