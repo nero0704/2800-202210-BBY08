@@ -4,6 +4,7 @@
 }
 
 * {
+  font-size: 13pt;
   font-family: Raleway;
   color: #B4CDED;
 }
@@ -62,14 +63,6 @@ body {
   padding: 20px;
 }
 
-#loginForm input {
-  padding: 20px;
-  border: 3px solid #344966;
-  border-radius: 7px;
-  color: #B4CDED;
-  background-color: #0D1821;
-}
-
 #loginForm [type="button"] {
   padding: 12px 18px;
   border: 3px solid #ff575a;
@@ -80,22 +73,60 @@ body {
   background-color: #ff575a;
 }
 
-#loginForm .input-text {
+#loginForm [type="email"],
+[type="password"] {
+  padding: 20px;
+  border: 3px solid #344966;
+  border-radius: 7px;
+  color: #B4CDED;
+  background-color: #0D1821;
   font-size: 13pt;
   font-weight: 600;
-}
-
-#loginForm #register {
-  padding: 12px 18px;
-  border: 3px solid #344966;
-  font-size: 13pt;
-  font-weight: 500;
-  color: #f0f4ef;
-  background-color: #0D1821;
 }
 
 #loginForm #login-row {
   display: grid;
   grid-template-columns: 70% 30%;
   align-items: center;
+}
+
+#loginForm #register {
+  border: 3px solid #344966;
+  font-weight: 500;
+  background-color: #0D1821;
+}
+
+@media only screen and (max-width: 768px) {
+  * {
+    font-size: 16pt;
+  }
+  #loginForm {
+    width: 70vw;
+  }
+  #loginForm [type="button"] {
+    padding: 12px 18px;
+    border: 3px solid #ff575a;
+    border-radius: 40px;
+    font-size: 20pt;
+    font-weight: 600;
+    color: #f0f4ef;
+    background-color: #ff575a;
+  }
+  #loginForm [type="email"],
+  [type="password"] {
+    font-size: 20pt;
+    font-weight: 600;
+  }
+  #loginForm #remember-me {
+    display: grid;
+    grid-template-columns: 15% auto;
+  }
+  #loginForm #remember-me label {
+    height: fit-content;
+    align-self: center;
+  }
+  #loginForm #save-login {
+    height: 30px;
+    width: 30px;
+  }
 }
