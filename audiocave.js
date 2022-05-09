@@ -1,3 +1,5 @@
+"use strict";
+const { strict } = require("assert");
 const express = require("express");
 const session = require("express-session");
 const app = express();
@@ -25,7 +27,7 @@ app.use(
 app.get("/", function(req, res) {
 
   if (req.session.loggedIn) {
-    if (req.session.role = "A") {
+    if (req.session.role == "A") {
       res.redirect("/admindashboard");
     } else {
       res.redirect("/main");
