@@ -155,7 +155,8 @@ app.post('/signup', function(req, res) {
       }
     })
   });
-})
+});
+
 app.post("/userInfo", function(req, res) {
   let results = getUserInfo(req.body.role, function(userRecords) {
     res.send(userRecords);
@@ -172,6 +173,47 @@ app.get("/logout", function(req, res) {
       }
     });
   }
+});
+
+app.post("/addUser", function(req, res){
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  let fname = req.body.fname;
+  let lname = req.body.lname;
+  let email = req.body.email;
+  let password = req.body.password;
+  let username = req.body.username;
+  let mbti = req.body.mbti;
+  let age = req.body.age;
+  let role = req.body.role;
+
+  connection.connect(function(err) {
+    if (err) throw err;
+    var sql = "SELECT * FROM bby_8_user WHERE email =?";
+    connection.query(sql, email, function(err, data, fields) {
+      if (err) throw err;
+      if (data.length > 0) {
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "Email already exists." });
+      } else {
+        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
+          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
+          + age + "', '" + mbti + "')"
+        connection.query(sql, function(err, result) {
+          if (err) throw err;
+          console.log("1 record inserted");
+          res.setHeader("Content-Type", "application/json");
+          res.send({ status: "success" });
+        });
+      }
+    })
+  });
 });
 
 function authenticate(email, pwd, callback) {

@@ -83,6 +83,36 @@ ready(function() {
     window.location.replace("/logout");
   })
 
+  document.querySelector("#submitUser").addEventListener("click", function(e){
+    e.preventDefault();
+    let email = document.getElementById("addEmail");
+    let password = document.getElementById("addPassword");
+    let fname = document.getElementById("addFirstName");
+    let lname = document.getElementById("addLastName");
+    let username = document.getElementById("addUserName");
+    let age = document.getElementById("addAge");
+    let mbti = document.getElementById("addPersonality");
+    let role = document.getElementById("addRole");
+
+    let queryString = "email=" + email.value + "&password=" + password.value + "&fname=" 
+      + fname.value + "&lname=" + lname.value + "&username=" + username.value + "&mbti=" 
+      + mbti.value + "&age=" + age.value + "&role=" + role.value;
+    
+    ajaxPOST("/addUser", function(data) {
+
+      if (data) {
+        let dataParsed = JSON.parse(data);
+        console.log(dataParsed);
+        if (dataParsed.status == "fail") {
+          document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+        } else {
+          location.reload();
+        }
+      }
+
+    }, queryString);
+  })
+
 });
 
 function ready(callback) {
