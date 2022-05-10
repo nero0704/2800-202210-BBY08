@@ -41,8 +41,8 @@ ready(function() {
     xhr.send(params);
   }
 
-  const regularDashboard = document.querySelector("#regular");
-  const admindashboard = document.querySelector("#admins");
+  const regularDashboard = document.querySelector("#regularInfo");
+  const admindashboard = document.querySelector("#adminInfo");
 
   ajaxPOST("/userInfo", function printRegular(data) {
     while (data.indexOf("{") > 0) {
@@ -52,11 +52,36 @@ ready(function() {
       data = data.replace("{", "");
       data = data.replace("}", "");
       let dataParsed = JSON.parse(record);
+      let userRecord = document.createElement("div");
       let text = document.createElement("p");
+      let editUserButton = document.createElement("span");
+      editUserButton.classList.add("material-symbols-outlined");
+      editUserButton.innerHTML = "edit";
+      let deleteUserButton = document.createElement("span");
+      deleteUserButton.classList.add("material-symbols-outlined");
+      deleteUserButton.innerHTML = "delete";
       text.innerHTML = dataParsed.firstName + "  |  " + dataParsed.lastName + "  |  " +
         dataParsed.email + "  |  " + dataParsed.userName + "  |  " + dataParsed.age + "  |  " +
-        dataParsed.personality;
-      regularDashboard.appendChild(text);
+        dataParsed.personality + " ";
+      deleteUserButton.onclick = function(event){
+        event.preventDefault();
+        let queryString = "email=" + dataParsed.email + "&role=" + dataParsed.role;
+        ajaxPOST("/deleteUser", function(data){
+          if (data) {
+            let dataParsed = JSON.parse(data);
+            console.log(dataParsed);
+            if (dataParsed.status == "fail") {
+              document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+            } else {
+              location.reload();
+            }
+          }
+        }, queryString);
+      };
+      regularDashboard.appendChild(userRecord);
+      userRecord.appendChild(text);
+      userRecord.appendChild(editUserButton);
+      userRecord.appendChild(deleteUserButton);
     }
   }, "role=R");
 
@@ -68,11 +93,36 @@ ready(function() {
       data = data.replace("{", "");
       data = data.replace("}", "");
       let dataParsed = JSON.parse(record);
+      let userRecord = document.createElement("div");
       let text = document.createElement("p");
+      let editUserButton = document.createElement("span");
+      editUserButton.classList.add("material-symbols-outlined");
+      editUserButton.innerHTML = "edit";
+      let deleteUserButton = document.createElement("span");
+      deleteUserButton.classList.add("material-symbols-outlined");
+      deleteUserButton.innerHTML = "delete";
       text.innerHTML = dataParsed.firstName + "  |  " + dataParsed.lastName + "  |  " +
         dataParsed.email + "  |  " + dataParsed.userName + "  |  " + dataParsed.age + "  |  " +
-        dataParsed.personality;
-      admindashboard.appendChild(text);
+        dataParsed.personality + " ";
+      deleteUserButton.onclick = function(event){
+        event.preventDefault();
+        let queryString = "email=" + dataParsed.email + "&role=" + dataParsed.role;
+        ajaxPOST("/deleteUser", function(data){
+          if (data) {
+            let dataParsed = JSON.parse(data);
+            console.log(dataParsed);
+            if (dataParsed.status == "fail") {
+              document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+            } else {
+              location.reload();
+            }
+          }
+        }, queryString);
+      };
+      admindashboard.appendChild(userRecord);
+      userRecord.appendChild(text);
+      userRecord.appendChild(editUserButton);
+      userRecord.appendChild(deleteUserButton);
     }
   }, "role=A");
 

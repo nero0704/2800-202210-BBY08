@@ -216,6 +216,35 @@ app.post("/addUser", function(req, res){
   });
 });
 
+app.post("/deleteUser", function(req, res){
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect(function(err) {
+    if (err) throw err;
+    var sql = "SELECT * FROM bby_8_user WHERE role =?";
+    connection.query(sql, req.body.role, function(err, data, fields) {
+      if (err) throw err;
+      if (data.length <= 1 && req.body.role == "A") {
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "At least one admin needed." });
+      } else {
+        let sql = "DELETE FROM bby_8_user WHERE email = '" + req.body.email + "'";
+        connection.query(sql, function(err, result) {
+          if (err) throw err;
+          console.log("1 record deleted");
+          res.setHeader("Content-Type", "application/json");
+          res.send({ status: "success" });
+        });
+      }
+    })
+  });
+});
+
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({

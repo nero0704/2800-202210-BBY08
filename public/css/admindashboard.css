@@ -26,6 +26,20 @@
   grid-column: 2;
 }
 
+.material-symbols-outlined{
+  border: solid;
+  border-color: black;
+  cursor: pointer;
+}
+
+#regularInfo div p{
+  display: inline;
+}
+
+#adminInfo div p{
+  display: inline;
+}
+
 @media only screen and (max-width: 768px) {
   #Dashboard {
     display: grid;
