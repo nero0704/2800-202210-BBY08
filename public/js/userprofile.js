@@ -1,3 +1,6 @@
+const upLoadForm = document.getElementById("upload-images-form");
+upLoadForm.addEventListener("submit", uploadImages);
+
 ready(function () {
 
   console.log("Client script loaded.");
@@ -48,7 +51,7 @@ ready(function () {
   //   window.location.replace("/logout");
   // })
 
-  document.querySelector("#submit").addEventListener("click", function (e) {
+  document.querySelector("#edit").addEventListener("click", function (e) {
     e.preventDefault();
     let email = document.getElementById("email");
     let password = document.getElementById("password");
@@ -69,6 +72,29 @@ ready(function () {
   });
 
 });
+
+
+
+function uploadImages(e) {
+  e.preventDefault();
+
+  const imageUpload = document.querySelector('#image-upload');
+  const formData = new FormData();
+
+  for (let i = 0; i < imageUpload.files.length; i++) {
+    // put the images from the input into the form data
+    formData.append("files", imageUpload.files[i]);
+  }
+  const options = {
+    method: 'POST',
+    body: formData,
+  };
+  fetch("/upload-images", options
+  ).then(function (res) {
+    console.log(res);
+  }).catch(function (err) { ("Error:", err) }
+  );
+}
 
 function ready(callback) {
   if (document.readyState != "loading") {

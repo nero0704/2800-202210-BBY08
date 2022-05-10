@@ -13,6 +13,17 @@
         <h1>Web App</h1>
     </header>
 
+    <div id="container">
+        <form id="upload-images-form">
+          <input id="image-upload" type="file" value="Upload Image" accept="image/png, image/gif, image/jpeg" multiple="multiple"/>
+          <input id="submit" type="submit" value="Submit"/>
+        </form>
+      </div>
+
+      <div>
+          <img id="profile-picture" class="image" src="./img/default.img" alt="User Profile">
+      </div>
+
     <div>
         <form name="profile" action="/updateprofile" method="post">
             <div>
@@ -33,7 +44,7 @@
             <input id="age" name="age" type="text" value="" />
             <br>
             <br>
-            <input id="submit" type="button" value="EDIT PROFILE" />
+            <input id="edit" type="button" value="EDIT PROFILE" />
         </form>
     </div>
 

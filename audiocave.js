@@ -6,6 +6,7 @@ const app = express();
 const fs = require("fs");
 const { connect } = require("http2");
 const { JSDOM } = require("jsdom");
+const multer = require("multer");
 
 // static path mappings
 app.use("/js", express.static("public/js"));
@@ -14,6 +15,9 @@ app.use("/img", express.static("public/img"));
 app.use("/fonts", express.static("public/font"));
 app.use("/html", express.static("public/html"));
 app.use("/media", express.static("public/media"));
+app.use("/upload", express.static("public/upload"))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const mysql = require("mysql2");
 const connection = mysql.createConnection({
@@ -22,6 +26,16 @@ const connection = mysql.createConnection({
   password: "",
   database: "comp2800",
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./public/upload/")
+  },
+  filename: function (req, file, callback) {
+    callback(null, "my-app-" + file.originalname.split('/').pop().trim());
+  }
+});
+const upload = multer({ storage: storage });
 
 app.use(
   session({
@@ -90,6 +104,13 @@ app.get("/userprofile", function (req, res) {
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/userprofile.html", "utf8");
     let mainDOM = new JSDOM(main);
+    const mysql = require("mysql2");
+    const connection = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "",
+      database: "comp2800",
+    });
     connection.connect();
     connection.query(
       "SELECT * FROM bby_8_user WHERE ID = ?",
@@ -100,6 +121,11 @@ app.get("/userprofile", function (req, res) {
         var password = results[0].password;
         var email = results[0].email;
         var age = results[0].age;
+        if (results[0].filesrc != "default") {
+          var profilePicture = "/upload/" + results[0].filesrc;
+          console.log(profilePicture);
+          mainDOM.window.document.getElementById("profile-picture").setAttribute("src", profilePicture);
+        }
         mainDOM.window.document.getElementById("username").setAttribute("value", username);
         mainDOM.window.document.getElementById("email").setAttribute("value", email);
         mainDOM.window.document.getElementById("password").setAttribute("value", password);
@@ -172,6 +198,7 @@ app.post("/signup", function (req, res) {
   var username = req.body.username;
   var mbti = req.body.mbti;
   var age = req.body.age;
+  var filesrc = "default";
 
   connection.connect(function (err) {
     if (err) throw err;
@@ -183,7 +210,7 @@ app.post("/signup", function (req, res) {
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
         var sql =
-          "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')";
+          "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
         connection.query(sql, function (err, result) {
           if (err) throw err;
           console.log("1 record inserted");
@@ -196,13 +223,6 @@ app.post("/signup", function (req, res) {
 });
 
 app.post("/updateprofile", function (req, res) {
-  var mysql = require("mysql2");
-  const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
   connection.connect(function (err) {
     if (err) throw err;
     connection.query(
@@ -225,6 +245,34 @@ app.post("/userInfo", function (req, res) {
   let results = getUserInfo(req.body.role, function (userRecords) {
     res.send(userRecords);
   });
+});
+
+app.post('/upload-images', upload.array("files"), function (req, res) {
+  console.log(req.files);
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
+    "UPDATE bby_8_user SET filesrc = ? WHERE ID = ?",
+    [req.files[0].filename, req.session.number],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      }
+      console.log("profile picture updated")
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "success", msg: "profile picture updated." });
+    }
+  );
+  connection.end();
+  for(let i = 0; i < req.files.length; i++) {
+      req.files[i].filename = req.files[i].originalname;
+  }
 });
 
 app.get("/logout", function (req, res) {
