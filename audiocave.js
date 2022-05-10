@@ -15,6 +15,14 @@ app.use("/fonts", express.static("public/font"));
 app.use("/html", express.static("public/html"));
 app.use("/media", express.static("public/media"));
 
+const mysql = require("mysql2");
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "comp2800",
+});
+
 app.use(
   session({
     secret: "extra text that no one will guess",
@@ -24,8 +32,7 @@ app.use(
   })
 );
 
-app.get("/", function(req, res) {
-
+app.get("/", function (req, res) {
   if (req.session.loggedIn) {
     if (req.session.role == "A") {
       res.redirect("/admindashboard");
@@ -41,17 +48,17 @@ app.get("/", function(req, res) {
   }
 });
 
-app.get("/signup", function(req, res) {
+app.get("/signup", function (req, res) {
   {
     let signup = fs.readFileSync("./public/html/signup.html", "utf8");
-    let signupDOM = new JSDOM(signup)
+    let signupDOM = new JSDOM(signup);
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
     res.send(signupDOM.serialize());
   }
 });
 
-app.get("/main", function(req, res) {
+app.get("/main", function (req, res) {
   // check for a session first!
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/main.html", "utf8");
@@ -65,29 +72,55 @@ app.get("/main", function(req, res) {
   }
 });
 
-app.get("/admindashboard", function(req, res) {
-
+app.get("/admindashboard", function (req, res) {
   // check for a session first!
   if (req.session.loggedIn) {
-
     let main = fs.readFileSync("./public/html/admindashboard.html", "utf8");
     let mainDOM = new JSDOM(main);
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
     res.send(mainDOM.serialize());
-
   } else {
     // not logged in - no session and no access, redirect to home!
     res.redirect("/");
   }
+});
 
+app.get("/userprofile", function (req, res) {
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/userprofile.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    connection.connect();
+    connection.query(
+      "SELECT * FROM bby_8_user WHERE ID = ?",
+      [req.session.number],
+      function (error, results) {
+        console.log(results);
+        var username = results[0].userName;
+        var password = results[0].password;
+        var email = results[0].email;
+        var age = results[0].age;
+        mainDOM.window.document.getElementById("username").setAttribute("value", username);
+        mainDOM.window.document.getElementById("email").setAttribute("value", email);
+        mainDOM.window.document.getElementById("password").setAttribute("value", password);
+        mainDOM.window.document.getElementById("age").setAttribute("value", age);
+
+        res.set("Server", "Wazubi Engine");
+        res.set("X-Powered-By", "Wazubi");
+        res.send(mainDOM.serialize());
+      }
+    )
+  } else {
+    // not logged in - no session and no access, redirect to home!
+    res.redirect("/");
+  }
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Notice that this is a "POST"
-app.post("/login", function(req, res) {
+app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
   console.log("What was sent", req.body.email, req.body.password);
@@ -95,7 +128,7 @@ app.post("/login", function(req, res) {
   let results = authenticate(
     req.body.email,
     req.body.password,
-    function(userRecord) {
+    function (userRecord) {
       //console.log(rows);
       if (userRecord == null) {
         // server couldn't find that, so use AJAX response and inform
@@ -105,22 +138,26 @@ app.post("/login", function(req, res) {
       } else {
         // authenticate the user, create a session
         req.session.loggedIn = true;
+        req.session.number = userRecord.ID;
         req.session.email = userRecord.email;
         req.session.firstName = userRecord.firstName;
         req.session.lastName = userRecord.lastName;
         req.session.userName = userRecord.userName;
-        req.session.gender = userRecord.gender;
         req.session.age = userRecord.age;
         req.session.role = userRecord.role;
-        req.session.save(function(err) {});
-        res.send({ status: "success", msg: "Logged in.", role: userRecord.role});
+        req.session.password = userRecord.password;
+        req.session.save(function (err) { });
+        res.send({
+          status: "success",
+          msg: "Logged in.",
+          role: userRecord.role,
+        });
       }
     }
   );
 });
 
-app.post('/signup', function(req, res) {
-
+app.post("/signup", function (req, res) {
   var mysql = require("mysql2");
   const connection = mysql.createConnection({
     host: "localhost",
@@ -136,35 +173,63 @@ app.post('/signup', function(req, res) {
   var mbti = req.body.mbti;
   var age = req.body.age;
 
-  connection.connect(function(err) {
+  connection.connect(function (err) {
     if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE email =?";
-    connection.query(sql, email, function(err, data, fields) {
+    connection.query(sql, email, function (err, data, fields) {
       if (err) throw err;
       if (data.length > 1) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
-        var sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')"
-        connection.query(sql, function(err, result) {
+        var sql =
+          "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "')";
+        connection.query(sql, function (err, result) {
           if (err) throw err;
           console.log("1 record inserted");
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
         });
       }
-    })
+    });
   });
-})
-app.post("/userInfo", function(req, res) {
-  let results = getUserInfo(req.body.role, function(userRecords) {
+});
+
+app.post("/updateprofile", function (req, res) {
+  var mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect(function (err) {
+    if (err) throw err;
+    connection.query(
+      "UPDATE bby_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?",
+      [req.body.email, req.body.password, req.body.username, req.body.age, req.session.number],
+      function (error, results, fields) {
+        if (error) {
+          console.log(error);
+        }
+        console.log("profile updated")
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "success", msg: "profile updated." });
+      }
+    );
+    connection.end();
+  });
+});
+
+app.post("/userInfo", function (req, res) {
+  let results = getUserInfo(req.body.role, function (userRecords) {
     res.send(userRecords);
   });
 });
 
-app.get("/logout", function(req, res) {
+app.get("/logout", function (req, res) {
   if (req.session) {
-    req.session.destroy(function(error) {
+    req.session.destroy(function (error) {
       if (error) {
         res.status(400).send("Unable to log out");
       } else {
@@ -184,8 +249,9 @@ function authenticate(email, pwd, callback) {
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM bby_8_user WHERE email = ? AND password = ?", [email, pwd],
-    function(error, results, fields) {
+    "SELECT * FROM bby_8_user WHERE email = ? AND password = ?",
+    [email, pwd],
+    function (error, results, fields) {
       // results is an array of records, in JSON format
       // fields contains extra meta data about results
       console.log(
@@ -216,15 +282,15 @@ function getUserInfo(userType, callback) {
     host: "localhost",
     user: "root",
     password: "",
-    database: "comp2800"
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM bby_8_user WHERE role = ?", [userType],
-    function(error, results, fields) {
+    "SELECT * FROM bby_8_user WHERE role = ?",
+    [userType],
+    function (error, results, fields) {
       // results is an array of records, in JSON format
       // fields contains extra meta data about results
-
       if (error) {
         console.log(error);
       }
@@ -234,7 +300,6 @@ function getUserInfo(userType, callback) {
         // user not found
         return callback([]);
       }
-
     }
   );
 }

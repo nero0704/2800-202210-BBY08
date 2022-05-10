@@ -48,6 +48,11 @@ ready(function() {
     window.location.replace("/logout");
   })
 
+  document.querySelector("#userprofile").addEventListener("click", function(e) {
+    e.preventDefault();
+    window.location.replace("/userprofile");
+  })
+
 });
 
 function ready(callback) {
