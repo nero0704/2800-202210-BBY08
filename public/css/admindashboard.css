@@ -32,11 +32,7 @@
   cursor: pointer;
 }
 
-#regularInfo div p{
-  display: inline;
-}
-
-#adminInfo div p{
+#regularInfo div p, #adminInfo div p{
   display: inline;
 }
 
