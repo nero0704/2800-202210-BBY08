@@ -1,3 +1,4 @@
+"use strict";
 ready(function() {
 
   console.log("Admin Dashboard script loaded.");
