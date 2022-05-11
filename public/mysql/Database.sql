@@ -18,20 +18,37 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             dateOfSurvey DATE,
             survey varchar(30),
             PRIMARY KEY (userID, dateOfSurvey),
-            FOREIGN KEY (userID) REFERENCES BBY_8user(ID)
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID)
         );
-        CREATE TABLE IF NOT EXISTS BBY_8_music (
+        CREATE TABLE IF NOT EXISTS BBY_8_album (
             ID int NOT NULL AUTO_INCREMENT,
-            songName varchar(30),
-            songArtists varchar(30),
-            songPersonality varchar(30),
+            title varchar(30), 
+            artist varchar(30),
+            genre varchar(30),
+            dateofRelease DATE,
             PRIMARY KEY (ID)
         );
+        CREATE TABLE IF NOT EXISTS BBY_8_song (
+            ID int NOT NULL AUTO_INCREMENT,
+            title varchar(30),
+            artist varchar(30),
+            genre varchar(30),
+            type varchar(30), 
+            album int NOT NULL,
+            dateOfRelease DATE,
+            youtubeLink varchar(50),
+            spotifyLink varchar(50),
+            soundCloudLink varchar(50),
+            PRIMARY KEY (ID),
+            FOREIGN KEY (album) REFERENCES BBY_8_album(ID)
+        );
         CREATE TABLE IF NOT EXISTS BBY_8_library (
+            ID int NOT NULL AUTO_INCREMENT,
             userID int NOT NULL,
-            songName varchar(30),
-            PRIMARY KEY (userID),
-            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID)
+            songID int NOT NULL,
+            PRIMARY KEY (ID),
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID),
+            FOREIGN KEY (songID) REFERENCES BBY_8_song(ID)
         );
 INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc)
     VALUES ("John", "Smith", "JS@test.ca", "1234", 'A', "JohnCena420", "69", "INFJ", "default");
