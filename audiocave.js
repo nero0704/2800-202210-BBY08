@@ -142,6 +142,20 @@ app.get("/userprofile", function (req, res) {
   }
 });
 
+app.get("/survey", function (req, res) {
+  // check for a session first!
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/survey.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(mainDOM.serialize());
+  } else {
+    // not logged in - no session and no access, redirect to home!
+    res.redirect("/");
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -270,8 +284,8 @@ app.post('/upload-images', upload.array("files"), function (req, res) {
     }
   );
   connection.end();
-  for(let i = 0; i < req.files.length; i++) {
-      req.files[i].filename = req.files[i].originalname;
+  for (let i = 0; i < req.files.length; i++) {
+    req.files[i].filename = req.files[i].originalname;
   }
 });
 
@@ -287,7 +301,7 @@ app.get("/logout", function (req, res) {
   }
 });
 
-app.post("/addUser", function(req, res){
+app.post("/addUser", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
     host: "localhost",
@@ -305,19 +319,19 @@ app.post("/addUser", function(req, res){
   let age = req.body.age;
   let role = req.body.role;
 
-  connection.connect(function(err) {
+  connection.connect(function (err) {
     if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE email =?";
-    connection.query(sql, email, function(err, data, fields) {
+    connection.query(sql, email, function (err, data, fields) {
       if (err) throw err;
       if (data.length > 0) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
-        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
-          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
+        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('"
+          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '"
           + age + "', '" + mbti + "')"
-        connection.query(sql, function(err, result) {
+        connection.query(sql, function (err, result) {
           if (err) throw err;
           console.log("1 record inserted");
           res.setHeader("Content-Type", "application/json");
@@ -328,7 +342,7 @@ app.post("/addUser", function(req, res){
   });
 });
 
-app.post("/deleteUser", function(req, res){
+app.post("/deleteUser", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
     host: "localhost",
@@ -336,17 +350,17 @@ app.post("/deleteUser", function(req, res){
     password: "",
     database: "comp2800",
   });
-  connection.connect(function(err) {
+  connection.connect(function (err) {
     if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE role =?";
-    connection.query(sql, req.body.role, function(err, data, fields) {
+    connection.query(sql, req.body.role, function (err, data, fields) {
       if (err) throw err;
       if (data.length <= 1 && req.body.role == "A") {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "At least one admin needed." });
       } else {
         let sql = "DELETE FROM bby_8_user WHERE email = '" + req.body.email + "'";
-        connection.query(sql, function(err, result) {
+        connection.query(sql, function (err, result) {
           if (err) throw err;
           console.log("1 record deleted");
           res.setHeader("Content-Type", "application/json");
@@ -357,7 +371,7 @@ app.post("/deleteUser", function(req, res){
   });
 });
 
-app.post("/editUser", function(req, res){
+app.post("/editUser", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
     host: "localhost",
@@ -376,10 +390,10 @@ app.post("/editUser", function(req, res){
   let age = req.body.age;
   let role = req.body.role;
 
-  connection.connect(function(err) {
+  connection.connect(function (err) {
     if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE email =?";
-    connection.query(sql, newEmail, function(err, data, fields) {
+    connection.query(sql, newEmail, function (err, data, fields) {
       if (err) throw err;
       if (data.length > 0 && email != newEmail) {
         res.setHeader("Content-Type", "application/json");
@@ -388,7 +402,7 @@ app.post("/editUser", function(req, res){
         let sql = "UPDATE bby_8_user SET firstName='" + fname + "', lastName='" + lname + "', email='"
           + newEmail + "', password='" + password + "', role='" + role + "', userName='" + username
           + "', age='" + age + "', personality='" + mbti + "' WHERE email='" + email + "'";
-        connection.query(sql, function(err, result) {
+        connection.query(sql, function (err, result) {
           if (err) throw err;
           console.log("1 record updated");
           res.setHeader("Content-Type", "application/json");
@@ -398,6 +412,39 @@ app.post("/editUser", function(req, res){
     })
   });
 });
+
+app.post("/daily-survey", function (req, res) {
+  var mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  console.log(req.body.mood);
+  connection.connect();
+  var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
+  connection.query(sql, [req.session.number, req.body.date], function (err, data, fields) {
+    if (err) throw err;
+    if (data.length > 0) {
+      var sql = "UPDATE bby_8_survey SET survey= '" + req.body.mood + "' WHERE userID= '" + req.session.number + "' AND dateOfSurvey= '" + req.body.date + "'";
+      connection.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Survey record updated");
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "success" });
+      })
+    } else {
+      var sql = "INSERT INTO bby_8_survey (userID, dateOfSurvey, survey) VALUES ('" + req.session.number + "', '" + req.body.date + "', '" + req.body.mood + "')";
+      connection.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Survey Taken");
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "success" })
+      })
+    }
+  })
+})
 
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
