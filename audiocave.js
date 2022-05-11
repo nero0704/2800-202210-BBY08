@@ -287,6 +287,118 @@ app.get("/logout", function (req, res) {
   }
 });
 
+app.post("/addUser", function(req, res){
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  let fname = req.body.fname;
+  let lname = req.body.lname;
+  let email = req.body.email;
+  let password = req.body.password;
+  let username = req.body.username;
+  let mbti = req.body.mbti;
+  let age = req.body.age;
+  let role = req.body.role;
+
+  connection.connect(function(err) {
+    if (err) throw err;
+    var sql = "SELECT * FROM bby_8_user WHERE email =?";
+    connection.query(sql, email, function(err, data, fields) {
+      if (err) throw err;
+      if (data.length > 0) {
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "Email already exists." });
+      } else {
+        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
+          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
+          + age + "', '" + mbti + "')"
+        connection.query(sql, function(err, result) {
+          if (err) throw err;
+          console.log("1 record inserted");
+          res.setHeader("Content-Type", "application/json");
+          res.send({ status: "success" });
+        });
+      }
+    })
+  });
+});
+
+app.post("/deleteUser", function(req, res){
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect(function(err) {
+    if (err) throw err;
+    var sql = "SELECT * FROM bby_8_user WHERE role =?";
+    connection.query(sql, req.body.role, function(err, data, fields) {
+      if (err) throw err;
+      if (data.length <= 1 && req.body.role == "A") {
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "At least one admin needed." });
+      } else {
+        let sql = "DELETE FROM bby_8_user WHERE email = '" + req.body.email + "'";
+        connection.query(sql, function(err, result) {
+          if (err) throw err;
+          console.log("1 record deleted");
+          res.setHeader("Content-Type", "application/json");
+          res.send({ status: "success" });
+        });
+      }
+    })
+  });
+});
+
+app.post("/editUser", function(req, res){
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  let fname = req.body.fname;
+  let lname = req.body.lname;
+  let email = req.body.email;
+  let newEmail = req.body.newEmail;
+  let password = req.body.password;
+  let username = req.body.username;
+  let mbti = req.body.mbti;
+  let age = req.body.age;
+  let role = req.body.role;
+
+  connection.connect(function(err) {
+    if (err) throw err;
+    var sql = "SELECT * FROM bby_8_user WHERE email =?";
+    connection.query(sql, newEmail, function(err, data, fields) {
+      if (err) throw err;
+      if (data.length > 0 && email != newEmail) {
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "Email already exists." });
+      } else {
+        let sql = "UPDATE bby_8_user SET firstName='" + fname + "', lastName='" + lname + "', email='"
+          + newEmail + "', password='" + password + "', role='" + role + "', userName='" + username
+          + "', age='" + age + "', personality='" + mbti + "' WHERE email='" + email + "'";
+        connection.query(sql, function(err, result) {
+          if (err) throw err;
+          console.log("1 record updated");
+          res.setHeader("Content-Type", "application/json");
+          res.send({ status: "success" });
+        });
+      }
+    })
+  });
+});
+
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({

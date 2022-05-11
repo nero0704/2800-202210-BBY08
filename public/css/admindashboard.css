@@ -4,6 +4,13 @@
   grid-template-rows: 1;
 }
 
+#userForm{
+  background-color: antiquewhite;
+  border: solid;
+  border-color: black;
+  text-align: center;
+}
+
 .users {
   border: solid;
   border-color: black;
@@ -17,6 +24,16 @@
 
 #admins {
   grid-column: 2;
+}
+
+.material-symbols-outlined{
+  border: solid;
+  border-color: black;
+  cursor: pointer;
+}
+
+#regularInfo div p, #adminInfo div p{
+  display: inline;
 }
 
 @media only screen and (max-width: 768px) {
