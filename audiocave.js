@@ -25,15 +25,15 @@ console.log("-----------------" + isHeroku);
 
 const mysql = require("mysql2");
 const connection = isHeroku ? mysql.createConnection({
+  host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+  user: "xu76mlcd3o67jwnx",
+  password: "xhqasmzcj6v8di7m",
+  database: "zyt8w00z5yriluwj",
+}) : mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "comp2800",
-}) : mysql.createConnection({
-  host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-  user: "u1mxq6c8m1bt2ffp",
-  password: "oaa8ph7ctmkukc8x",
-  database: "xhwnqfml4us90luk",
 });
 
 const storage = multer.diskStorage({
@@ -115,15 +115,15 @@ app.get("/userprofile", function (req, res) {
     let mainDOM = new JSDOM(main);
     const mysql = require("mysql2");
     const connection = isHeroku ? mysql.createConnection({
+      host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+      user: "xu76mlcd3o67jwnx",
+      password: "xhqasmzcj6v8di7m",
+      database: "zyt8w00z5yriluwj",
+    }) : mysql.createConnection({
       host: "localhost",
       user: "root",
       password: "",
       database: "comp2800",
-    }) : mysql.createConnection({
-      host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-      user: "u1mxq6c8m1bt2ffp",
-      password: "oaa8ph7ctmkukc8x",
-      database: "xhwnqfml4us90luk",
     });
     connection.connect();
     connection.query(
@@ -200,15 +200,15 @@ app.post("/login", function (req, res) {
 app.post("/signup", function (req, res) {
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
   var fname = req.body.fname;
   var lname = req.body.lname;
@@ -274,15 +274,15 @@ app.post('/upload-images', upload.array("files"), function (req, res) {
   console.log(req.files);
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
   connection.connect();
   connection.query(
@@ -318,15 +318,15 @@ app.get("/logout", function (req, res) {
 app.post("/addUser", function(req, res){
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
 
   let fname = req.body.fname;
@@ -368,15 +368,15 @@ app.post("/addUser", function(req, res){
 app.post("/deleteUser", function(req, res){
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
   connection.connect(function(err) {
     //if (err) throw err;
@@ -402,15 +402,15 @@ app.post("/deleteUser", function(req, res){
 app.post("/editUser", function(req, res){
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
 
   let fname = req.body.fname;
@@ -449,15 +449,15 @@ app.post("/editUser", function(req, res){
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
   connection.connect();
   connection.query(
@@ -491,15 +491,15 @@ function authenticate(email, pwd, callback) {
 function getUserInfo(userType, callback) {
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "comp2800",
-  }) : mysql.createConnection({
-    host: "wcwimj6zu5aaddlj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "u1mxq6c8m1bt2ffp",
-    password: "oaa8ph7ctmkukc8x",
-    database: "xhwnqfml4us90luk",
   });
   connection.connect();
   connection.query(
