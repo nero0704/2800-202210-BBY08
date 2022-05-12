@@ -20,8 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const isHeroku = process.env.IS_HEROKU || false;
-
-console.log("-----------------" + isHeroku);
+const bool = isHeroku ? "true" : "false";
+console.log(isHeroku + "----------------");
+console.log("-----------------" + bool);
 
 const mysql = require("mysql2");
 const connection = isHeroku ? mysql.createConnection({
