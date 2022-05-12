@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const isHeroku = process.env.IS_HEROKU || false;
 
+console.log("-----------------" + isHeroku);
+
 const mysql = require("mysql2");
 const connection = isHeroku ? mysql.createConnection({
   host: "localhost",
@@ -218,10 +220,10 @@ app.post("/signup", function (req, res) {
   var filesrc = "default";
 
   connection.connect(function (err) {
-    if (err) throw err;
+    //if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE email =?";
     connection.query(sql, email, function (err, data, fields) {
-      if (err) throw err;
+      //if (err) throw err;
       if (data.length > 1) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
@@ -233,7 +235,7 @@ app.post("/signup", function (req, res) {
         var sql =
           "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
         connection.query(sql, function (err, result) {
-          if (err) throw err;
+          //if (err) throw err;
           console.log("1 record inserted");
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -245,7 +247,7 @@ app.post("/signup", function (req, res) {
 
 app.post("/updateprofile", function (req, res) {
   connection.connect(function (err) {
-    if (err) throw err;
+    //if (err) throw err;
     connection.query(
       "UPDATE bby_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?",
       [req.body.email, req.body.password, req.body.username, req.body.age, req.session.number],
@@ -337,10 +339,10 @@ app.post("/addUser", function(req, res){
   let role = req.body.role;
 
   connection.connect(function(err) {
-    if (err) throw err;
+    //if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE email =?";
     connection.query(sql, email, function(err, data, fields) {
-      if (err) throw err;
+      //if (err) throw err;
       if (data.length > 0) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
@@ -353,7 +355,7 @@ app.post("/addUser", function(req, res){
           + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
           + age + "', '" + mbti + "')"
         connection.query(sql, function(err, result) {
-          if (err) throw err;
+          //if (err) throw err;
           console.log("1 record inserted");
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -377,17 +379,17 @@ app.post("/deleteUser", function(req, res){
     database: "xhwnqfml4us90luk",
   });
   connection.connect(function(err) {
-    if (err) throw err;
+    //if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE role =?";
     connection.query(sql, req.body.role, function(err, data, fields) {
-      if (err) throw err;
+      //if (err) throw err;
       if (data.length <= 1 && req.body.role == "A") {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "At least one admin needed." });
       } else {
         let sql = "DELETE FROM bby_8_user WHERE email = '" + req.body.email + "'";
         connection.query(sql, function(err, result) {
-          if (err) throw err;
+          //if (err) throw err;
           console.log("1 record deleted");
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -422,10 +424,10 @@ app.post("/editUser", function(req, res){
   let role = req.body.role;
 
   connection.connect(function(err) {
-    if (err) throw err;
+    //if (err) throw err;
     var sql = "SELECT * FROM bby_8_user WHERE email =?";
     connection.query(sql, newEmail, function(err, data, fields) {
-      if (err) throw err;
+      //if (err) throw err;
       if (data.length > 0 && email != newEmail) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
@@ -434,7 +436,7 @@ app.post("/editUser", function(req, res){
           + newEmail + "', password='" + password + "', role='" + role + "', userName='" + username
           + "', age='" + age + "', personality='" + mbti + "' WHERE email='" + email + "'";
         connection.query(sql, function(err, result) {
-          if (err) throw err;
+          //if (err) throw err;
           console.log("1 record updated");
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
