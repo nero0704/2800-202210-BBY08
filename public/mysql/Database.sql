@@ -18,7 +18,7 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             dateOfSurvey DATE,
             survey varchar(30),
             PRIMARY KEY (userID, dateOfSurvey),
-            FOREIGN KEY (userID) REFERENCES BBY_8user(ID)
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID)
         );
         CREATE TABLE IF NOT EXISTS BBY_8_music (
             ID int NOT NULL AUTO_INCREMENT,
