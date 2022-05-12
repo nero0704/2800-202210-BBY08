@@ -11,7 +11,8 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             age int,
             personality varchar(30),
             filesrc varchar (100),
-            PRIMARY KEY (ID));
+            PRIMARY KEY (ID)
+        );
         use COMP2800;
         CREATE TABLE IF NOT EXISTS BBY_8_survey (
             userID int NOT NULL,
@@ -28,19 +29,25 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             dateofRelease DATE,
             PRIMARY KEY (ID)
         );
+        CREATE TABLE IF NOT EXISTS BBY_8_personality_genre (
+            genre varchar(30),
+            personality varchar(30),
+            PRIMARY KEY (genre, personality)
+        );
         CREATE TABLE IF NOT EXISTS BBY_8_song (
             ID int NOT NULL AUTO_INCREMENT,
             title varchar(30),
             artist varchar(30),
-            genre varchar(30),
-            type varchar(30), 
+            genre varchar(30) NOT NULL,
+            mood varchar(30), 
             album int NOT NULL,
             dateOfRelease DATE,
             youtubeLink varchar(50),
             spotifyLink varchar(50),
             soundCloudLink varchar(50),
             PRIMARY KEY (ID),
-            FOREIGN KEY (album) REFERENCES BBY_8_album(ID)
+            FOREIGN KEY (album) REFERENCES BBY_8_album(ID),
+            FOREIGN KEY (genre) REFERENCES BBY_8_personality_genre(genre)
         );
         CREATE TABLE IF NOT EXISTS BBY_8_library (
             ID int NOT NULL AUTO_INCREMENT,

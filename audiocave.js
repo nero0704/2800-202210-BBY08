@@ -172,6 +172,8 @@ app.post("/login", function (req, res) {
         req.session.age = userRecord.age;
         req.session.role = userRecord.role;
         req.session.password = userRecord.password;
+        req.session.mbti = userRecord.personality;
+        console.log(req.session.mbti);
         req.session.save(function (err) { });
         res.send({
           status: "success",
