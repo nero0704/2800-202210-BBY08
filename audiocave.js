@@ -208,6 +208,10 @@ app.post("/signup", function (req, res) {
       if (data.length > 1) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
+      } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
+      password.trim().length <= 0 || username.trim().length <= 0 || mbti.trim().length <= 0 || age.trim().length <= 0){
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "Missing Information." });
       } else {
         var sql =
           "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
@@ -313,6 +317,10 @@ app.post("/addUser", function(req, res){
       if (data.length > 0) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
+      } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
+      password.trim().length <= 0 || username.trim().length <= 0 || mbti.trim().length <= 0 || age.trim().length <= 0){
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "fail", msg: "Missing Information." });
       } else {
         let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
           + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 

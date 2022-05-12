@@ -42,11 +42,28 @@
       </div>
       <div class="input">
         <label>MBTI Personality</label>
-        <input id="mbti" name="mbti" type="text" placeholder="INFJ" required>
+        <select name="mbti" id="mbti" required>
+          <option value="ESTJ">ESTJ</option>
+          <option value="ENTJ">ENTJ</option>
+          <option value="ESFJ">ESFJ</option>
+          <option value="ENFJ">ENFJ</option>
+          <option value="ISTJ">ISTJ</option>
+          <option value="ISFJ">ISFJ</option>
+          <option value="INTJ">INTJ</option>
+          <option value="INFJ">INFJ</option>
+          <option value="ESTP">ESTP</option>
+          <option value="ESFP">ESFP</option>
+          <option value="ENTP">ENTP</option>
+          <option value="ENFP">ENFP</option>
+          <option value="ISTP">ISTP</option>
+          <option value="ISFP">ISFP</option>
+          <option value="INTP">INTP</option>
+          <option value="INFP">INFP</option>
+        </select>
       </div>
       <div class="input">
         <label>Age</label>
-        <input id="age" name="age" type="text" placeholder="24" required>
+        <input id="age" name="age" type="number" placeholder="24" min="1" max="150" required>
       </div>
       <div id="error">
         <p><span id="serverMsg"></span></p>

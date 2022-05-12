@@ -71,6 +71,7 @@ body {
   font-weight: 600;
   color: #f0f4ef;
   background-color: #ff575a;
+  cursor: pointer;
 }
 
 #loginForm [type="email"],
@@ -94,6 +95,7 @@ body {
   border: 3px solid #344966;
   font-weight: 500;
   background-color: #0D1821;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
@@ -111,6 +113,7 @@ body {
     font-weight: 600;
     color: #f0f4ef;
     background-color: #ff575a;
+    cursor: pointer;
   }
   #loginForm [type="email"],
   [type="password"] {
