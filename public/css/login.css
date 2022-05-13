@@ -35,10 +35,10 @@ body {
 
 #header-container header {
   display: grid;
+  width: fit-content;
   grid-template-columns: 7vh auto;
   column-gap: 10px;
   align-items: center;
-  width: fit-content;
   margin: 1.5vh auto;
 }
 
