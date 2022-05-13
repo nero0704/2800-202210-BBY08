@@ -188,3 +188,87 @@ h3 {
   font-size: 13pt;
   color: #B4CDED;
 }
+
+.topnav{
+  display: none;
+}
+
+
+@media screen and (max-width: 1200px) {
+
+  #general-container {
+    display: grid;
+    height: inherit;
+    width: inherit;
+    grid-template-areas: "header""login-form";
+    grid-template-columns: auto;
+    grid-template-rows: 10vh auto auto;
+    justify-items: center;
+    margin: auto;
+  }
+  #main{
+    align-items: center;
+    justify-content: center;
+    display: grid;
+  }
+  .topnav {
+    overflow: hidden;
+    background-color: #0D1821;
+    position: relative;
+    padding-left:10px;
+  }
+  
+  .topnav #myLinks {
+    display: none;
+  }
+  
+  .topnav a {
+    color: #B4CDED;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+  }
+  
+  .topnav a.icon {
+    background: black;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-left:10px;
+  }
+  
+  .topnav a:hover {
+    background-color: #0D1821;
+    color: #B4CDED;
+  }
+  
+  .active {
+    background-color: #0D1821;
+    color: #B4CDED;
+  }
+  
+  .img {
+    position: relative;
+    float: left;
+    width:  50px;
+    height: 50px;
+    background-position: 50% 50%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+    padding-right: 10px;
+  }
+  .h1{
+    padding-top:5px;
+  }
+  #left-bar {
+    display: none;
+  }
+  #right-bar{
+    display:none;
+  }
+  .topnav{
+    display: block;
+  }
+}
