@@ -65,7 +65,7 @@ ready(function() {
 
       userRecord.innerHTML += "<p>" + dataParsed.firstName + "</p><p>" + dataParsed.lastName + 
         "</p><p>" + dataParsed.email + "</p><p>" + dataParsed.password + "</p>" +
-        "<p>" + dataParsed.role + "</p><p>" + dataParsed.userName + "</p><p>" + dataParsed.age + 
+        "<p>" + dataParsed.userName + "</p><p>" + dataParsed.role + "</p><p>" + dataParsed.age + 
         "</p><p>" + dataParsed.personality + "</p>";
 
       // Edit User
@@ -133,8 +133,8 @@ ready(function() {
         userRecord.appendChild(lname);
         userRecord.appendChild(email);
         userRecord.appendChild(password);
-        userRecord.appendChild(role);
         userRecord.appendChild(uname);
+        userRecord.appendChild(role);
         userRecord.appendChild(age);
         userRecord.appendChild(personality);
         userRecord.appendChild(confirm);
