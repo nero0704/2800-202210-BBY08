@@ -27,11 +27,11 @@ body {
 
 #left-bar {
   display: grid;
+  width: 100%;
+  height: 100%;
   grid-template-rows: 5% 20% 3% auto auto 5% 5%;
   row-gap: 2vh;
   justify-items: center;
-  width: 100%;
-  height: 100%;
   background-color: #0D1821;
 }
 
@@ -70,30 +70,87 @@ a [href="/logout"] {
   text-decoration: none;
 }
 
-#main {}
-
-#header-container {
-  grid-area: header;
-  width: 100vw;
-  background-color: #344966;
-}
-
-#header-container header {
+#main {
   display: grid;
-  grid-template-columns: 7vh auto;
-  column-gap: 10px;
+  width: 100%;
+  height: 100%;
+  justify-items: center;
   align-items: center;
-  width: fit-content;
-  margin: 1.5vh auto;
 }
 
-#header-container #logo {
-  height: 7vh;
+#main h1,
+h3 {
+  margin: 0;
+  color: #0D1821;
 }
 
-#header-container h1 {
+#main #timeline {
+  display: grid;
+  width: 60%;
+  justify-items: center;
+  row-gap: 20px;
+}
+
+#main #timeline h1 {
+  height: fit-content;
+}
+
+#main #timeline #post-container {
+  display: grid;
+  row-gap: 20px;
+}
+
+#main #timeline #post-container .post {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  column-gap: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  background: #0D1821;
+}
+
+#main #timeline #post-container .post .song {
+  display: grid;
   width: fit-content;
-  margin: auto;
-  font-size: 40pt;
-  color: #ff575a !important;
+  justify-items: center;
+}
+
+#main #timeline #post-container .post .song img {
+  width: 100%;
+}
+
+#main #timeline #post-container .post .song h1 {
+  width: fit-content;
+  font-size: 15pt;
+  color: #B4CDED;
+}
+
+#main #timeline #post-container .post .song h3 {
+  width: fit-content;
+  font-size: 13pt;
+  color: #B4CDED;
+}
+
+#main #timeline #post-container .post .comment {
+  display: grid;
+  width: 95%;
+  grid-template-rows: 15% auto;
+  row-gap: 5px;
+}
+
+#main #timeline #post-container .post .comment h1 {
+  width: fit-content;
+  font-size: 15pt;
+  color: #B4CDED;
+}
+
+#main #timeline #post-container .post .comment p {
+  margin: 0;
+  color: #B4CDED;
+}
+
+#right-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #0D1821;
 }
