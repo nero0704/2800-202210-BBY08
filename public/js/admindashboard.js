@@ -134,7 +134,7 @@ ready(function() {
         userRecord.appendChild(confirm);
         userRecord.appendChild(cancel);
 
-        // Submit New User Data
+        // Submit New User Data.
         confirm.onclick = function(event) {
           event.preventDefault();
           let queryString = "fname=" + fname.value + "&lname=" + lname.value + "&email=" + dataParsed.email +
