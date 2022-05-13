@@ -1,43 +1,156 @@
-#Dashboard {
+@font-face {
+  font-family: 'Raleway', sans-serif;
+  src: url();
+}
+
+* {
+  font-family: Raleway;
+  color: #B4CDED;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #B4CDED;
+}
+
+#general-container {
   display: grid;
-  grid-template-columns: 2;
-  grid-template-rows: 1;
+  height: inherit;
+  width: inherit;
+  grid-template-rows: 10% 9% auto 5% 1%;
+  row-gap: 20px;
+  justify-items: center;
+  margin: auto;
 }
 
-#userForm{
-  background-color: antiquewhite;
-  border: solid;
-  border-color: black;
+#header-container {
+  width: 100vw;
+  background-color: #344966;
+}
+
+#header-container header {
+  display: grid;
+  width: fit-content;
+  grid-template-columns: 7vh auto;
+  column-gap: 10px;
+  align-items: center;
+  margin: 1.5vh auto;
+}
+
+#header-container #logo {
+  height: 7vh;
+}
+
+#header-container h1 {
+  width: fit-content;
+  margin: auto;
+  font-size: 40pt;
+  color: #ff575a !important;
+}
+
+#userForm {
+  width: 90%;
+  padding: 10px;
+  background-color: #344966;
+  border-radius: 10px;
   text-align: center;
 }
 
-.users {
-  border: solid;
-  border-color: black;
-  text-align: center;
-  background-color: azure;
+#userForm .legends {
+  display: grid;
+  grid-template-columns: 10% 10% 17% 15% 20% 5% 5% 10% auto;
+  column-gap: 3px;
+  text-align: left;
 }
 
-#regular {
-  grid-column: 1;
+#userForm #addUserForm {
+  display: grid;
+  grid-template-columns: 10% 10% 17% 15% 20% 5% 5% 10% auto;
+  column-gap: 3px;
 }
 
-#admins {
-  grid-column: 2;
+#userForm #addUserForm input,
+select {
+  margin: 3px 0;
+  padding: 2px;
+  border: none;
+  border-radius: 3px;
+  color: #0D1821;
+  background-color: #f0f4ef;
 }
 
-.material-symbols-outlined{
-  border: solid;
-  border-color: black;
+#userForm #addUserForm option {
+  color: #0D1821;
+}
+
+#userForm #addUserForm #submitUser {
   cursor: pointer;
 }
 
-#regularInfo div p, #adminInfo div p{
-  display: inline;
+#userForm #addUserForm #errorMsg {
+  grid-column: 1 / 10;
+  margin: 0;
+  text-align: right;
+}
+
+#dashboard {
+  display: grid;
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #344966;
+}
+
+#dashboard .legends {
+  display: grid;
+  margin-bottom: 20px;
+  grid-template-columns: 10% 10% 20% 15% 20% 5% 5% 10% auto auto;
+}
+
+#dashboard .user {
+  display: grid;
+  grid-template-columns: 10% 10% 20% 15% 20% 5% 5% 10% auto auto;
+}
+
+#dashboard .user p,
+h3 {
+  margin: 0;
+}
+
+#dashboard .user input {
+  margin: 3px;
+  padding: 2px;
+  border: none;
+  border-radius: 3px;
+  color: #0D1821;
+  background-color: #f0f4ef;
+}
+
+#dashboard .user option {
+  color: #0D1821;
+}
+
+#dashboard .user .material-symbols-outlined {
+  width: 30px;
+  cursor: pointer;
+}
+
+#dashboard .user-container {
+  display: grid;
+  row-gap: 10px;
+}
+
+#logout h1 {
+  margin: 0;
+  color: #344966;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
-  #Dashboard {
+  #dashboard {
     display: grid;
     grid-template-columns: 1;
     grid-template-rows: 2;

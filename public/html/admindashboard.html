@@ -2,35 +2,51 @@
 <html>
 
 <head>
-    <title>Admin Dashboard</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/admindashboard.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <title>Admin Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  </style>
+  <link href="/css/admindashboard.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
-    <header>
-        <h1>Dashboard</h1>
-    </header>
+  <div id="general-container">
 
-    <form id="LogOut" action="/logout" method="get">
-        <input type="submit" value="Logout">
-    </form>
+    <div id="header-container">
+      <header>
+        <img id="logo" src="/img/AudioCave_Logo_Blue_Red.png" alt="">
+        <h1>Audio Cave</h1>
+      </header>
+    </div>
 
     <div id="userForm">
-        <form id="addUserForm" action="/addUser" method="post">
-            <input type="text" name="fname" placeholder="First Name" id="addFirstName" required>
-            <input type="text" name="lname" placeholder="Last Name" id="addLastName" required>
-            <input type="text" name="email" placeholder="Email" id="addEmail" required>
-            <input type="text" name="password" placeholder="Password" id="addPassword" required>
-            <input type="text" name="username" placeholder="Username" id="addUserName" required>
-            <select name="role" placeholder="Role" id="addRole" required>
+      <div class="legends">
+        <h3>First Name</h3>
+        <h3>Last Name</h3>
+        <h3>Email</h3>
+        <h3>Password</h3>
+        <h3>Username</h3>
+        <h3>Role</h3>
+        <h3>Age</h3>
+        <h3>Personality</h3>
+      </div>
+      <form id="addUserForm" action="/addUser" method="post">
+        <input type="text" name="fname" placeholder="First Name" id="addFirstName" required>
+        <input type="text" name="lname" placeholder="Last Name" id="addLastName" required>
+        <input type="text" name="email" placeholder="Email" id="addEmail" required>
+        <input type="text" name="password" placeholder="Password" id="addPassword" required>
+        <input type="text" name="username" placeholder="Username" id="addUserName" required>
+        <select name="role" placeholder="Role" id="addRole" required>
                 <option value="A">Admin</option>
                 <option value="R">Regular</option>
             </select>
-            <input type="number" name="age" placeholder="Age" id="addAge" min="1" max="150" required>
-            <select name="personality" placeholder="Personality" id="addPersonality" required>
+        <input type="number" name="age" placeholder="Age" id="addAge" min="1" max="150" required>
+        <select name="personality" placeholder="Personality" id="addPersonality" required>
                 <option value="ESTJ">ESTJ</option>
                 <option value="ENTJ">ENTJ</option>
                 <option value="ESFJ">ESFJ</option>
@@ -48,48 +64,50 @@
                 <option value="INTP">INTP</option>
                 <option value="INFP">INFP</option>
             </select>
-            <input type="submit" id="submitUser" value="Add User">
-            <p id="errorMsg"></p>
-        </form>
+        <input type="submit" id="submitUser" value="Add User">
+        <p id="errorMsg"></p>
+      </form>
     </div>
 
-    <div id="Dashboard">
-        <div class="users" id="regular">
-            <p>Regular</p>
-            <p>Admins</p>
-            <p>First Name</p>
-            <p>Last Name</p>
-            <p>Email</p>
-            <p>Password</p>
-            <p>Username</p>
-            <p>Role</p>
-            <p>Age</p>
-            <p>Personality</p>
-            <div id="regularInfo">
-
-            </div>
+    <div id="dashboard">
+      <div class="user-info">
+        <div class="legends">
+          <h3>First Name</h3>
+          <h3>Last Name</h3>
+          <h3>Email</h3>
+          <h3>Password</h3>
+          <h3>Username</h3>
+          <h3>Role</h3>
+          <h3>Age</h3>
+          <h3>Personality</h3>
         </div>
-        <div class="users" id="admins">
-            <p>Admins</p>
-            <p>First Name</p>
-            <p>Last Name</p>
-            <p>Email</p>
-            <p>Password</p>
-            <p>Username</p>
-            <p>Role</p>
-            <p>Age</p>
-            <p>Personality</p>
-            <div id="adminInfo">
-
-            </div>
+        <div class="user-container" id="regularInfo">
         </div>
+      </div>
+
+      <div class="user-info">
+        <div class="legends">
+          <h3>First Name</h3>
+          <h3>Last Name</h3>
+          <h3>Email</h3>
+          <h3>Password</h3>
+          <h3>Username</h3>
+          <h3>Role</h3>
+          <h3>Age</h3>
+          <h3>Personality</h3>
+        </div>
+        <div class="user-container" id="adminInfo">
+        </div>
+      </div>
     </div>
 
-    <footer id="footer">
+    <div id="logout">
+      <h1>Logout</h1>
+    </div>
 
-    </footer>
+  </div>
 
-    <script src="../js/admindashboard.js"></script>
+  <script src="../js/admindashboard.js"></script>
 </body>
 
 </html>

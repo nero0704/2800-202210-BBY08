@@ -45,7 +45,7 @@ ready(function() {
   ajaxPOST("/userInfo", printUser, "role=R");
   ajaxPOST("/userInfo", printUser, "role=A");
 
-  function printUser(data){
+  function printUser(data) {
     while (data.indexOf("{") > 0) {
       let startRecord = data.indexOf("{");
       let endRecord = data.indexOf("}");
@@ -63,63 +63,57 @@ ready(function() {
       deleteUserButton.classList.add("material-symbols-outlined");
       deleteUserButton.innerHTML = "delete";
 
-      userRecord.innerHTML += "<p>" + dataParsed.firstName + "</p><p>" + dataParsed.lastName + 
+      userRecord.innerHTML += "<p>" + dataParsed.firstName + "</p><p>" + dataParsed.lastName +
         "</p><p>" + dataParsed.email + "</p><p>" + dataParsed.password + "</p>" +
-        "<p>" + dataParsed.userName + "</p><p>" + dataParsed.role + "</p><p>" + dataParsed.age + 
+        "<p>" + dataParsed.userName + "</p><p>" + dataParsed.role + "</p><p>" + dataParsed.age +
         "</p><p>" + dataParsed.personality + "</p>";
 
       // Edit User
-      editUserButton.onclick = function(event){
+      editUserButton.onclick = function(event) {
         event.preventDefault();
 
         let fname = document.createElement("input");
         fname.placeholder = "First Name";
         fname.value = dataParsed.firstName;
-        fname.style.width = fname.value.length + "em";
         let lname = document.createElement("input");
         lname.placeholder = "Last Name";
         lname.value = dataParsed.lastName;
-        lname.style.width = lname.value.length + "em";
         let email = document.createElement("input");
         email.placeholder = "Email";
         email.value = dataParsed.email;
-        email.style.width = email.value.length + "em";
         let password = document.createElement("input");
         password.placeholder = "Password";
         password.value = dataParsed.password;
-        password.style.width = password.value.length + "em";
         let role = document.createElement("select");
-        role.innerHTML = "<option value='A'>Admin</option>" + 
-                         "\n<option value='R'>Regular</option>";
+        role.innerHTML = "<option value='A'>Admin</option>" +
+          "\n<option value='R'>Regular</option>";
         role.value = dataParsed.role;
         let uname = document.createElement("input");
         uname.placeholder = "Username";
         uname.value = dataParsed.userName;
-        uname.style.width = uname.value.length + "em";
         let age = document.createElement("input");
         age.placeholder = "age";
         age.type = "number";
         age.min = 1;
         age.max = 150;
         age.value = dataParsed.age;
-        age.style.width = age.value.length + 1 + "em";
         let personality = document.createElement("select");
         personality.innerHTML = "<option value='ESTJ'>ESTJ</option>" +
-                                "<option value='ENTJ'>ENTJ</option>" +
-                                "<option value='ESFJ'>ESFJ</option>" +
-                                "<option value='ENFJ'>ENFJ</option>" +
-                                "<option value='ISTJ'>ISTJ</option>" +
-                                "<option value='ISFJ'>ISFJ</option>" +
-                                "<option value='INTJ'>INTJ</option>" +
-                                "<option value='INFJ'>INFJ</option>" +
-                                "<option value='ESTP'>ESTP</option>" +
-                                "<option value='ESFP'>ESFP</option>" +
-                                "<option value='ENTP'>ENTP</option>" +
-                                "<option value='ENFP'>ENFP</option>" +
-                                "<option value='ISTP'>ISTP</option>" +
-                                "<option value='ISFP'>ISFP</option>" +
-                                "<option value='INTP'>INTP</option>" +
-                                "<option value='INFP'>INFP</option>"
+          "<option value='ENTJ'>ENTJ</option>" +
+          "<option value='ESFJ'>ESFJ</option>" +
+          "<option value='ENFJ'>ENFJ</option>" +
+          "<option value='ISTJ'>ISTJ</option>" +
+          "<option value='ISFJ'>ISFJ</option>" +
+          "<option value='INTJ'>INTJ</option>" +
+          "<option value='INFJ'>INFJ</option>" +
+          "<option value='ESTP'>ESTP</option>" +
+          "<option value='ESFP'>ESFP</option>" +
+          "<option value='ENTP'>ENTP</option>" +
+          "<option value='ENFP'>ENFP</option>" +
+          "<option value='ISTP'>ISTP</option>" +
+          "<option value='ISFP'>ISFP</option>" +
+          "<option value='INTP'>INTP</option>" +
+          "<option value='INFP'>INFP</option>"
         personality.value = dataParsed.personality;
         let confirm = document.createElement("p");
         confirm.classList.add("material-symbols-outlined");
@@ -141,12 +135,12 @@ ready(function() {
         userRecord.appendChild(cancel);
 
         // Submit New User Data
-        confirm.onclick = function(event){
+        confirm.onclick = function(event) {
           event.preventDefault();
-          let queryString = "fname=" + fname.value + "&lname=" + lname.value + "&email=" + dataParsed.email
-            + "&password=" + password.value + "&role=" + role.value + "&username=" + uname.value
-            + "&age=" + age.value + "&mbti=" + personality.value + "&newEmail=" + email.value;
-          ajaxPOST("/editUser", function(data){
+          let queryString = "fname=" + fname.value + "&lname=" + lname.value + "&email=" + dataParsed.email +
+            "&password=" + password.value + "&role=" + role.value + "&username=" + uname.value +
+            "&age=" + age.value + "&mbti=" + personality.value + "&newEmail=" + email.value;
+          ajaxPOST("/editUser", function(data) {
             if (data) {
               let dataParsed = JSON.parse(data);
               console.log(dataParsed);
@@ -160,17 +154,17 @@ ready(function() {
         };
 
         // Cancel User Data Editing
-        cancel.onclick = function(event){
+        cancel.onclick = function(event) {
           event.preventDefault();
           location.reload();
         };
       };
 
       //Delete User
-      deleteUserButton.onclick = function(event){
+      deleteUserButton.onclick = function(event) {
         event.preventDefault();
         let queryString = "email=" + dataParsed.email + "&role=" + dataParsed.role;
-        ajaxPOST("/deleteUser", function(data){
+        ajaxPOST("/deleteUser", function(data) {
           if (data) {
             let dataParsed = JSON.parse(data);
             console.log(dataParsed);
@@ -189,14 +183,14 @@ ready(function() {
     }
   }
 
-  document.querySelector("#LogOut").addEventListener("click", function(e) {
+  document.querySelector("#logout").addEventListener("click", function(e) {
     e.preventDefault();
     localStorage.removeItem("AudioCave_Email");
     localStorage.removeItem("AudioCave_Password");
     window.location.replace("/logout");
   })
 
-  document.querySelector("#submitUser").addEventListener("click", function(e){
+  document.querySelector("#submitUser").addEventListener("click", function(e) {
     e.preventDefault();
     let email = document.getElementById("addEmail");
     let password = document.getElementById("addPassword");
@@ -207,10 +201,10 @@ ready(function() {
     let mbti = document.getElementById("addPersonality");
     let role = document.getElementById("addRole");
 
-    let queryString = "email=" + email.value + "&password=" + password.value + "&fname=" 
-      + fname.value + "&lname=" + lname.value + "&username=" + username.value + "&mbti=" 
-      + mbti.value + "&age=" + age.value + "&role=" + role.value;
-    
+    let queryString = "email=" + email.value + "&password=" + password.value + "&fname=" +
+      fname.value + "&lname=" + lname.value + "&username=" + username.value + "&mbti=" +
+      mbti.value + "&age=" + age.value + "&role=" + role.value;
+
     ajaxPOST("/addUser", function(data) {
 
       if (data) {

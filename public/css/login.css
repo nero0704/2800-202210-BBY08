@@ -22,7 +22,7 @@ body {
   width: inherit;
   grid-template-areas: "header" "login-form";
   grid-template-columns: auto;
-  grid-template-rows: 10vh auto auto;
+  grid-template-rows: 10vh auto;
   justify-items: center;
   margin: auto;
 }
