@@ -22,9 +22,11 @@
             <form class="info" id="upload-images-form">
                 <div>
                     <div class="upload-btn-wrapper">
-                        <button class="btn">Upload a Profile Picture</button>
-                        <input id="image-upload" type="file" value="Upload Image"
+                        <label>
+                            <input id="image-upload" type="file" value="Upload Image"
                             accept="image/png, image/gif, image/jpeg" multiple="multiple" />
+                            <p class="btn">Upload a Profile Picture</p>
+                        </label>
                         <br>
                         <input id="submit" type="submit" value="Submit" />
 
@@ -38,7 +40,7 @@
         </div>
 
         <div>
-            <img class="image" src="./img/default.img" alt="User Profile" id="profile-picture">
+            <img class="image" src="./img/default.img" style="width:300px;height:300px" alt="User Profile" id="profile-picture">
         </div>
 
         <div class="center">

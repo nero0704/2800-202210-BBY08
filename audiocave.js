@@ -464,7 +464,6 @@ app.post("/editUser", function (req, res) {
 });
 
 app.post("/get-suggestions", function(req, res ){
-  console.log("get");
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
     connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {

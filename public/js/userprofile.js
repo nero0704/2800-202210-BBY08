@@ -78,7 +78,7 @@ ready(function () {
 
 function uploadImages(e) {
   e.preventDefault();
-
+  console.log("load");
   const imageUpload = document.querySelector('#image-upload');
   const formData = new FormData();
 
