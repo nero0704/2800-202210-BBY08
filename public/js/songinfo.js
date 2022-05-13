@@ -64,7 +64,6 @@ ready(function () {
                     + '" class="music-spotify-link" alt="Spotify"'
                     + '" style="width:42px;height:42px;"></a>'
 
-                console.log(str);
                 document.getElementById("general-container").innerHTML = str;
             }
         }

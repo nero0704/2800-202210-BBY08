@@ -51,25 +51,25 @@ ready(function() {
         let str = ""
         for (let i = 0; i < dataParsed.rows.length; i++) {
           let row = dataParsed.rows[i];
-          str += ('<div class="suggested-song"><img src="/img/songs/' + row.filesrc +
-            '" class="music-rec" alt="' + row.ID +
+          str += ('<div class="suggested-song" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
+            '" class="music-rec" style="width:100px;height:100px alt="' + row.ID +
             '">' +
             '<h1>' + row.title +
             '</h1><h3>' + row.artist +
             '</h3></div>'
 
           );
-          console.log(str);
         }
         document.getElementById("music-suggestion-container").innerHTML = str;
 
-        let records = document.querySelectorAll("img.music-rec");
+        let records = document.querySelectorAll("div.suggested-song");
         for (let j = 0; j < records.length; j++) {
           records[j].addEventListener("click", function(e) {
             e.preventDefault();
-            songID = this.alt;
+            songID = this.id;
+            console.log(songID);
             sessionStorage.setItem("song", songID)
-            window.location.replace("/songinfo");
+            window.location = "/songinfo";
           })
         }
       }

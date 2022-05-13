@@ -464,9 +464,11 @@ app.post("/editUser", function (req, res) {
 });
 
 app.post("/get-suggestions", function(req, res ){
+  console.log("get");
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
     connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {
+      console.log(data);
       if (data.length > 0) {
         var sql = "SELECT * FROM bby_8_song WHERE mood IN (SELECT survey FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?) ORDER BY RAND() LIMIT 5";
         connection.query(sql, [req.session.number, req.body.date], function(err, results) {
@@ -474,6 +476,7 @@ app.post("/get-suggestions", function(req, res ){
           res.send({status: "success", rows: results});
         });
       } else {
+        console.log("getsuggestions");
         var sql = "SELECT * FROM bby_8_song WHERE personality IN (SELECT personality FROM bby_8_user WHERE ID =?) ORDER BY RAND() LIMIT 5";
         connection.query(sql, req.session.number, function(err, results) {
           console.log(results);
@@ -510,8 +513,8 @@ app.post("/daily-survey", function (req, res) {
     password: "",
     database: "comp2800",
   });
-  console.log(req.body.mood);
   connection.connect();
+  console.log(req.body.date);
   var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
   connection.query(sql, [req.session.number, req.body.date], function (err, data, fields) {
     if (err) throw err;

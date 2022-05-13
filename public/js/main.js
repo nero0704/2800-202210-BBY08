@@ -42,18 +42,6 @@ ready(function() {
     xhr.send(params);
   }
 
-  document.querySelector("#LogOut").addEventListener("click", function(e) {
-    e.preventDefault();
-    localStorage.removeItem("AudioCave_Email");
-    localStorage.removeItem("AudioCave_Password");
-    window.location.replace("/logout");
-  })
-
-  document.querySelector("#userprofile").addEventListener("click", function(e) {
-    e.preventDefault();
-    window.location.replace("/userprofile");
-  })
-
 });
 
 function ready(callback) {
