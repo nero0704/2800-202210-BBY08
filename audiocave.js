@@ -2,6 +2,7 @@
 const { strict } = require("assert");
 const express = require("express");
 const session = require("express-session");
+const res = require("express/lib/response");
 const app = express();
 const fs = require("fs");
 const { connect } = require("http2");
@@ -83,7 +84,6 @@ app.get("/signup", function (req, res) {
 });
 
 app.get("/main", function (req, res) {
-  // check for a session first!
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/main.html", "utf8");
     let mainDOM = new JSDOM(main);
@@ -91,13 +91,11 @@ app.get("/main", function (req, res) {
     res.set("X-Powered-By", "Wazubi");
     res.send(mainDOM.serialize());
   } else {
-    // not logged in - no session and no access, redirect to home!
     res.redirect("/");
   }
 });
 
 app.get("/admindashboard", function (req, res) {
-  // check for a session first!
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/admindashboard.html", "utf8");
     let mainDOM = new JSDOM(main);
@@ -105,7 +103,6 @@ app.get("/admindashboard", function (req, res) {
     res.set("X-Powered-By", "Wazubi");
     res.send(mainDOM.serialize());
   } else {
-    // not logged in - no session and no access, redirect to home!
     res.redirect("/");
   }
 });
@@ -152,15 +149,23 @@ app.get("/userprofile", function (req, res) {
       }
     )
   } else {
-    // not logged in - no session and no access, redirect to home!
     res.redirect("/");
+  }
+});
+
+app.get("/songinfo", function (req, res) {
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/songinfo.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(mainDOM.serialize());
   }
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Notice that this is a "POST"
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
@@ -170,14 +175,9 @@ app.post("/login", function (req, res) {
     req.body.email,
     req.body.password,
     function (userRecord) {
-      //console.log(rows);
       if (userRecord == null) {
-        // server couldn't find that, so use AJAX response and inform
-        // the user. when we get success, we will do a complete page
-        // change. Ask why we would do this in lecture/lab :)
         res.send({ status: "fail", msg: "User account not found." });
       } else {
-        // authenticate the user, create a session
         req.session.loggedIn = true;
         req.session.number = userRecord.ID;
         req.session.email = userRecord.email;
@@ -447,6 +447,41 @@ app.post("/editUser", function(req, res){
       }
     })
   });
+});
+
+app.post("/get-suggestions", function(req, res ){
+  connection.connect(function(err) {
+    var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
+    connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {
+      if (data.length > 0) {
+        var sql = "SELECT * FROM bby_8_song WHERE mood IN (SELECT survey FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?) ORDER BY RAND() LIMIT 5";
+        connection.query(sql, [req.session.number, req.body.date], function(err, results) {
+          console.log(results);
+          res.send({status: "success", rows: results});
+        });
+      } else {
+        var sql = "SELECT * FROM bby_8_song WHERE personality IN (SELECT personality FROM bby_8_user WHERE ID =?) ORDER BY RAND() LIMIT 5";
+        connection.query(sql, req.session.number, function(err, results) {
+          console.log(results);
+          res.send({status: "success", rows: results});
+        });
+      }
+    })
+  })
+});
+
+app.post("/get-song-info", function(req, res ){
+  connection.connect(function(err) {
+    var sql = "SELECT * FROM bby_8_song WHERE ID=?";
+    connection.query(sql, [req.body.songID], function(err, data, fields) {
+      if (data.length > 0) {
+        res.send({status: "success", rows: data});
+        console.log(data);
+      } else {
+        res.send({status: "failed"});
+      }
+    })
+  })
 });
 
 function authenticate(email, pwd, callback) {
