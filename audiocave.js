@@ -499,7 +499,12 @@ app.post("/get-song-info", function(req, res ){
 });
 app.post("/daily-survey", function (req, res) {
   var mysql = require("mysql2");
-  const connection = mysql.createConnection({
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
