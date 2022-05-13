@@ -125,7 +125,7 @@ app.get("/userprofile", function (req, res) {
     });
     connection.connect();
     connection.query(
-      "SELECT * FROM bby_8_user WHERE ID = ?",
+      "SELECT * FROM BBY_8_user WHERE ID = ?",
       [req.session.number],
       function (error, results) {
         console.log(results);
@@ -238,7 +238,7 @@ app.post("/signup", function (req, res) {
 
   connection.connect(function (err) {
     //if (err) throw err;
-    var sql = "SELECT * FROM bby_8_user WHERE email =?";
+    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, email, function (err, data, fields) {
       //if (err) throw err;
       if (data.length > 1) {
@@ -250,7 +250,7 @@ app.post("/signup", function (req, res) {
         res.send({ status: "fail", msg: "Missing Information." });
       } else {
         var sql =
-          "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
+          "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
         connection.query(sql, function (err, result) {
           //if (err) throw err;
           console.log("1 record inserted");
@@ -266,7 +266,7 @@ app.post("/updateprofile", function (req, res) {
   connection.connect(function (err) {
     //if (err) throw err;
     connection.query(
-      "UPDATE bby_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?",
+      "UPDATE BBY_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?",
       [req.body.email, req.body.password, req.body.username, req.body.age, req.session.number],
       function (error, results, fields) {
         if (error) {
@@ -303,7 +303,7 @@ app.post('/upload-images', upload.array("files"), function (req, res) {
   });
   connection.connect();
   connection.query(
-    "UPDATE bby_8_user SET filesrc = ? WHERE ID = ?",
+    "UPDATE BBY_8_user SET filesrc = ? WHERE ID = ?",
     [req.files[0].filename, req.session.number],
     function (error, results, fields) {
       if (error) {
@@ -357,7 +357,7 @@ app.post("/addUser", function (req, res) {
 
   connection.connect(function(err) {
     //if (err) throw err;
-    var sql = "SELECT * FROM bby_8_user WHERE email =?";
+    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, email, function(err, data, fields) {
       //if (err) throw err;
       if (data.length > 0) {
@@ -368,8 +368,8 @@ app.post("/addUser", function (req, res) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Missing Information." });
       } else {
-        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('"
-          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '"
+        let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
+          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
           + age + "', '" + mbti + "')"
         connection.query(sql, function(err, result) {
           //if (err) throw err;
@@ -397,14 +397,14 @@ app.post("/deleteUser", function (req, res) {
   });
   connection.connect(function(err) {
     //if (err) throw err;
-    var sql = "SELECT * FROM bby_8_user WHERE role =?";
+    var sql = "SELECT * FROM BBY_8_user WHERE role =?";
     connection.query(sql, req.body.role, function(err, data, fields) {
       //if (err) throw err;
       if (data.length <= 1 && req.body.role == "A") {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "At least one admin needed." });
       } else {
-        let sql = "DELETE FROM bby_8_user WHERE email = '" + req.body.email + "'";
+        let sql = "DELETE FROM BBY_8_user WHERE email = '" + req.body.email + "'";
         connection.query(sql, function(err, result) {
           //if (err) throw err;
           console.log("1 record deleted");
@@ -442,14 +442,14 @@ app.post("/editUser", function (req, res) {
 
   connection.connect(function(err) {
     //if (err) throw err;
-    var sql = "SELECT * FROM bby_8_user WHERE email =?";
+    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, newEmail, function(err, data, fields) {
       //if (err) throw err;
       if (data.length > 0 && email != newEmail) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
-        let sql = "UPDATE bby_8_user SET firstName='" + fname + "', lastName='" + lname + "', email='"
+        let sql = "UPDATE BBY_8_user SET firstName='" + fname + "', lastName='" + lname + "', email='"
           + newEmail + "', password='" + password + "', role='" + role + "', userName='" + username
           + "', age='" + age + "', personality='" + mbti + "' WHERE email='" + email + "'";
         connection.query(sql, function(err, result) {
@@ -550,7 +550,7 @@ function authenticate(email, pwd, callback) {
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM bby_8_user WHERE email = ? AND password = ?",
+    "SELECT * FROM BBY_8_user WHERE email = ? AND password = ?",
     [email, pwd],
     function (error, results, fields) {
       // results is an array of records, in JSON format
@@ -592,7 +592,7 @@ function getUserInfo(userType, callback) {
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM bby_8_user WHERE role = ?",
+    "SELECT * FROM BBY_8_user WHERE role = ?",
     [userType],
     function (error, results, fields) {
       // results is an array of records, in JSON format
