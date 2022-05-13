@@ -83,12 +83,7 @@ ready(function () {
         document.getElementById('myModal').style.display='none';
         let mood = document.querySelector('input[name="mood"]:checked').value
         console.log(mood);
-        var dateObj = new Date();
-        var month = dateObj.getUTCMonth() + 1;
-        var day = dateObj.getUTCDate();
-        var year = dateObj.getUTCFullYear();
-        var date = year + "-" + month + "-" + day;
-        console.log(date);
+        let date = (new Date()).toISOString().split('T')[0];
         let queryString = "mood=" + mood + "&date=" + date;
         ajaxPOST("/daily-survey", function (data) {
             if (data) {
