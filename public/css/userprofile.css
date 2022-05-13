@@ -1,0 +1,128 @@
+@font-face {
+    font-family: 'Raleway', sans-serif;
+    src: url();
+  }
+  
+  * {
+    font-family: Raleway;
+    color: #B4CDED;
+  }
+  
+  body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #0D1821;
+  }
+
+  .center{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+
+  #header-container {
+    grid-area: header;
+    width: 100vw;
+    background-color: #344966;
+  }
+  
+  #header-container header {
+    display: grid;
+    grid-template-columns: 7vh auto;
+    column-gap: 10px;
+    align-items: center;
+    width: fit-content;
+    margin: 1.5vh auto;
+  }
+  
+  #header-container #logo {
+    height: 7vh;
+  }
+  
+  #header-container h1 {
+    width: fit-content;
+    margin: auto;
+    font-size: 40pt;
+    color: #ff575a !important;
+  }
+
+  #general-container {
+    display: grid;
+    height: inherit;
+    width: inherit;
+    grid-template-areas: "header" "login-form";
+    grid-template-columns: auto;
+    grid-template-rows: 10vh auto auto;
+    justify-items: center;
+    margin: auto;
+  }
+
+  .info {
+    display: grid;
+    grid-area: login-form;
+    row-gap: 20px;
+    width: 35vw;
+    height: fit-content;
+    margin-top: 60px;
+    padding: 20px;
+  }
+
+  .info [type="button"], [type="submit"] {
+    padding: 12px 18px;
+    border: 3px solid #ff575a;
+    border-radius: 40px;
+    font-size: 13pt;
+    font-weight: 600;
+    color: #f0f4ef;
+    background-color: #ff575a;
+    cursor: pointer;
+  }
+
+  .info [type="username"],
+[type="email"], [type="password"],
+[type="age"] {
+  padding: 20px;
+  border: 3px solid #344966;
+  border-radius: 7px;
+  color: #B4CDED;
+  background-color: #0D1821;
+  font-size: 13pt;
+  font-weight: 600;
+}
+
+
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .btn {
+    border: 3px solid #ff575a;
+    color: #f0f4ef;
+    background-color: #ff575a;
+    padding: 12px 18px;
+    border-radius: 40px;
+    font-size: 13pt;
+    font-weight: 600;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
