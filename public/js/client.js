@@ -1,5 +1,4 @@
-
-
+"use strict";
 ready(function() {
 
     console.log("Client script loaded.");

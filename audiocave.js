@@ -163,6 +163,20 @@ app.get("/songinfo", function (req, res) {
   }
 });
 
+app.get("/survey", function (req, res) {
+  // check for a session first!
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/survey.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(mainDOM.serialize());
+  } else {
+    // not logged in - no session and no access, redirect to home!
+    res.redirect("/");
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -301,8 +315,8 @@ app.post('/upload-images', upload.array("files"), function (req, res) {
     }
   );
   connection.end();
-  for(let i = 0; i < req.files.length; i++) {
-      req.files[i].filename = req.files[i].originalname;
+  for (let i = 0; i < req.files.length; i++) {
+    req.files[i].filename = req.files[i].originalname;
   }
 });
 
@@ -318,7 +332,7 @@ app.get("/logout", function (req, res) {
   }
 });
 
-app.post("/addUser", function(req, res){
+app.post("/addUser", function (req, res) {
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -354,8 +368,8 @@ app.post("/addUser", function(req, res){
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Missing Information." });
       } else {
-        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
-          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
+        let sql = "INSERT INTO bby_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('"
+          + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '"
           + age + "', '" + mbti + "')"
         connection.query(sql, function(err, result) {
           //if (err) throw err;
@@ -368,7 +382,7 @@ app.post("/addUser", function(req, res){
   });
 });
 
-app.post("/deleteUser", function(req, res){
+app.post("/deleteUser", function (req, res) {
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -402,7 +416,7 @@ app.post("/deleteUser", function(req, res){
   });
 });
 
-app.post("/editUser", function(req, res){
+app.post("/editUser", function (req, res) {
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -483,6 +497,38 @@ app.post("/get-song-info", function(req, res ){
     })
   })
 });
+app.post("/daily-survey", function (req, res) {
+  var mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  console.log(req.body.mood);
+  connection.connect();
+  var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
+  connection.query(sql, [req.session.number, req.body.date], function (err, data, fields) {
+    if (err) throw err;
+    if (data.length > 0) {
+      var sql = "UPDATE bby_8_survey SET survey= '" + req.body.mood + "' WHERE userID= '" + req.session.number + "' AND dateOfSurvey= '" + req.body.date + "'";
+      connection.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Survey record updated");
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "success" });
+      })
+    } else {
+      var sql = "INSERT INTO bby_8_survey (userID, dateOfSurvey, survey) VALUES ('" + req.session.number + "', '" + req.body.date + "', '" + req.body.mood + "')";
+      connection.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Survey Taken");
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "success" })
+      })
+    }
+  })
+})
 
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
