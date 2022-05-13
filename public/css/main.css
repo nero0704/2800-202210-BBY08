@@ -6,6 +6,7 @@
 * {
   font-family: Raleway;
   color: #B4CDED;
+  box-sizing: border-box;
 }
 
 body {
@@ -20,7 +21,7 @@ body {
   height: 100vh;
   width: 100vw;
   grid-template-areas: "left-bar main right-bar";
-  grid-template-columns: 15% 75% 10%;
+  grid-template-columns: 15% 70% 15%;
   justify-items: center;
   margin: auto;
 }
@@ -152,5 +153,38 @@ h3 {
 #right-bar {
   width: 100%;
   height: 100%;
+  padding: 20px;
   background-color: #0D1821;
+}
+
+#right-bar h1 {
+  font-size: 20pt;
+}
+
+#right-bar #music-suggestion-container {
+  display: grid;
+  row-gap: 20px;
+}
+
+#right-bar #music-suggestion-container .suggested-song {
+  display: grid;
+  row-gap: 2px;
+}
+
+#right-bar #music-suggestion-container .suggested-song img {
+  width: 100%;
+  border-radius: 7px;
+}
+
+#right-bar #music-suggestion-container .suggested-song h1 {
+  width: fit-content;
+  margin: 0;
+  font-size: 15pt;
+  color: #B4CDED;
+}
+
+#right-bar #music-suggestion-container .suggested-song h3 {
+  width: fit-content;
+  font-size: 13pt;
+  color: #B4CDED;
 }
