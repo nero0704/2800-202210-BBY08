@@ -5,7 +5,7 @@
 
 * {
   font-family: Raleway;
-  color: #0D1821;
+  color: #B4CDED;
   box-sizing: border-box;
 }
 
@@ -20,7 +20,8 @@ body {
   display: grid;
   height: inherit;
   width: inherit;
-  grid-template-rows: 10% 3% auto;
+  grid-template-rows: 10% 9% auto 5% 1%;
+  row-gap: 20px;
   justify-items: center;
   margin: auto;
 }
@@ -50,36 +51,102 @@ body {
   color: #ff575a !important;
 }
 
+#userForm {
+  width: 90%;
+  padding: 10px;
+  background-color: #344966;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#userForm .legends {
+  display: grid;
+  grid-template-columns: 10% 10% 17% 15% 20% 5% 5% 10% auto;
+  column-gap: 3px;
+  text-align: left;
+}
+
+#userForm #addUserForm {
+  display: grid;
+  grid-template-columns: 10% 10% 17% 15% 20% 5% 5% 10% auto;
+  column-gap: 3px;
+}
+
+#userForm #addUserForm input,
+select {
+  margin: 3px 0;
+  padding: 2px;
+  border: none;
+  border-radius: 3px;
+  color: #0D1821;
+  background-color: #f0f4ef;
+}
+
+#userForm #addUserForm option {
+  color: #0D1821;
+}
+
+#userForm #addUserForm #submitUser {
+  cursor: pointer;
+}
+
+#userForm #addUserForm #errorMsg {
+  grid-column: 1 / 10;
+  margin: 0;
+  text-align: right;
+}
+
 #dashboard {
   display: grid;
   width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #344966;
 }
 
 #dashboard .legends {
   display: grid;
-  grid-template-columns: 10% 10% 25% 8% 5% 20% 5% 6% 5% 5% auto;
+  margin-bottom: 20px;
+  grid-template-columns: 10% 10% 20% 15% 20% 5% 5% 10% auto auto;
 }
 
 #dashboard .user {
   display: grid;
-  grid-template-columns: 10% 10% 25% 8% 5% 20% 5% 6% 5% 5% auto;
+  grid-template-columns: 10% 10% 20% 15% 20% 5% 5% 10% auto auto;
+}
+
+#dashboard .user p,
+h3 {
+  margin: 0;
+}
+
+#dashboard .user input {
+  margin: 3px;
+  padding: 2px;
+  border: none;
+  border-radius: 3px;
+  color: #0D1821;
+  background-color: #f0f4ef;
+}
+
+#dashboard .user option {
+  color: #0D1821;
 }
 
 #dashboard .user .material-symbols-outlined {
-  border: solid;
-  border-color: black;
+  width: 30px;
   cursor: pointer;
 }
 
-#dashboard .user p {
-  display: inline;
+#dashboard .user-container {
+  display: grid;
+  row-gap: 10px;
 }
 
-#userForm {
-  background-color: antiquewhite;
-  border: solid;
-  border-color: black;
-  text-align: center;
+#logout h1 {
+  margin: 0;
+  color: #344966;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
