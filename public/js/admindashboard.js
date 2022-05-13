@@ -55,17 +55,18 @@ ready(function() {
       let dataParsed = JSON.parse(record);
       const dashboard = dataParsed.role == "A" ? document.querySelector("#adminInfo") : document.querySelector("#regularInfo");
       let userRecord = document.createElement("div");
-      let text = document.createElement("p");
-      let editUserButton = document.createElement("span");
+      userRecord.classList.add("user");
+      let editUserButton = document.createElement("p");
       editUserButton.classList.add("material-symbols-outlined");
       editUserButton.innerHTML = "edit";
-      let deleteUserButton = document.createElement("span");
+      let deleteUserButton = document.createElement("p");
       deleteUserButton.classList.add("material-symbols-outlined");
       deleteUserButton.innerHTML = "delete";
-      text.innerHTML = dataParsed.firstName + "  |  " + dataParsed.lastName + "  |  " +
-        dataParsed.email + "  |  " + dataParsed.password + "  |  " + dataParsed.role + "  |  " + dataParsed.userName + 
-        "  |  " + dataParsed.age + "  |  " +
-        dataParsed.personality + " ";
+
+      userRecord.innerHTML += "<p>" + dataParsed.firstName + "</p><p>" + dataParsed.lastName + 
+        "</p><p>" + dataParsed.email + "</p><p>" + dataParsed.password + "</p>" +
+        "<p>" + dataParsed.role + "</p><p>" + dataParsed.userName + "</p><p>" + dataParsed.age + 
+        "</p><p>" + dataParsed.personality + "</p>";
 
       // Edit User
       editUserButton.onclick = function(event){
@@ -120,10 +121,10 @@ ready(function() {
                                 "<option value='INTP'>INTP</option>" +
                                 "<option value='INFP'>INFP</option>"
         personality.value = dataParsed.personality;
-        let confirm = document.createElement("span");
+        let confirm = document.createElement("p");
         confirm.classList.add("material-symbols-outlined");
         confirm.innerHTML = "done";
-        let cancel = document.createElement("span");
+        let cancel = document.createElement("p");
         cancel.classList.add("material-symbols-outlined");
         cancel.innerHTML = "close";
 
@@ -183,7 +184,6 @@ ready(function() {
       };
 
       dashboard.appendChild(userRecord);
-      userRecord.appendChild(text);
       userRecord.appendChild(editUserButton);
       userRecord.appendChild(deleteUserButton);
     }
