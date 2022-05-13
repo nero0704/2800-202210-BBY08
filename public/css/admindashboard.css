@@ -1,43 +1,89 @@
-#Dashboard {
-  display: grid;
-  grid-template-columns: 2;
-  grid-template-rows: 1;
+@font-face {
+  font-family: 'Raleway', sans-serif;
+  src: url();
 }
 
-#userForm{
+* {
+  font-family: Raleway;
+  color: #0D1821;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #B4CDED;
+}
+
+#general-container {
+  display: grid;
+  height: inherit;
+  width: inherit;
+  grid-template-rows: 10% 3% auto;
+  justify-items: center;
+  margin: auto;
+}
+
+#header-container {
+  width: 100vw;
+  background-color: #344966;
+}
+
+#header-container header {
+  display: grid;
+  width: fit-content;
+  grid-template-columns: 7vh auto;
+  column-gap: 10px;
+  align-items: center;
+  margin: 1.5vh auto;
+}
+
+#header-container #logo {
+  height: 7vh;
+}
+
+#header-container h1 {
+  width: fit-content;
+  margin: auto;
+  font-size: 40pt;
+  color: #ff575a !important;
+}
+
+#dashboard {
+  display: grid;
+  width: 90%;
+}
+
+#dashboard .legends {
+  display: grid;
+  grid-template-columns: 10% 10% 25% 8% 5% 20% 5% 6% 5% 5% auto;
+}
+
+#dashboard .user {
+  display: grid;
+  grid-template-columns: 10% 10% 25% 8% 5% 20% 5% 6% 5% 5% auto;
+}
+
+#dashboard .user .material-symbols-outlined {
+  border: solid;
+  border-color: black;
+  cursor: pointer;
+}
+
+#dashboard .user p {
+  display: inline;
+}
+
+#userForm {
   background-color: antiquewhite;
   border: solid;
   border-color: black;
   text-align: center;
 }
 
-.users {
-  border: solid;
-  border-color: black;
-  text-align: center;
-  background-color: azure;
-}
-
-#regular {
-  grid-column: 1;
-}
-
-#admins {
-  grid-column: 2;
-}
-
-.material-symbols-outlined{
-  border: solid;
-  border-color: black;
-  cursor: pointer;
-}
-
-#regularInfo div p, #adminInfo div p{
-  display: inline;
-}
-
 @media only screen and (max-width: 768px) {
-  #Dashboard {
+  #dashboard {
     display: grid;
     grid-template-columns: 1;
     grid-template-rows: 2;
