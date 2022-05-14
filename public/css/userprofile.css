@@ -73,6 +73,7 @@ body {
   grid-template-columns: 15% 70% 15%;
   justify-items: center;
   margin: auto;
+  overflow-x: hidden;
 }
 
 .info {
