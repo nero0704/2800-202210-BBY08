@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Main</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  </style>
+  <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
+  <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
+  <link href="/css/main.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="general-container">
+    <div id="left-bar">
+      <br>
+      <div id="logo">
+        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <h1>Audiocave</h1>
+      </div>
+      <br>
+      <div id="menu">
+        <a href="/">
+          <i class="fa-solid fa-house"></i>
+          <p>Home</p>
+        </a>
+        <a href="/search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <p>Search</p>
+        </a>
+        <a href="/library">
+          <i class="fa-solid fa-book"></i>
+          <p>Library</p>
+        </a>
+        <a href="/userprofile">
+          <i class="fa-solid fa-user"></i>
+          <p>Profile</p>
+        </a>
+        <a href="/new">
+          <i class="fa-solid fa-compact-disc"></i>
+          <p>New Albums</p>
+        </a>
+        <a href="/survey">
+          <i class="fa-solid fa-file-pen"></i>
+          <p>Survey</p>
+        </a>
+      </div>
+      <br>
+      <a href="/logout">Logout</a>
+      <br>
+    </div>
+    <div id="main">
+      <p>main</p>
+    </div>
+    <div id="right-bar">
+      <p>right</p>
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+
+</html>
+
+<style>
+  @font-face {
+    font-family: 'Raleway', sans-serif;
+    src: url();
+  }
+  
+  * {
+    font-family: Raleway;
+    color: #B4CDED;
+  }
+  
+  body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #B4CDED;
+  }
+  
+  #general-container {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-areas: "left-bar main right-bar";
+    grid-template-columns: 15% 75% 10%;
+    justify-items: center;
+    margin: auto;
+  }
+  
+  #left-bar {
+    display: grid;
+    grid-template-rows: 5% 20% 3% auto auto 5% 5%;
+    row-gap: 2vh;
+    justify-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #0D1821;
+  }
+  
+  #left-bar #logo {
+    display: grid;
+    justify-items: center;
+  }
+  
+  #left-bar #logo img {
+    width: 50%;
+  }
+  
+  #left-bar #menu {
+    display: grid;
+    grid-template-rows: repeat(7, 1fr);
+  }
+  
+  #left-bar #menu a {
+    display: grid;
+    grid-template-columns: 40px auto;
+  }
+  
+  #left-bar #menu a i {
+    font-size: 17pt;
+  }
+  
+  #left-bar #menu a p {
+    margin: 0;
+  }
+  
+  #left-bar a {
+    text-decoration: none;
+  }
+  
+  a [href="/logout"] {
+    text-decoration: none;
+  }
+  
+  #main {}
+  
+  #header-container {
+    grid-area: header;
+    width: 100vw;
+    background-color: #344966;
+  }
+  
+  #header-container header {
+    display: grid;
+    grid-template-columns: 7vh auto;
+    column-gap: 10px;
+    align-items: center;
+    width: fit-content;
+    margin: 1.5vh auto;
+  }
+  
+  #header-container #logo {
+    height: 7vh;
+  }
+  
+  #header-container h1 {
+    width: fit-content;
+    margin: auto;
+    font-size: 40pt;
+    color: #ff575a !important;
+  }
+</style>

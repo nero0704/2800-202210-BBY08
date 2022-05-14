@@ -1,3 +1,4 @@
+"use strict";
 ready(function() {
 
   console.log("Client script loaded.");
@@ -7,7 +8,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -28,7 +28,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -41,13 +40,6 @@ ready(function() {
     xhr.send(params);
   }
 
-  document.querySelector("#LogOut").addEventListener("click", function(e) {
-    e.preventDefault();
-    localStorage.removeItem("AudioCave_Email");
-    localStorage.removeItem("AudioCave_Password");
-    window.location.replace("/logout");
-  })
-
 });
 
 function ready(callback) {
@@ -57,5 +49,14 @@ function ready(callback) {
   } else {
     document.addEventListener("DOMContentLoaded", callback);
     console.log("Listener was invoked");
+  }
+}
+
+function hamburger() {
+  var x = document.getElementById("top-menu");
+  if (x.style.display === "grid") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "grid";
   }
 }
