@@ -1,3 +1,4 @@
+"use strict";
 ready(function() {
 
   console.log("Client script loaded.");
@@ -7,7 +8,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -28,7 +28,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -47,7 +46,6 @@ ready(function() {
     if (data) {
       let dataParsed = JSON.parse(data);
       if (dataParsed.status == "success") {
-        console.log(dataParsed)
         let str = ""
         for (let i = 0; i < dataParsed.rows.length; i++) {
           let row = dataParsed.rows[i];
@@ -67,7 +65,6 @@ ready(function() {
           records[j].addEventListener("click", function(e) {
             e.preventDefault();
             songID = this.id;
-            console.log(songID);
             sessionStorage.setItem("song", songID)
             window.location = "/songinfo";
           })

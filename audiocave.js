@@ -21,9 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const isHeroku = process.env.IS_HEROKU || false;
-const bool = isHeroku ? "true" : "false";
-console.log(isHeroku + "----------------");
-console.log("-----------------" + bool);
 
 const mysql = require("mysql2");
 const connection = isHeroku ? mysql.createConnection({
@@ -128,14 +125,12 @@ app.get("/userprofile", function (req, res) {
       "SELECT * FROM BBY_8_user WHERE ID = ?",
       [req.session.number],
       function (error, results) {
-        console.log(results);
         var username = results[0].userName;
         var password = results[0].password;
         var email = results[0].email;
         var age = results[0].age;
         if (results[0].filesrc != "default") {
           var profilePicture = "/upload/" + results[0].filesrc;
-          console.log(profilePicture);
           mainDOM.window.document.getElementById("profile-picture").setAttribute("src", profilePicture);
         }
         mainDOM.window.document.getElementById("username").setAttribute("value", username);
@@ -183,8 +178,6 @@ app.use(express.urlencoded({ extended: true }));
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  console.log("What was sent", req.body.email, req.body.password);
-
   let results = authenticate(
     req.body.email,
     req.body.password,
@@ -202,7 +195,6 @@ app.post("/login", function (req, res) {
         req.session.role = userRecord.role;
         req.session.password = userRecord.password;
         req.session.mbti = userRecord.personality;
-        console.log(req.session.mbti);
         req.session.save(function (err) { });
         res.send({
           status: "success",
@@ -237,10 +229,10 @@ app.post("/signup", function (req, res) {
   var filesrc = "default";
 
   connection.connect(function (err) {
-    //if (err) throw err;
+    if (err) throw err;
     var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, email, function (err, data, fields) {
-      //if (err) throw err;
+      if (err) throw err;
       if (data.length > 1) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
@@ -252,8 +244,7 @@ app.post("/signup", function (req, res) {
         var sql =
           "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
         connection.query(sql, function (err, result) {
-          //if (err) throw err;
-          console.log("1 record inserted");
+          if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
         });
@@ -264,15 +255,14 @@ app.post("/signup", function (req, res) {
 
 app.post("/updateprofile", function (req, res) {
   connection.connect(function (err) {
-    //if (err) throw err;
+    if (err) throw err;
     connection.query(
       "UPDATE BBY_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?",
       [req.body.email, req.body.password, req.body.username, req.body.age, req.session.number],
       function (error, results, fields) {
         if (error) {
-          console.log(error);
+          throw error;
         }
-        console.log("profile updated")
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success", msg: "profile updated." });
       }
@@ -288,7 +278,6 @@ app.post("/userInfo", function (req, res) {
 });
 
 app.post('/upload-images', upload.array("files"), function (req, res) {
-  console.log(req.files);
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -307,9 +296,8 @@ app.post('/upload-images', upload.array("files"), function (req, res) {
     [req.files[0].filename, req.session.number],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+        throw error;
       }
-      console.log("profile picture updated")
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "success", msg: "profile picture updated." });
     }
@@ -356,10 +344,10 @@ app.post("/addUser", function (req, res) {
   let role = req.body.role;
 
   connection.connect(function(err) {
-    //if (err) throw err;
+    if (err) throw err;
     var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, email, function(err, data, fields) {
-      //if (err) throw err;
+      if (err) throw err;
       if (data.length > 0) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
@@ -372,8 +360,7 @@ app.post("/addUser", function (req, res) {
           + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
           + age + "', '" + mbti + "')"
         connection.query(sql, function(err, result) {
-          //if (err) throw err;
-          console.log("1 record inserted");
+          if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
         });
@@ -396,18 +383,17 @@ app.post("/deleteUser", function (req, res) {
     database: "comp2800",
   });
   connection.connect(function(err) {
-    //if (err) throw err;
+    if (err) throw err;
     var sql = "SELECT * FROM BBY_8_user WHERE role =?";
     connection.query(sql, req.body.role, function(err, data, fields) {
-      //if (err) throw err;
+      if (err) throw err;
       if (data.length <= 1 && req.body.role == "A") {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "At least one admin needed." });
       } else {
         let sql = "DELETE FROM BBY_8_user WHERE email = '" + req.body.email + "'";
         connection.query(sql, function(err, result) {
-          //if (err) throw err;
-          console.log("1 record deleted");
+          if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
         });
@@ -441,10 +427,10 @@ app.post("/editUser", function (req, res) {
   let role = req.body.role;
 
   connection.connect(function(err) {
-    //if (err) throw err;
+    if (err) throw err;
     var sql = "SELECT * FROM BBY_8_user WHERE email =?";
     connection.query(sql, newEmail, function(err, data, fields) {
-      //if (err) throw err;
+      if (err) throw err;
       if (data.length > 0 && email != newEmail) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
@@ -453,8 +439,7 @@ app.post("/editUser", function (req, res) {
           + newEmail + "', password='" + password + "', role='" + role + "', userName='" + username
           + "', age='" + age + "', personality='" + mbti + "' WHERE email='" + email + "'";
         connection.query(sql, function(err, result) {
-          //if (err) throw err;
-          console.log("1 record updated");
+          if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
         });
@@ -467,18 +452,14 @@ app.post("/get-suggestions", function(req, res ){
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
     connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {
-      console.log(data);
       if (data.length > 0) {
         var sql = "SELECT * FROM bby_8_song WHERE mood IN (SELECT survey FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?) ORDER BY RAND() LIMIT 5";
         connection.query(sql, [req.session.number, req.body.date], function(err, results) {
-          console.log(results);
           res.send({status: "success", rows: results});
         });
       } else {
-        console.log("getsuggestions");
         var sql = "SELECT * FROM bby_8_song WHERE personality IN (SELECT personality FROM bby_8_user WHERE ID =?) ORDER BY RAND() LIMIT 5";
         connection.query(sql, req.session.number, function(err, results) {
-          console.log(results);
           res.send({status: "success", rows: results});
         });
       }
@@ -492,7 +473,6 @@ app.post("/get-song-info", function(req, res ){
     connection.query(sql, [req.body.songID], function(err, data, fields) {
       if (data.length > 0) {
         res.send({status: "success", rows: data});
-        console.log(data);
       } else {
         res.send({status: "failed"});
       }
@@ -513,7 +493,6 @@ app.post("/daily-survey", function (req, res) {
     database: "comp2800",
   });
   connection.connect();
-  console.log(req.body.date);
   var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
   connection.query(sql, [req.session.number, req.body.date], function (err, data, fields) {
     if (err) throw err;
@@ -521,7 +500,6 @@ app.post("/daily-survey", function (req, res) {
       var sql = "UPDATE bby_8_survey SET survey= '" + req.body.mood + "' WHERE userID= '" + req.session.number + "' AND dateOfSurvey= '" + req.body.date + "'";
       connection.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("Survey record updated");
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success" });
       })
@@ -529,7 +507,6 @@ app.post("/daily-survey", function (req, res) {
       var sql = "INSERT INTO bby_8_survey (userID, dateOfSurvey, survey) VALUES ('" + req.session.number + "', '" + req.body.date + "', '" + req.body.mood + "')";
       connection.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("Survey Taken");
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success" })
       })
@@ -557,16 +534,9 @@ function authenticate(email, pwd, callback) {
     function (error, results, fields) {
       // results is an array of records, in JSON format
       // fields contains extra meta data about results
-      console.log(
-        "Results from DB",
-        results,
-        "and the # of records returned",
-        results.length
-      );
 
       if (error) {
-        // in production, you'd really want to send an email to admin but for now, just console
-        console.log(error);
+        throw error;
       }
       if (results.length > 0) {
         // email and password found
@@ -600,7 +570,7 @@ function getUserInfo(userType, callback) {
       // results is an array of records, in JSON format
       // fields contains extra meta data about results
       if (error) {
-        console.log(error);
+        throw error;
       }
       if (results.length > 0) {
         return callback(results);

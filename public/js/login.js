@@ -8,7 +8,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -29,7 +28,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -62,7 +60,6 @@ ready(function() {
   getSavedLogin()
     .then((cred) => {
       let queryString = "email=" + cred.email + "&password=" + cred.password;
-      console.log(queryString);
       ajaxPOST("/login", function(data) {
         if (data) {
           let dataParsed = JSON.parse(data);
@@ -96,7 +93,6 @@ ready(function() {
     ajaxPOST("/login", function(data) {
       if (data) {
         let dataParsed = JSON.parse(data);
-        console.log(dataParsed);
         if (dataParsed.status == "fail") {
           document.getElementById("errorMsg").innerHTML = dataParsed.msg;
         } else if (dataParsed.role == 'A') {
