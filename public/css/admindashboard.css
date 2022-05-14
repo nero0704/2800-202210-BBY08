@@ -152,8 +152,8 @@ h3 {
 @media only screen and (max-width: 768px) {
   #dashboard {
     display: grid;
-    grid-template-columns: 1;
-    grid-template-rows: 2;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
   }
   #admins {
     grid-column: 1;
