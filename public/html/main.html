@@ -17,28 +17,26 @@
 </head>
 
 <body>
-  <div class="topnav">
-    <a href="/" class="active">
-      <div>
-        <img class="img" src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
-        <h1 class="h1">Audiocave</h1>
-      </div>
-    </a>
-
-    <div id="myLinks">
-      <a href="/">Home</a>
-      <a href="/">Search</a>
-      <a href="/">Library</a>
-      <a href="/userprofile">Profile</a>
-      <a href="/">New Albums</a>
-      <a href="/">Survey</a>
-    </div>
-
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-      <i class="fa fa-bars"></i>
-    </a>
-  </div>
   <div id="general-container">
+
+    <div id="topnav">
+      <a id="top-logo" class="active" href="/">
+        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <h1>Audiocave</h1>
+      </a>
+
+      <div id="top-menu">
+        <a href="/">Home</a>
+        <a href="/">Search</a>
+        <a href="/">Library</a>
+        <a href="/userprofile">Profile</a>
+        <a href="/">New Albums</a>
+        <a href="/">Survey</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <i id="hamburger" class="fa fa-bars" onclick="hamburger()"></i>
+    </div>
 
     <div id="left-bar">
       <br>

@@ -27,7 +27,7 @@ body {
 }
 
 #header-container {
-  width: 100vw;
+  width: 100%;
   background-color: #344966;
 }
 
@@ -149,4 +149,21 @@ h3 {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 1080px) {}
+@media only screen and (max-width: 1080px) {
+  #userForm {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  #userForm .legends {
+    width: 1000px;
+  }
+  #userForm #addUserForm {
+    width: 1000px;
+  }
+  #dashboard {
+    overflow-x: scroll;
+  }
+  #dashboard .legends {
+    width: 1000px;
+  }
+}
