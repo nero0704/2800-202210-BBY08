@@ -44,7 +44,6 @@ ready(function () {
         const xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-                //console.log('responseText:' + xhr.responseText);
                 callback(this.responseText);
 
             } else {
@@ -65,7 +64,6 @@ ready(function () {
         const xhr = new XMLHttpRequest();
         xhr.onload = function () {
             if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-                //console.log('responseText:' + xhr.responseText);
                 callback(this.responseText);
 
             } else {
@@ -82,13 +80,11 @@ ready(function () {
         e.preventDefault();
         document.getElementById('myModal').style.display='none';
         let mood = document.querySelector('input[name="mood"]:checked').value
-        console.log(mood);
         let date = (new Date()).toISOString().split('T')[0];
         let queryString = "mood=" + mood + "&date=" + date;
         ajaxPOST("/daily-survey", function (data) {
             if (data) {
                 let dataParsed = JSON.parse(data);
-                console.log(dataParsed);
                 if (dataParsed.status == "fail") {
                     console.log(dataParsed.msg);
                 }

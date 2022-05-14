@@ -1,3 +1,4 @@
+"use strict";
 ready(function() {
 
   console.log("Client script loaded.");
@@ -7,7 +8,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -28,7 +28,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -47,7 +46,6 @@ ready(function() {
     if (data) {
       let dataParsed = JSON.parse(data);
       if (dataParsed.status == "success") {
-        console.log(dataParsed)
         let row = dataParsed.rows[0];
         let str = '<img src="/img/songs/' + row.filesrc +
           '" class="music-image" alt="' + row.title +
@@ -64,7 +62,6 @@ ready(function() {
           '" class="music-spotify-link" alt="Spotify"' +
           '"></a>'
 
-        console.log(str);
         document.getElementById("song").innerHTML = str;
       }
     }

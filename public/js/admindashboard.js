@@ -8,7 +8,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -29,7 +28,6 @@ ready(function() {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        //console.log('responseText:' + xhr.responseText);
         callback(this.responseText);
 
       } else {
@@ -143,7 +141,6 @@ ready(function() {
           ajaxPOST("/editUser", function(data) {
             if (data) {
               let dataParsed = JSON.parse(data);
-              console.log(dataParsed);
               if (dataParsed.status == "fail") {
                 document.getElementById("errorMsg").innerHTML = dataParsed.msg;
               } else {
@@ -167,7 +164,6 @@ ready(function() {
         ajaxPOST("/deleteUser", function(data) {
           if (data) {
             let dataParsed = JSON.parse(data);
-            console.log(dataParsed);
             if (dataParsed.status == "fail") {
               document.getElementById("errorMsg").innerHTML = dataParsed.msg;
             } else {
@@ -209,7 +205,6 @@ ready(function() {
 
       if (data) {
         let dataParsed = JSON.parse(data);
-        console.log(dataParsed);
         if (dataParsed.status == "fail") {
           document.getElementById("errorMsg").innerHTML = dataParsed.msg;
         } else {
