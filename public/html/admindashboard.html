@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
@@ -41,12 +41,14 @@
         <input type="text" name="email" placeholder="Email" id="addEmail" required>
         <input type="text" name="password" placeholder="Password" id="addPassword" required>
         <input type="text" name="username" placeholder="Username" id="addUserName" required>
-        <select name="role" placeholder="Role" id="addRole" required>
+        <select name="role" id="addRole" required>
+                <option value="" disabled selected>Role</option>
                 <option value="A">Admin</option>
                 <option value="R">Regular</option>
             </select>
         <input type="number" name="age" placeholder="Age" id="addAge" min="1" max="150" required>
-        <select name="personality" placeholder="Personality" id="addPersonality" required>
+        <select name="personality" id="addPersonality" required>
+                 <option value="" disabled selected>Personality</option>
                 <option value="ESTJ">ESTJ</option>
                 <option value="ENTJ">ENTJ</option>
                 <option value="ESFJ">ESFJ</option>

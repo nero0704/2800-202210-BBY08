@@ -87,7 +87,7 @@ body {
 
 .info [type="button"],
 [type="submit"] {
-  padding: 12px 18px;
+  padding: 32px 28px;
   border: 3px solid #ff575a;
   border-radius: 40px;
   font-size: 13pt;
@@ -122,10 +122,10 @@ body {
 }
 
 .btn {
-  border: 3px solid #ff575a;
+  border: 6px solid #ff575a;
   color: #f0f4ef;
   background-color: #ff575a;
-  padding: 12px 18px;
+  padding: 32px 28px;
   border-radius: 40px;
   font-size: 13pt;
   font-weight: 600;
@@ -187,7 +187,7 @@ a [href="/logout"] {
 }
 
 
-.topnav{
+.topnav {
   display: none;
 }
 
@@ -208,9 +208,9 @@ a [href="/logout"] {
 
   body {
     align-items: center;
-    
+
   }
-  
+
   .btn {
     border: 3px solid #ff575a;
     color: #f0f4ef;
@@ -220,7 +220,19 @@ a [href="/logout"] {
     font-size: 13pt;
     font-weight: 600;
   }
-  
+
+  .info [type="button"],
+  [type="submit"] {
+    padding: 12px 18px;
+    border: 3px solid #ff575a;
+    border-radius: 40px;
+    font-size: 13pt;
+    font-weight: 600;
+    color: #f0f4ef;
+    background-color: #ff575a;
+    cursor: pointer;
+  }
+
   .upload-btn-wrapper input[type=file] {
 
     display: none;
@@ -234,61 +246,63 @@ a [href="/logout"] {
   #left-bar {
     display: none;
   }
-  .topnav{
+
+  .topnav {
     display: block;
   }
 
-.topnav {
-  overflow: hidden;
-  background-color: #0D1821;
-  position: relative;
-  padding-left:10px;
-}
+  .topnav {
+    overflow: hidden;
+    background-color: #0D1821;
+    position: relative;
+    padding-left: 10px;
+  }
 
-.topnav #myLinks {
-  display: none;
-}
+  .topnav #myLinks {
+    display: none;
+  }
 
-.topnav a {
-  color: #B4CDED;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-}
+  .topnav a {
+    color: #B4CDED;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+  }
 
-.topnav a.icon {
-  background: black;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding-left:10px;
-}
+  .topnav a.icon {
+    background: black;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-left: 10px;
+  }
 
-.topnav a:hover {
-  background-color: #0D1821;
-  color: #B4CDED;
-}
+  .topnav a:hover {
+    background-color: #0D1821;
+    color: #B4CDED;
+  }
 
-.active {
-  background-color: #0D1821;
-  color: #B4CDED;
-}
+  .active {
+    background-color: #0D1821;
+    color: #B4CDED;
+  }
 
-.img {
-  position: relative;
-  float: left;
-  width:  50px;
-  height: 50px;
-  background-position: 50% 50%;
-  background-repeat:   no-repeat;
-  background-size:     cover;
-  padding-right: 10px;
-}
-.h1{
-  padding-top:5px;
-}
+  .img {
+    position: relative;
+    float: left;
+    width: 50px;
+    height: 50px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-right: 10px;
+  }
 
-  
+  .h1 {
+    padding-top: 5px;
+  }
+
+
 }
