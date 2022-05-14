@@ -27,7 +27,7 @@ body {
 }
 
 #header-container {
-  width: 100vw;
+  width: 100%;
   background-color: #344966;
 }
 
@@ -149,22 +149,21 @@ h3 {
   cursor: pointer;
 }
 
-<<<<<<< HEAD
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1080px) {
+  #userForm {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+  #userForm .legends {
+    width: 1000px;
+  }
+  #userForm #addUserForm {
+    width: 1000px;
+  }
   #dashboard {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    overflow-x: scroll;
   }
-  #admins {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  #regular {
-    grid-column: 1;
-    grid-row: 2;
+  #dashboard .legends {
+    width: 1000px;
   }
 }
-=======
-@media only screen and (max-width: 1080px) {}
->>>>>>> 9e4b43975651381d6241697fdb8922dc2fdaf380

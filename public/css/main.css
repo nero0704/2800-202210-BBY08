@@ -16,6 +16,10 @@ body {
   background-color: #B4CDED;
 }
 
+#topnav {
+  display: none;
+}
+
 #general-container {
   display: grid;
   height: 100vh;
@@ -189,86 +193,73 @@ h3 {
   color: #B4CDED;
 }
 
-.topnav{
-  display: none;
-}
-
-
 @media screen and (max-width: 1200px) {
-
   #general-container {
     display: grid;
     height: inherit;
     width: inherit;
-    grid-template-areas: "header""login-form";
-    grid-template-columns: auto;
-    grid-template-rows: 10vh auto auto;
-    justify-items: center;
     margin: auto;
+    grid-template-areas: "top-nav" "main";
+    grid-template-columns: auto;
+    grid-template-rows: 10vh auto;
+    justify-items: center;
   }
-  #main{
-    align-items: center;
-    justify-content: center;
+  #topnav {
     display: grid;
-  }
-  .topnav {
-    overflow: hidden;
-    background-color: #0D1821;
+    grid-template-areas: "top-logo ." "top-menu top-menu";
+    grid-template-columns: 30% 70%;
+    grid-area: top-nav;
+    width: 100%;
     position: relative;
-    padding-left:10px;
+    background-color: #0D1821;
   }
-  
-  .topnav #myLinks {
+  #topnav #top-menu {
     display: none;
+    padding: 20px 0;
+    grid-area: top-menu;
+    row-gap: 20px;
+    background-color: #0D1821;
   }
-  
-  .topnav a {
-    color: #B4CDED;
-    padding: 14px 16px;
+  #topnav #top-menu a {
+    padding-left: 10px;
+    text-decoration: none;
+    font-size: 17pt;
+  }
+  #topnav #top-logo {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-area: top-logo;
+    justify-items: center;
+    align-items: center;
     text-decoration: none;
     font-size: 17px;
-    display: block;
+    color: #B4CDED;
   }
-  
-  .topnav a.icon {
-    background: black;
-    display: block;
+  #topnav img {
+    height: 7vh;
+  }
+  #topnav h1 {
+    margin: 0;
+  }
+  #topnav #hamburger {
     position: absolute;
-    right: 0;
-    top: 0;
-    padding-left:10px;
+    right: 10px;
+    top: 10px;
+    font-size: 20pt;
   }
-  
-  .topnav a:hover {
+  #topnav #hamburger:hover {
+    cursor: pointer;
     background-color: #0D1821;
     color: #B4CDED;
   }
-  
   .active {
     background-color: #0D1821;
     color: #B4CDED;
   }
-  
-  .img {
-    position: relative;
-    float: left;
-    width:  50px;
-    height: 50px;
-    background-position: 50% 50%;
-    background-repeat:   no-repeat;
-    background-size:     cover;
-    padding-right: 10px;
-  }
-  .h1{
-    padding-top:5px;
-  }
   #left-bar {
     display: none;
   }
-  #right-bar{
-    display:none;
-  }
-  .topnav{
-    display: block;
+  #right-bar {
+    display: none;
   }
 }
