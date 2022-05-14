@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <title>Main</title>
@@ -10,53 +10,33 @@
     @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   </style>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
   <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
   <link href="/css/main.css" rel="stylesheet" />
 </head>
 
 <body>
-  <div class="topnav">
-    <a href="/" class="active">
-        <div>
-            <img class="img" src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
-            <h1 class="h1">Audiocave</h1>
-        </div>
-    </a>
-
-    <div id="myLinks">
-        <a href="/">
-
-            Home
-        </a>
-        <a href="/search">
-
-            Search
-        </a>
-        <a href="/library">
-
-            Library
-        </a>
-        <a href="/userprofile">
-
-            Profile
-        </a>
-        <a href="/new">
-
-            New Albums
-        </a>
-        <a href="/survey">
-
-            Survey
-        </a>
-    </div>
-
-    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-        <i class="fa fa-bars"></i>
-    </a>
-</div>
   <div id="general-container">
+
+    <div id="topnav">
+      <a id="top-logo" class="active" href="/">
+        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <h1>Audiocave</h1>
+      </a>
+
+      <div id="top-menu">
+        <a href="/">Home</a>
+        <a href="/">Search</a>
+        <a href="/">Library</a>
+        <a href="/userprofile">Profile</a>
+        <a href="/">New Albums</a>
+        <a href="/">Survey</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <i id="hamburger" class="fa fa-bars" onclick="hamburger()"></i>
+    </div>
 
     <div id="left-bar">
       <br>

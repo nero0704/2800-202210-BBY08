@@ -1,171 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="EN">
 
 <head>
-    <title>Web App</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../css/userprofile.css" rel="stylesheet" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
-    <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
+  <title>Web App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../css/userprofile.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
+  <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
 </head>
 
 <body>
 
-    <div class="topnav">
-        <a href="/" class="active">
-            <div>
-                <img class="img" src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
-                <h1 class="h1">Audiocave</h1>
-            </div>
-        </a>
+  <div class="topnav">
+    <a href="/" class="active">
+      <div>
+        <img class="img" src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <h1 class="h1">Audiocave</h1>
+      </div>
+    </a>
 
-        <div id="myLinks">
-            <a href="/">
-
-                Home
-            </a>
-            <a href="/search">
-
-                Search
-            </a>
-            <a href="/library">
-
-                Library
-            </a>
-            <a href="/userprofile">
-
-                Profile
-            </a>
-            <a href="/new">
-
-                New Albums
-            </a>
-            <a href="/survey">
-
-                Survey
-            </a>
-        </div>
-
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-            <i class="fa fa-bars"></i>
-        </a>
-    </div>
-    <div id="general-container">
-        <!-- <div id="header-container">
-            <header>
-                <img id="logo" src="/img/AudioCave_Logo_Blue_Red.png" alt="">
-                <h1>Audio Cave</h1>
-            </header>
-        </div> -->
-
-        <!-- (A) MENU WRAPPER -->
-
-
-        <div id="left-bar">
-            <br>
-            <div id="logo">
-                <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
-                <h1>Audiocave</h1>
-            </div>
-            <br>
-            <div id="menu">
-                <a href="/">
-                    <i class="fa-solid fa-house"></i>
-                    <p>Home</p>
-                </a>
-                <a href="/search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <p>Search</p>
-                </a>
-                <a href="/library">
-                    <i class="fa-solid fa-book"></i>
-                    <p>Library</p>
-                </a>
-                <a href="/userprofile">
-                    <i class="fa-solid fa-user"></i>
-                    <p>Profile</p>
-                </a>
-                <a href="/new">
-                    <i class="fa-solid fa-compact-disc"></i>
-                    <p>New Albums</p>
-                </a>
-                <a href="/survey">
-                    <i class="fa-solid fa-file-pen"></i>
-                    <p>Survey</p>
-                </a>
-            </div>
-            <br>
-            <a href="/logout">Logout</a>
-            <br>
-        </div>
-        <div id="main">
-                    <div class="center">
-            <form class="info" id="upload-images-form">
-                <div>
-                    <div class="upload-btn-wrapper">
-                        <label>
-                            <input id="image-upload" type="file" value="Upload Image"
-                            accept="image/png, image/gif, image/jpeg" multiple="multiple" />
-                            <p class="btn">Upload a Profile Picture</p>
-                        </label>
-                        <br>
-                        <input id="submit" type="submit" value="Submit" />
-
-                        </div>
-                    </div>
-
-
-
-
-                </form>
-            </div>
-
-            <div>
-                <img class="image" src="./img/default.img" alt="User Profile" id="profile-picture">
-            </div>
-
-            <div class="center">
-                <form name="profile" action="/updateprofile" method="post" class="info">
-                    <div>
-                        <label for="username">Username</label>
-                    </div>
-                    <input class="username" id="username" name="username" type="username" value="" />
-                    <div>
-                        <label for="email">email</label>
-                    </div>
-                    <input id="email" name="email" type="email" value="" />
-                    <div>
-                        <label for="password">password</label>
-                    </div>
-                    <input id="password" name="password" type="password" value="" />
-                    <div>
-                        <label for="age">age</label>
-                    </div>
-                    <input id="age" name="age" type="age" value="" />
-                    <br>
-                    <br>
-                    <input id="edit" type="button" value="EDIT PROFILE" />
-                </form>
-            </div>
-        </div>
-
-
-
-
-        <footer id="footer">
-
-        </footer>
-        </div>
-
+    <div id="myLinks">
+      <a href="/">Home</a>
+      <a href="/">Search</a>
+      <a href="/">Library</a>
+      <a href="/userprofile">Profile</a>
+      <a href="/">New Albums</a>
+      <a href="/">Survey</a>
     </div>
 
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+  <div id="general-container">
 
-    <script src="js/userprofile.js"></script>
+    <div id="left-bar">
+      <br>
+      <div id="logo">
+        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <h1>Audiocave</h1>
+      </div>
+      <br>
+      <div id="menu">
+        <a href="/">
+          <i class="fa-solid fa-house"></i>
+          <p>Home</p>
+        </a>
+        <!-- not implemented yet -->
+        <a href="/">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <p>Search</p>
+        </a>
+        <!-- not implemented yet -->
+        <a href="/">
+          <i class="fa-solid fa-book"></i>
+          <p>Library</p>
+        </a>
+        <a href="/userprofile">
+          <i class="fa-solid fa-user"></i>
+          <p>Profile</p>
+        </a>
+        <!-- not implemented yet -->
+        <a href="/">
+          <i class="fa-solid fa-compact-disc"></i>
+          <p>New Albums</p>
+        </a>
+        <a href="/survey">
+          <i class="fa-solid fa-file-pen"></i>
+          <p>Survey</p>
+        </a>
+      </div>
+      <br>
+      <a href="/logout">Logout</a>
+      <br>
+    </div>
+    <div id="main">
+      <div class="center">
+        <form class="info" id="upload-images-form">
+          <div>
+            <div class="upload-btn-wrapper">
+              <label>
+                  <input id="image-upload" type="file" accept="image/png, image/gif, image/jpeg" multiple="multiple" />
+                <p class="btn">Upload a Profile Picture</p>
+            </label>
+              <br>
+              <input id="submit" type="submit" value="Submit" />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <img class="image" src="./img/default.img" alt="User Profile" style="width:300px;height:300px;" id="profile-picture">
+      </div>
+
+      <div class="center">
+        <form name="profile" action="/updateprofile" method="post" class="info">
+          <div>
+            <label for="username">Username</label>
+          </div>
+          <input class="username" id="username" name="username" type="username" />
+          <div>
+            <label for="email">email</label>
+          </div>
+          <input id="email" name="email" type="email" />
+          <div>
+            <label for="password">password</label>
+          </div>
+          <input id="password" name="password" type="password" />
+          <div>
+            <label for="age">age</label>
+          </div>
+          <input id="age" name="age" type="age" />
+          <br>
+          <br>
+          <input id="edit" type="button" value="EDIT PROFILE" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/userprofile.js"></script>
 </body>
 
 </html>
