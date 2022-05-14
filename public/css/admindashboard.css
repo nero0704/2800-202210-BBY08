@@ -149,6 +149,7 @@ h3 {
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 @media only screen and (max-width: 768px) {
   #dashboard {
     display: grid;
@@ -164,3 +165,6 @@ h3 {
     grid-row: 2;
   }
 }
+=======
+@media only screen and (max-width: 1080px) {}
+>>>>>>> 9e4b43975651381d6241697fdb8922dc2fdaf380
