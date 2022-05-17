@@ -9,13 +9,35 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
   </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
   <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
-  <link href="/css/songinfo.css" rel="stylesheet" />
+  <link href="/css/main.css" rel="stylesheet" />
 </head>
 
 <body>
   <div id="general-container">
+
+    <div id="topnav">
+      <a id="top-logo" class="active" href="/">
+        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <h1>Audiocave</h1>
+      </a>
+
+      <div id="top-menu">
+        <a href="/">Home</a>
+        <a href="/">Search</a>
+        <a href="/">Library</a>
+        <a href="/userprofile">Profile</a>
+        <a href="/">New Albums</a>
+        <a href="/">Survey</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <i id="hamburger" class="fa fa-bars" onclick="hamburger()"></i>
+    </div>
+
     <div id="left-bar">
       <br>
       <div id="logo">
@@ -28,7 +50,8 @@
           <i class="fa-solid fa-house"></i>
           <p>Home</p>
         </a>
-        <a href="/search">
+        <!-- not implemented yet -->
+        <a href="/">
           <i class="fa-solid fa-magnifying-glass"></i>
           <p>Search</p>
         </a>
@@ -40,7 +63,8 @@
           <i class="fa-solid fa-user"></i>
           <p>Profile</p>
         </a>
-        <a href="/new">
+        <!-- not implemented yet -->
+        <a href="/">
           <i class="fa-solid fa-compact-disc"></i>
           <p>New Albums</p>
         </a>
@@ -53,17 +77,21 @@
       <a href="/logout">Logout</a>
       <br>
     </div>
-    <div id="main">
-      <div id="song-info">
-        <div id="song"></div>
-        <div id="comment"></div>
-        <button id="add-to-library" class="btn"><i class="fa fa-home"></i> Add to Library</button>
+
+    <div id="library">
+    </div>
+
+    <div id="right-bar">
+      <h1>Suggestions</h1>
+      <div id="music-suggestion-container">
+
       </div>
     </div>
+
   </div>
-  
+  <script src="/js/musicsuggestion.js"></script>
   <script src="/js/main.js"></script>
-  <script src="/js/songinfo.js"></script>
+  <script src="/js/library.js"></script>
 </body>
 
 </html>

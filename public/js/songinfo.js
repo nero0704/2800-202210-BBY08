@@ -41,6 +41,22 @@ ready(function() {
   }
 
   let songID = sessionStorage.getItem("song");
+  function checkIfInLibrary (callback) {
+    let queryString = "songID=" + songID;
+    ajaxPOST("/check-if-in-library", function (data) {
+      if (data) {
+        let dataParsed = JSON.parse(data);
+          if (dataParsed.status == "success") {
+            let button = document.querySelector("#add-to-library");
+            button.disabled = true;
+            button.innerHTML = "In Library";
+          }
+      }
+    }, queryString)
+  }
+
+  checkIfInLibrary();
+
   let queryString = "songID=" + songID;
   ajaxPOST("/get-song-info", function(data) {
     if (data) {
@@ -66,6 +82,24 @@ ready(function() {
       }
     }
   }, queryString)
+
+  document.querySelector("#add-to-library").addEventListener("click", function (e) {
+    e.preventDefault();
+    let queryString = "songID=" + songID;
+    ajaxPOST("/add-to-library", function (data) {
+        if (data) {
+            let dataParsed = JSON.parse(data);
+            if (dataParsed.status == "fail") {
+                console.log(dataParsed.msg);
+            } 
+            else {
+                let button = document.querySelector("#add-to-library");
+                button.disabled = true;
+                document.getElementById("add-to-library").innerHTML = "In Library"
+            }
+        }
+    }, queryString);
+})
 
 });
 
