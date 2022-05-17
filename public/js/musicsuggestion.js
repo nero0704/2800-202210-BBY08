@@ -64,7 +64,7 @@ ready(function() {
         for (let j = 0; j < records.length; j++) {
           records[j].addEventListener("click", function(e) {
             e.preventDefault();
-            songID = this.id;
+            let songID = this.id;
             sessionStorage.setItem("song", songID)
             window.location = "/songinfo";
           })

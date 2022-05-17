@@ -1,5 +1,5 @@
 "use strict";
-const { strict } = require("assert");
+const { strict, fail } = require("assert");
 const express = require("express");
 const session = require("express-session");
 const res = require("express/lib/response");
@@ -356,9 +356,9 @@ app.post("/addUser", function (req, res) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Missing Information." });
       } else {
-        let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality) VALUES ('" 
+        let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" 
           + fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" 
-          + age + "', '" + mbti + "')"
+          + age + "', '" + mbti + "', 'default')";
         connection.query(sql, function(err, result) {
           if (err) throw err;
           res.setHeader("Content-Type", "application/json");
@@ -508,11 +508,148 @@ app.post("/daily-survey", function (req, res) {
       connection.query(sql, function (err, result) {
         if (err) throw err;
         res.setHeader("Content-Type", "application/json");
-        res.send({ status: "success" })
+        res.send({ status: "success" });
       })
     }
   })
-})
+});
+
+app.post("/reviewSong", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+  const songID = req.body.song;
+  const dateOfReview = req.body.date;
+  const review = req.body.review;
+
+  connection.connect();
+  var sql = "SELECT * FROM bby_8_review WHERE userID =? AND songID =?";
+  connection.query(sql, [userID, songID], function (err, data, fields) {
+    if (err) throw err;
+    if (data.length > 0) { // The user has reviewed this song before
+      res.setHeader("Content-Type", "application/json");
+      res.send({status: "fail", msg: "Can't review song more than once (Edit past review instead)"});
+    } else if (review.trim().length <= 0){
+      res.setHeader("Content-Type", "application/json");
+      res.send({status: "fail", msg: "Review can't be empty"});
+    } else {
+      var sql = "INSERT INTO BBY_8_review (userID, songID, dateOfReview, review) VALUES ('" 
+          + userID + "', '" + songID + "', '" + dateOfReview + "', '" + review + "')";
+      connection.query(sql, function (err, result) {
+        if (err) throw err;
+        res.setHeader("Content-Type", "application/json");
+        res.send({ status: "success" });
+      })
+    }
+  })
+});
+
+app.post("/displayUserReview", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+  const songID = req.body.song;
+
+  connection.connect();
+  var sql = "SELECT u.userName, r.review FROM bby_8_user u, bby_8_review  r WHERE r.userID = ? AND r.songID = ? AND r.userID = u.ID";
+  connection.query(sql, [userID, songID], function (err, data, fields) {
+    if (err) throw err;
+    if (data.length == 1){
+      res.setHeader("Content-Type", "application/json");
+      res.send(data[0]);
+    } else{
+      res.setHeader("Content-Type", "application/json");
+      res.send({status: "fail"});
+    }
+  })
+});
+
+app.post("/displayOtherReviews", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+  const songID = req.body.song;
+
+  connection.connect();
+  var sql = "SELECT u.userName, r.review FROM bby_8_user u, bby_8_review  r WHERE r.userID <> ? AND r.songID = ? AND r.userID = u.ID";
+  connection.query(sql, [userID, songID], function (err, data, fields) {
+    if (err) throw err;
+    if (data.length > 0){
+      res.setHeader("Content-Type", "application/json");
+      res.send(data);
+    } else{
+      res.setHeader("Content-Type", "application/json");
+      res.send({status: "fail"});
+    }
+  })
+});
+
+app.post("/editReview", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+  const songID = req.body.song;
+  const dateOfReview = req.body.date;
+  const review = req.body.review;
+
+  if (review.trim().length <= 0){
+    res.setHeader("Content-Type", "application/json");
+    res.send({status: "fail", msg: "Review can't be empty"});
+    return;
+  }
+
+  connection.connect();
+  var sql = "UPDATE bby_8_review SET dateOfReview = ?, review = ? WHERE userID = ? AND songID = ?";
+  connection.query(sql, [dateOfReview, review, userID, songID], function (err, data, fields) {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ status: "success" });
+  })
+});
 
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
