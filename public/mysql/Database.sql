@@ -42,10 +42,9 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             PRIMARY KEY (ID)
         );
         CREATE TABLE IF NOT EXISTS BBY_8_library (
-            ID int NOT NULL AUTO_INCREMENT,
             userID int NOT NULL,
             songID int NOT NULL,
-            PRIMARY KEY (ID),
+            PRIMARY KEY (userID, songID),
             FOREIGN KEY (userID) REFERENCES BBY_8_user(ID),
             FOREIGN KEY (songID) REFERENCES BBY_8_song(ID)
         );

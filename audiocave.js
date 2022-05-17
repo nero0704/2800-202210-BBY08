@@ -155,11 +155,12 @@ app.get("/songinfo", function (req, res) {
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
     res.send(mainDOM.serialize());
+  } else {
+    res.redirect("/");
   }
 });
 
 app.get("/survey", function (req, res) {
-  // check for a session first!
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/survey.html", "utf8");
     let mainDOM = new JSDOM(main);
@@ -167,7 +168,6 @@ app.get("/survey", function (req, res) {
     res.set("X-Powered-By", "Wazubi");
     res.send(mainDOM.serialize());
   } else {
-    // not logged in - no session and no access, redirect to home!
     res.redirect("/");
   }
 });
@@ -479,6 +479,7 @@ app.post("/get-song-info", function(req, res ){
     })
   })
 });
+
 app.post("/daily-survey", function (req, res) {
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
