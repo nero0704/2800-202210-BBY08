@@ -184,6 +184,18 @@ app.get("/library", function (req, res) {
   }
 });
 
+app.get("/new", function (req, res) {
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/newalbums.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(mainDOM.serialize());
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -555,6 +567,29 @@ app.post("/get-songs-in-library", function(req, res ){
     var sql = "SELECT * FROM bby_8_library INNER JOIN bby_8_song ON bby_8_library.songID = bby_8_song.ID WHERE bby_8_library.userID = ?";
     connection.query(sql, req.session.number, function(err, data, fields) {
       if (data.length > 0) {
+        res.send({status: "success", rows: data})
+      }
+    })
+  })
+});
+
+app.post("/get-new-albums", function(req, res ){
+  connection.connect(function(err) {
+    var sql = "SELECT * FROM bby_8_album ORDER BY dateOfRelease DESC LIMIT 5";
+    connection.query(sql, req.session.number, function(err, data, fields) {
+      if (data.length > 0) {
+        res.send({status: "success", rows: data})
+      }
+    })
+  })
+});
+
+app.post("/get-songs-in-album", function(req, res ){
+  connection.connect(function(err) {
+    var sql = "SELECT * FROM bby_8_song WHERE album IN (SELECT title FROM bby_8_album WHERE ID = ?)";
+    connection.query(sql, req.body.albumID, function(err, data, fields) {
+      if (data.length > 0) {
+        console.log(data);
         res.send({status: "success", rows: data})
       }
     })

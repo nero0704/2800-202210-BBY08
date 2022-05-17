@@ -27,6 +27,7 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             artist varchar(30),
             genre varchar(30),
             dateofRelease DATE,
+            filesrc varchar (100),
             PRIMARY KEY (ID)
         );
         CREATE TABLE IF NOT EXISTS BBY_8_song (
@@ -56,12 +57,16 @@ INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, ag
     VALUES ("Amy", "Santiago", "AMS@brook.ca", "JQRIBVQIX23", 'R', "TheTerminator", "30", "INTP", "default");
 INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc)
     VALUES ("Diego", "Cuenca Espino", "dce@my.bcit.ca", "notabc123", 'A', "DCE", "21", "INTP", "default");
-INSERT INTO BBY_8_album (title, artist, genre, dateofRelease)
-    VALUES ("Classical", "Multiple", "Classical", "1900-10-10");
-INSERT INTO BBY_8_album (title, artist, genre, dateofRelease)
-    VALUES ("Depression Cherry", "Beach House", "Dream Pop", "2015-08-28");
-INSERT INTO BBY_8_album (title, artist, genre, dateofRelease)
-    VALUES ("Thank Your Lucky Stars", "Beach House", "Dream Pop", "2015-10-16");
+INSERT INTO BBY_8_album (title, artist, genre, dateofRelease, filesrc)
+    VALUES ("Depression Cherry", "Beach House", "Dream Pop", "2015-08-28", "beach-house-depression-cherry.png");
+INSERT INTO BBY_8_album (title, artist, genre, dateofRelease, filesrc)
+    VALUES ("Thank Your Lucky Stars", "Beach House", "Dream Pop", "2015-10-16", "beach-house-thank-your.png");
+INSERT INTO BBY_8_album (title, artist, genre, dateofRelease, filesrc)
+    VALUES ("Fuzzybrain", "Dayglow", "Indie Pop", "2018-09-28", "hot-rod-dayglow.jpg");
+INSERT INTO BBY_8_album (title, artist, genre, dateofRelease, filesrc)
+    VALUES ("Appetite for Destruction", "Guns N' Roses", "Hard Rock", "1987-07-21", "guns-n-roses-appetite.jpg");
+INSERT INTO BBY_8_album (title, artist, genre, dateofRelease, filesrc)
+    VALUES ("True", "Avicii", "EDM", "2013-09-13", "avicii-true.jpg");
 INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, spotifyLink, filesrc)
     VALUES ("Bach: Cello Suite No.! in G Major", "Yo-Yo Ma", "ISTJ", "TBD", "Six Suites for Unaccompanied Cello", "https://youtu.be/pAgnJDJN4VA?list=PLv5D2n4QoJbrgC3LQo9PAzTZccsgDANBh", "https://open.spotify.com/track/7sjuI9Y9rsrWOJUNVzqOK7?autoplay=true", "bach-cello-yo-yo-ma.jpg");
 INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, spotifyLink, filesrc)
