@@ -196,6 +196,18 @@ app.get("/new", function (req, res) {
   }
 });
 
+app.get("/search", function (req, res) {
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/search.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(mainDOM.serialize());
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -592,6 +604,16 @@ app.post("/get-songs-in-album", function(req, res ){
         console.log(data);
         res.send({status: "success", rows: data})
       }
+    })
+  })
+});
+
+app.post("/get-all-songs", function(req, res ){
+  connection.connect(function(err) {
+    var sql = "SELECT * FROM bby_8_song LIMIT 25";
+    connection.query(sql, function(err, data, fields) {
+      if (err) throw err;
+        res.send({status: "success", rows: data});
     })
   })
 });

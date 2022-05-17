@@ -72,10 +72,6 @@ INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, sp
 INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, spotifyLink, filesrc)
     VALUES ("Nocturne op.9 No.2", "Chopin", "ISTJ", "TBD", "Chopin: Nocturnes", "https://www.youtube.com/watch?v=9E6b3swbnWg", "https://open.spotify.com/track/61dYvvfIRtIDFuqZypPAta", "nocturne-chopin.jpg");
 INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, spotifyLink, filesrc)
-    VALUES ("Space Song", "Beach House", "ENFJ", "TBD", "Depression Cherry", "https://www.youtube.com/watch?v=RBtlPT23PTM", "https://open.spotify.com/track/7H0ya83CMmgFcOhw0UB6ow?autoplay=true", "beach-house-depression-cherry.png" );
-INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, spotifyLink, filesrc)
-    VALUES ("Myth", "Beach House", "ENFJ", "TBD", "Bloom", "https://www.youtube.com/watch?v=FuvWc3ToDHg", "https://open.spotify.com/track/2NfxtzCIrpCmJX5Z2KMdD5", "beach-house-thank-your.png" );
-INSERT INTO BBY_8_song (title, artist, personality, mood, album, youtubeLink, spotifyLink, filesrc)
     VALUES
     ('Space Song','Beach House','ENFJ','Stressed','Depression Cherry','https://www.youtube.com/watch?v=RBtlPT23PTM','https://open.spotify.com/track/7H0ya83CMmgFcOhw0UB6ow?si=58caf26bc2d64dc5','beach-house-depression-cherry.png'),
     ('Myth','Beach House','ENFJ','Stressed','Bloom','https://www.youtube.com/watch?v=FuvWc3ToDHg','https://open.spotify.com/track/2NfxtzCIrpCmJX5Z2KMdD5?si=6fd60bbfba264f3a','beach-house-myth.jpg'),
