@@ -651,6 +651,57 @@ app.post("/editReview", function(req, res){
   })
 });
 
+app.post("/getAllUserReviews", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+
+  connection.connect();
+  var sql = "SELECT u.userName, s.title, r.songID, r.review, r.dateOfReview FROM bby_8_user u, bby_8_song s, bby_8_review r WHERE u.ID = r.userID AND s.ID = r.songID AND u.ID = ?";
+  connection.query(sql, [userID], function (err, data, fields) {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send(data);
+  })
+});
+
+app.post("/deleteReview", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+  const songID = req.body.song;
+
+  connection.connect();
+  var sql = "DELETE FROM bby_8_review WHERE userID = ? AND songID = ?";
+  connection.query(sql, [userID, songID], function (err, data, fields) {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({status: "success"});
+  })
+});
+
 function authenticate(email, pwd, callback) {
   const mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({

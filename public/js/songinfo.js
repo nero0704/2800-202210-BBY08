@@ -97,8 +97,12 @@ ready(function() {
       let editReview = document.createElement("p");
       editReview.classList.add("material-symbols-outlined");
       editReview.innerHTML = "edit";
+      let deleteReview = document.createElement("p");
+      deleteReview.classList.add("material-symbols-outlined");
+      deleteReview.innerHTML = "delete";
 
       container.appendChild(editReview);
+      container.appendChild(deleteReview);
       container.appendChild(review);
 
       editReview.onclick = function(event){ // Display at the top of the reviews
@@ -142,6 +146,20 @@ ready(function() {
           event.preventDefault();
           location.reload();
         };
+      };
+
+      deleteReview.onclick = function(e){
+        e.preventDefault();
+        ajaxPOST("/deleteReview", function(data){
+          if (data) {
+            let Data = JSON.parse(data);
+            if (Data.status == "fail") {
+              document.getElementById("errorMsg").innerHTML = Data.msg;
+            } else {
+              location.reload();
+            }
+          }
+        }, "song=" + sessionStorage.getItem("song"));
       };
     }
   }, "song=" + sessionStorage.getItem("song"));
