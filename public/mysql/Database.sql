@@ -48,6 +48,15 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             FOREIGN KEY (userID) REFERENCES BBY_8_user(ID),
             FOREIGN KEY (songID) REFERENCES BBY_8_song(ID)
         );
+        CREATE TABLE IF NOT EXISTS BBY_8_review (
+            userID int NOT NULL,
+            songID int NOT NULL,
+            dateOfReview DATE,
+            review varchar(150),
+            PRIMARY KEY (userID, songID, dateOfReview),
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID),
+            FOREIGN KEY (songID) REFERENCES BBY_8_song(ID)
+        );
 INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc)
     VALUES ("John", "Smith", "JS@test.ca", "1234", 'A', "JohnCena420", "69", "INFJ", "default");
 INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc)
