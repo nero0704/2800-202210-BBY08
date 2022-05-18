@@ -704,7 +704,7 @@ app.post("/deleteReview", function(req, res){
   })
 });
 
-app.post("/newPost", function(req, res){
+app.post("/newPost", upload.array("files"), function(req, res){
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -719,9 +719,9 @@ app.post("/newPost", function(req, res){
   });
 
   const userID = req.session.number;
-  const dateOfPost = req.body.date;
-  const text = req.body.text;
-  const filesrc = "default";//Missing picture
+  const dateOfPost = req.body.body[1];
+  const text = req.body.body[0];
+  const filesrc = req.files[0] ? req.files[0].filename : "default";
 
   connection.connect();
   if (text.trim().length <= 0){
@@ -735,6 +735,10 @@ app.post("/newPost", function(req, res){
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "success" });
     })
+    connection.end();
+    for (let i = 0; i < req.files.length; i++) {
+      req.files[i].filename = req.files[i].originalname;
+    }
   }
 });
 
@@ -780,7 +784,7 @@ app.post("/editPost", function(req, res){
   const postID = req.body.postID;
   const dateOfPost = req.body.date;
   const text = req.body.text;
-  const filesrc = "default"; //Missing picture
+  let filesrc = req.body.filesrc;
 
   connection.connect();
   var sql = "UPDATE bby_8_post SET dateOfPost=?, post=?, filesrc=? WHERE ID=?";
