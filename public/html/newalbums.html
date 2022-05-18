@@ -14,6 +14,7 @@
   <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
   <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
   <link href="/css/main.css" rel="stylesheet" />
+  <link href="/css/newalbums.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -21,7 +22,7 @@
 
     <div id="topnav">
       <a id="top-logo" class="active" href="/">
-        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <img src="/img/AudioCave_Logo_Blue_Red.png" alt="">
         <h1>Audiocave</h1>
       </a>
 
@@ -75,11 +76,13 @@
       <a href="/logout">Logout</a>
       <br>
     </div>
-
-    <div id="new-albums">
-      
+    <div id="container">
+      <button id="refresh-page" onclick="window.location.reload()">Go Back</button>
+      <div id="new-albums">
+        <ul id="song-list"></ul>
+      </div>
     </div>
-
+    
     <div id="right-bar">
       <h1>Suggestions</h1>
       <div id="music-suggestion-container">

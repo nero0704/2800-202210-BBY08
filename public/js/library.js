@@ -49,18 +49,16 @@ ready(function () {
                 for (let i = 0; i < dataParsed.rows.length; i++) {
                     let row = dataParsed.rows[i];
                     console.log(row);
-                    str += ('<div class="library-song" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
-                        '" class="music-rec" style="width:100px;height:100px alt="' + row.ID +
-                        '">' +
-                        '<h1>' + row.title +
-                        '</h1><h3>' + row.artist +
-                        '</h3></div>'
-
-                    );
+                    str += ('<li class="song" id="' + row.ID +
+                        '"><img src="/img/songs/' + row.filesrc +
+                        '" class="music-rec" style="width:100px;height:100px" alt="' + row.ID +
+                        '"></img><h3>' + row.title +
+                        '</h3><p>' + row.artist +
+                        '</p></li>');
                 }
-                document.getElementById("library").innerHTML = str;
+                document.getElementById("song-list").innerHTML = str;
 
-                let records = document.querySelectorAll("div.library-song");
+                let records = document.querySelectorAll("li.song");
                 for (let j = 0; j < records.length; j++) {
                     records[j].addEventListener("click", function (e) {
                         e.preventDefault();

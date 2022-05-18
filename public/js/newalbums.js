@@ -49,17 +49,15 @@ ready(function () {
                     let str = "";
                     for (let i = 0; i < dataParsed.rows.length; i++) {
                         let row = dataParsed.rows[i];
-                        str += ('<div class="album-song" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
-                            '" class="music-rec" style="width:100px;height:100px alt="' + row.ID +
-                            '">' +
-                            '<h1>' + row.title +
-                            '</h1><h3>' + row.artist +
-                            '</h3></div>'
-
-                        );
+                        str += ('<li class="song" id="' + row.ID +
+                        '"><img src="/img/songs/' + row.filesrc +
+                        '" class="music-rec" style="width:200px;height:200px" alt="' + row.ID +
+                        '"></img><h3>' + row.title +
+                        '</h3><p>' + row.artist +
+                        '</p></li>');
                     }
-                    document.getElementById("new-albums").innerHTML = str;
-                    let records = document.querySelectorAll("div.album-song");
+                    document.getElementById("song-list").innerHTML = str;
+                    let records = document.querySelectorAll("li.song");
                     for (let j = 0; j < records.length; j++) {
                         records[j].addEventListener("click", function (e) {
                             e.preventDefault();
@@ -81,18 +79,16 @@ ready(function () {
                 let str = "";
                 for (let i = 0; i < dataParsed.rows.length; i++) {
                     let row = dataParsed.rows[i];
-                    str += ('<div class="album" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
-                        '" class="music-rec" style="width:100px;height:100px alt="' + row.ID +
-                        '">' +
-                        '<h1>' + row.title +
-                        '</h1><h3>' + row.artist +
-                        '</h3></div>'
-
-                    );
+                    str += ('<li class="album" id="' + row.ID +
+                    '"><img src="/img/songs/' + row.filesrc +
+                    '" class="music-rec" style="width:200px;height:200px" alt="' + row.ID +
+                    '"></img><h3>' + row.title +
+                    '</h3><p>' + row.artist +
+                    '</p></li>');
                 }
-                document.getElementById("new-albums").innerHTML = str;
+                document.getElementById("song-list").innerHTML = str;
 
-                let records = document.querySelectorAll("div.album");
+                let records = document.querySelectorAll("li.album");
                 for (let j = 0; j < records.length; j++) {
                     records[j].addEventListener("click", function(e) {
                         e.preventDefault();

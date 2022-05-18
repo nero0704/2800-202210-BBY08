@@ -610,7 +610,7 @@ app.post("/get-songs-in-album", function(req, res ){
 
 app.post("/get-all-songs", function(req, res ){
   connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_song LIMIT 25";
+    var sql = "SELECT * FROM bby_8_song";
     connection.query(sql, function(err, data, fields) {
       if (err) throw err;
         res.send({status: "success", rows: data});
