@@ -121,8 +121,17 @@
         </form>
       </div>
 
-      <p id="errorMsg"></p>
-      <div id="userReviews"></div>
+      <div id="Timeline">
+        <form id="postForm" action="/newPost" method="post">
+          <p>Make a new post!</p>
+          <p class="btn">Upload a Picture</p>
+          <input id="postText" type="text" placeholder="Write here...">
+          <input id="post" type="submit" value="Post">
+          <p id="errorMsg"></p>
+        </form>
+        <div id="userPosts"></div>
+        <div id="userReviews"></div>
+      </div>
     </div>
   </div>
 

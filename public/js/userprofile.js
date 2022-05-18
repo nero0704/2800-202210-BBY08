@@ -160,7 +160,115 @@ ready(function() {
     }
   }, "");
 
-});
+  //Make a New Post
+  document.getElementById("post").onclick = function(e){
+    e.preventDefault();
+    const queryString = "text=" + document.getElementById("postText").value
+      + "&date=" + (new Date()).toISOString();
+    ajaxPOST("/newPost", function(data){
+      if (data) {
+        let Data = JSON.parse(data);
+        if (Data.status == "fail") {
+          document.getElementById("errorMsg").innerHTML = Data.msg;
+        } else {
+          location.reload();
+        }
+      }
+    }, queryString);
+  };
+
+  //Display User's Posts
+  ajaxPOST("/displayPosts", function(data){
+    if (data) {
+      let Data = JSON.parse(data);
+      if (Data.status == "fail") {
+        document.getElementById("errorMsg").innerHTML = Data.msg;
+      } else {
+        const container = document.getElementById("userPosts");
+        while (data.indexOf("{") > 0) {
+          let startRecord = data.indexOf("{");
+          let endRecord = data.indexOf("}");
+          let record = data.substring(startRecord, endRecord + 1);
+          data = data.replace("{", "");
+          data = data.replace("}", "");
+          let dataParsed = JSON.parse(record);
+          let post = document.createElement("div");
+          post.classList.add("post");
+          post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost 
+            + ")</h5><p>" + dataParsed.post + "</p>";
+          let editPost = document.createElement("p");
+          editPost.classList.add("material-symbols-outlined");
+          editPost.innerHTML = "edit";
+          let deletePost = document.createElement("p");
+          deletePost.classList.add("material-symbols-outlined");
+          deletePost.innerHTML = "delete";
+
+          container.appendChild(post);
+          container.appendChild(editPost);
+          container.appendChild(deletePost);
+
+          editPost.onclick = function(event){ 
+            event.preventDefault();
+            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost 
+            + ")</h5>"; 
+            let input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "Write here...";
+            let confirm = document.createElement("p");
+            confirm.classList.add("material-symbols-outlined");
+            confirm.innerHTML = "done";
+            let cancel = document.createElement("p");
+            cancel.classList.add("material-symbols-outlined");
+            cancel.innerHTML = "close";
+            post.appendChild(input);
+            post.appendChild(confirm);
+            post.appendChild(cancel);
+            container.appendChild(post);
+    
+            //Submit New Post
+            confirm.onclick = function(event) {
+              event.preventDefault();
+              let queryString = "text=" + input.value 
+                + "&date=" + (new Date()).toISOString()
+                + "&postID=" + dataParsed.ID;
+              ajaxPOST("/editPost", function(data){
+                if (data) {
+                  let dataParsed = JSON.parse(data);
+                  if (dataParsed.status == "fail") {
+                    document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                  } else {
+                    location.reload();
+                  }
+                }
+              }, queryString);
+            };
+    
+            // Cancel Post Editing
+            cancel.onclick = function(event) {
+              event.preventDefault();
+              location.reload();
+            };
+          };
+
+          deletePost.onclick = function(e){
+            e.preventDefault();
+            ajaxPOST("/deletePost", function(data){
+              if (data) {
+                let Data = JSON.parse(data);
+                if (Data.status == "fail") {
+                  document.getElementById("errorMsg").innerHTML = Data.msg;
+                } else {
+                  location.reload();
+                }
+              }
+            }, "postID=" + dataParsed.ID);
+          }
+        }
+      }
+    }
+  }, "");
+
+}); //End of "ready" function
 
 function uploadImages(e) {
   e.preventDefault();

@@ -1,5 +1,6 @@
 "use strict";
 const { strict, fail } = require("assert");
+const { text } = require("express");
 const express = require("express");
 const session = require("express-session");
 const res = require("express/lib/response");
@@ -697,6 +698,118 @@ app.post("/deleteReview", function(req, res){
   connection.connect();
   var sql = "DELETE FROM bby_8_review WHERE userID = ? AND songID = ?";
   connection.query(sql, [userID, songID], function (err, data, fields) {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({status: "success"});
+  })
+});
+
+app.post("/newPost", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+  const dateOfPost = req.body.date;
+  const text = req.body.text;
+  const filesrc = "default";//Missing picture
+
+  connection.connect();
+  if (text.trim().length <= 0){
+    res.setHeader("Content-Type", "application/json");
+    res.send({status: "fail", msg: "Post can't be empty"});
+  } else {
+    var sql = "INSERT INTO BBY_8_post (userID, dateOfPost, post, filesrc) VALUES ('" 
+        + userID + "', '" + dateOfPost + "', '" + text + "', '" + filesrc + "')";
+    connection.query(sql, function (err, result) {
+      if (err) throw err;
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "success" });
+    })
+  }
+});
+
+app.post("/displayPosts", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const userID = req.session.number;
+
+  connection.connect();
+  var sql = "SELECT u.userName, p.* FROM bby_8_user u, bby_8_post p WHERE p.userID=? AND u.ID = p.userID";
+  connection.query(sql, [userID], function (err, data, fields) {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send(data);
+  })
+});
+
+app.post("/editPost", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const postID = req.body.postID;
+  const dateOfPost = req.body.date;
+  const text = req.body.text;
+  const filesrc = "default"; //Missing picture
+
+  connection.connect();
+  var sql = "UPDATE bby_8_post SET dateOfPost=?, post=?, filesrc=? WHERE ID=?";
+  connection.query(sql, [dateOfPost, text, filesrc, postID], function (err, data, fields) {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({status: "success"});
+  })
+});
+
+app.post("/deletePost", function(req, res){
+  var mysql = require("mysql2");
+  const connection = isHeroku ? mysql.createConnection({
+    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "xu76mlcd3o67jwnx",
+    password: "xhqasmzcj6v8di7m",
+    database: "zyt8w00z5yriluwj",
+  }) : mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+
+  const postID = req.body.postID;
+
+  connection.connect();
+  var sql = "DELETE FROM bby_8_post WHERE ID=?";
+  connection.query(sql, [postID], function (err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send({status: "success"});
