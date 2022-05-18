@@ -1,6 +1,5 @@
 "use strict";
-const upLoadForm = document.getElementById("upload-images-form");
-upLoadForm.addEventListener("submit", uploadImages);
+document.getElementById("submit").addEventListener("submit", uploadImages);
 
 ready(function() {
 
@@ -52,23 +51,45 @@ ready(function() {
 
   document.querySelector("#edit").addEventListener("click", function(e) {
     e.preventDefault();
-    let email = document.getElementById("email");
-    let password = document.getElementById("password");
-    let username = document.getElementById("username");
-    let age = document.getElementById("age");
+    let email = document.querySelector("#email input").value;
+    let password = document.querySelector("#password input").value;
+    let username = document.querySelector("#username input").value;
+    let age = document.querySelector("#age input").value;
 
-    let queryString = "email=" + email.value + "&password=" + password.value + "&username=" + username.value + "&age=" + age.value;
+    let emailH1 = "<h1>" + email + "</h1>";
+    let passwordH1 = "<h1>" + password + "</h1>";
+    let usernameH1 = "<h1>" + username + "</h1>";
+    let ageH1 = "<h1>" + age + "</h1>";
+
+    document.getElementById("email").innerHTML = emailH1;
+    document.getElementById("password").innerHTML = passwordH1;
+    document.getElementById("username").innerHTML = usernameH1;
+    document.getElementById("age").innerHTML = ageH1;
+
+    let queryString = "email=" + email + "&password=" + password + "&username=" + username + "&age=" + age;
     ajaxPOST("/updateprofile", function(data) {
 
       if (data) {
         let dataParsed = JSON.parse(data);
         window.location.replace("/userprofile");
       }
-
     }, queryString);
-
+    document.getElementById("edit").style = "display: none";
   });
 
+  document.querySelector("#edit-profile").addEventListener("click", (e) => {
+    e.preventDefault();
+    let emailInput = "<input id='email' type='email' value='" + document.querySelector("#email h1").innerHTML + "'>";
+    let passwordInput = "<input id='password' type='password' value='" + document.querySelector("#password h1").innerHTML + "'>";
+    let usernameInput = "<input id='username' type='username' value='" + document.querySelector("#username h1").innerHTML + "'>";
+    let ageInput = "<input id='age' type='age' value='" + document.querySelector("#age h1").innerHTML + "'>";
+
+    document.getElementById("email").innerHTML = emailInput;
+    document.getElementById("password").innerHTML = passwordInput;
+    document.getElementById("username").innerHTML = usernameInput;
+    document.getElementById("age").innerHTML = ageInput;
+    document.getElementById("edit").style = "display: block";
+  })
 });
 
 
@@ -89,7 +110,8 @@ function uploadImages(e) {
   fetch("/upload-images", options).then(function(res) {
     console.log(res);
   }).catch(function(err) {
-    ("Error:", err) });
+    ("Error:", err)
+  });
 }
 
 function ready(callback) {
