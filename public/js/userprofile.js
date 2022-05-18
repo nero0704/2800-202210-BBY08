@@ -229,7 +229,7 @@ ready(function() {
             confirm.onclick = function(event) {
               event.preventDefault();
               const image = document.getElementById("change-post-image");
-              const filesrc = image.value == "" ? "default" : image.value.replace("C:\\fakepath\\", "my-app-");
+              const filesrc = image.value == "" ? dataParsed.filesrc : image.value.replace("C:\\fakepath\\", "my-app-");
               let queryString = "text=" + input.value 
                 + "&date=" + (new Date()).toISOString()
                 + "&postID=" + dataParsed.ID
