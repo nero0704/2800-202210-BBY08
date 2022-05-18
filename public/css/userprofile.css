@@ -137,6 +137,10 @@ main #edit {
   display: none;
 }
 
+#userReviews, #errorMsg{
+  background-color: #0D1821;
+}
+
 @media screen and (max-width: 1200px) {
   #general-container {
     display: grid;

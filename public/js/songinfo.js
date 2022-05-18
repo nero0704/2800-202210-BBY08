@@ -67,6 +67,125 @@ ready(function() {
     }
   }, queryString)
 
+  // Submit reviews
+  document.getElementById("submitReview").addEventListener("click", function(e){
+    e.preventDefault();
+    let queryString = "review=" + document.getElementById("review").value 
+      + "&song=" + sessionStorage.getItem("song")
+      + "&date=" + (new Date()).toISOString();
+    ajaxPOST("/reviewSong", function(data){
+      let dataParsed = JSON.parse(data);
+      if (dataParsed.status == "fail") {
+        document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+      } else {
+        location.reload();
+      }
+    }, queryString);
+  });
+
+  // Display this user's review
+  ajaxPOST("/displayUserReview", function(data){
+    let dataParsed = JSON.parse(data);
+    if (dataParsed.status == "fail") {
+      //document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+    } else {
+      console.log(dataParsed);
+      const container = document.getElementById("userReview");
+      let review = document.createElement("div");
+      review.classList.add("review");
+      review.innerHTML = "<h5>" + dataParsed.userName + "'s Review</h5><p>" + dataParsed.review + "</p>";
+      let editReview = document.createElement("p");
+      editReview.classList.add("material-symbols-outlined");
+      editReview.innerHTML = "edit";
+      let deleteReview = document.createElement("p");
+      deleteReview.classList.add("material-symbols-outlined");
+      deleteReview.innerHTML = "delete";
+
+      container.appendChild(editReview);
+      container.appendChild(deleteReview);
+      container.appendChild(review);
+
+      editReview.onclick = function(event){ // Display at the top of the reviews
+        event.preventDefault();
+        review.innerHTML = "<h5>" + dataParsed.userName + "'s Review</h5>"; 
+        let input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Write your review here...";
+        let confirm = document.createElement("p");
+        confirm.classList.add("material-symbols-outlined");
+        confirm.innerHTML = "done";
+        let cancel = document.createElement("p");
+        cancel.classList.add("material-symbols-outlined");
+        cancel.innerHTML = "close";
+        review.appendChild(input);
+        review.appendChild(confirm);
+        review.appendChild(cancel);
+        container.innerHTML = "";
+        container.appendChild(review);
+
+        //Submit New Review
+        confirm.onclick = function(event) {
+          event.preventDefault();
+          let queryString = "review=" + input.value 
+            + "&song=" + sessionStorage.getItem("song")
+            + "&date=" + (new Date()).toISOString();
+          ajaxPOST("/editReview", function(data){
+            if (data) {
+              let dataParsed = JSON.parse(data);
+              if (dataParsed.status == "fail") {
+                document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+              } else {
+                location.reload();
+              }
+            }
+          }, queryString);
+        };
+
+        // Cancel Review Editing
+        cancel.onclick = function(event) {
+          event.preventDefault();
+          location.reload();
+        };
+      };
+
+      deleteReview.onclick = function(e){
+        e.preventDefault();
+        ajaxPOST("/deleteReview", function(data){
+          if (data) {
+            let Data = JSON.parse(data);
+            if (Data.status == "fail") {
+              document.getElementById("errorMsg").innerHTML = Data.msg;
+            } else {
+              location.reload();
+            }
+          }
+        }, "song=" + sessionStorage.getItem("song"));
+      };
+    }
+  }, "song=" + sessionStorage.getItem("song"));
+
+  // Display rest of reviews
+  ajaxPOST("/displayOtherReviews", function(data){
+    let dataParsed = JSON.parse(data);
+    if (dataParsed.status == "fail") {
+      //document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+    } else {
+      while (data.indexOf("{") > 0) {
+        let container = document.getElementById("otherReviews");
+        let startRecord = data.indexOf("{");
+        let endRecord = data.indexOf("}");
+        let record = data.substring(startRecord, endRecord + 1);
+        data = data.replace("{", "");
+        data = data.replace("}", "");
+        let dataParsed = JSON.parse(record);
+        let review = document.createElement("div");
+        review.classList.add("review");
+        review.innerHTML = "<h5>" + dataParsed.userName + "'s Review</h5><p>" + dataParsed.review + "</p>";
+        container.appendChild(review);
+      }
+    }
+  }, "song=" + sessionStorage.getItem("song"));
+
 });
 
 function ready(callback) {
