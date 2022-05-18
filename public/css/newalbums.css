@@ -1,0 +1,35 @@
+#container {
+    width: 100%;
+    height: 100%;
+}
+
+#new-albums {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+#song-list {
+    padding-inline-start: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 30px;
+    width: 90%;
+
+}
+
+.song h3 {
+    color: black;
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+.song p {
+    color: black;
+    word-wrap: break-word;
+    font-size: 12px;
+}
