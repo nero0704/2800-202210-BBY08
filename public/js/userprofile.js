@@ -1,5 +1,7 @@
 "use strict";
 document.getElementById("submit").addEventListener("submit", uploadImages);
+const upLoadPostForm = document.getElementById("upload-images-post-form");
+upLoadPostForm.addEventListener("submit", uploadPostImages);
 
 ready(function() {
 
@@ -106,8 +108,11 @@ ready(function() {
           let dataParsed = JSON.parse(record);
           let review = document.createElement("div");
           review.classList.add("review");
-          review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview +
-            ")</h5><p>" + dataParsed.review + "</p>";
+          const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
+          const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
+          review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview 
+            + ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
+            +"<p>" + dataParsed.review + "</p>";
           let editReview = document.createElement("p");
           editReview.classList.add("material-symbols-outlined");
           editReview.innerHTML = "edit";
@@ -121,11 +126,14 @@ ready(function() {
 
           editReview.onclick = function(event) { // Display at the top of the reviews
             event.preventDefault();
-            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview +
-              ")</h5>";
+            const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
+            const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
+            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview 
+            + ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
             let input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Write your review here...";
+            input.value = dataParsed.review;
             let confirm = document.createElement("p");
             confirm.classList.add("material-symbols-outlined");
             confirm.innerHTML = "done";
@@ -181,7 +189,110 @@ ready(function() {
     }
   }, "");
 
-});
+  //Display User's Posts
+  ajaxPOST("/displayPosts", function(data){
+    if (data) {
+      let Data = JSON.parse(data);
+      if (Data.status == "fail") {
+        document.getElementById("errorMsg").innerHTML = Data.msg;
+      } else {
+        const container = document.getElementById("userPosts");
+        while (data.indexOf("{") > 0) {
+          let startRecord = data.indexOf("{");
+          let endRecord = data.indexOf("}");
+          let record = data.substring(startRecord, endRecord + 1);
+          data = data.replace("{", "");
+          data = data.replace("}", "");
+          let dataParsed = JSON.parse(record);
+          let post = document.createElement("div");
+          post.classList.add("post");
+          const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
+          const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
+          post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost 
+            + ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'><p>" 
+            + dataParsed.post + "</p>";
+          let editPost = document.createElement("p");
+          editPost.classList.add("material-symbols-outlined");
+          editPost.innerHTML = "edit";
+          let deletePost = document.createElement("p");
+          deletePost.classList.add("material-symbols-outlined");
+          deletePost.innerHTML = "delete";
+
+          container.appendChild(post);
+          container.appendChild(editPost);
+          container.appendChild(deletePost);
+
+          editPost.onclick = function(event){ 
+            event.preventDefault();
+            const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
+            const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
+            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost 
+            + ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'>"
+            + "<div class='upload-btn-wrapper'><label><input id='change-post-image' type='file' accept='image/png, image/gif, image/jpeg' multiple='multiple'/>"
+            + "<p class='btn'>Change Picture</p></label></div>";
+            let input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "Write here...";
+            input.value = dataParsed.post;
+            let confirm = document.createElement("p");
+            confirm.classList.add("material-symbols-outlined");
+            confirm.innerHTML = "done";
+            let cancel = document.createElement("p");
+            cancel.classList.add("material-symbols-outlined");
+            cancel.innerHTML = "close";
+            post.appendChild(input);
+            post.appendChild(confirm);
+            post.appendChild(cancel);
+            container.innerHTML = "";
+            container.appendChild(post);
+    
+            //Submit New Post
+            confirm.onclick = function(event) {
+              event.preventDefault();
+              const image = document.getElementById("change-post-image");
+              const filesrc = image.value == "" ? dataParsed.filesrc : image.value.replace("C:\\fakepath\\", "my-app-");
+              let queryString = "text=" + input.value 
+                + "&date=" + (new Date()).toISOString()
+                + "&postID=" + dataParsed.ID
+                + "&filesrc=" + filesrc;
+              ajaxPOST("/editPost", function(data){
+                if (data) {
+                  let dataParsed = JSON.parse(data);
+                  if (dataParsed.status == "fail") {
+                    document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                  } else {
+                    location.reload();
+                  }
+                }
+              }, queryString);
+            };
+    
+            // Cancel Post Editing
+            cancel.onclick = function(event) {
+              event.preventDefault();
+              location.reload();
+            };
+          };
+
+          deletePost.onclick = function(e){
+            e.preventDefault();
+            ajaxPOST("/deletePost", function(data){
+              if (data) {
+                let Data = JSON.parse(data);
+                if (Data.status == "fail") {
+                  document.getElementById("errorMsg").innerHTML = Data.msg;
+                } else {
+                  location.reload();
+                }
+              }
+            }, "postID=" + dataParsed.ID);
+          }
+        }
+      }
+    }
+  }, "");
+
+}); //End of "ready" function
 
 function uploadImages(e) {
   e.preventDefault();
@@ -198,6 +309,29 @@ function uploadImages(e) {
   };
   fetch("/upload-images", options).then(function(res) {
     console.log(res);
+    location.reload();
+  }).catch(function(err) {
+    ("Error:", err) });
+}
+
+function uploadPostImages(e) {
+  e.preventDefault();
+  const postImageUpload = document.getElementById("post-image-upload");
+  const postFormData = new FormData();
+
+  for (let i = 0; i < postImageUpload.files.length; i++) {
+    // put the images from the input into the form data
+    postFormData.append("files", postImageUpload.files[i]);
+  }
+  postFormData.append("body", document.getElementById("postText").value);
+  postFormData.append("body", (new Date()).toISOString());
+  const postOptions = {
+    method: 'POST',
+    body: postFormData,
+  };
+  fetch("/newPost", postOptions).then(function(res) {
+    console.log(res);
+    location.reload();
   }).catch(function(err) {
     ("Error:", err)
   });
@@ -213,6 +347,15 @@ function ready(callback) {
   }
 }
 
+function ready(callback) {
+  if (document.readyState != "loading") {
+    callback();
+    console.log("ready state is 'complete'");
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
+    console.log("Listener was invoked");
+  }
+}
 
 function hamburger() {
   var x = document.getElementById("top-menu");
