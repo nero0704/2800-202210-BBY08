@@ -87,8 +87,11 @@ ready(function() {
           let dataParsed = JSON.parse(record);
           let review = document.createElement("div");
           review.classList.add("review");
+          const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
+          const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
           review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview 
-            + ")</h5><p>" + dataParsed.review + "</p>";
+            + ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
+            +"<p>" + dataParsed.review + "</p>";
           let editReview = document.createElement("p");
           editReview.classList.add("material-symbols-outlined");
           editReview.innerHTML = "edit";
@@ -102,8 +105,10 @@ ready(function() {
 
           editReview.onclick = function(event){ // Display at the top of the reviews
             event.preventDefault();
+            const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
+            const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
             review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview 
-            + ")</h5>"; 
+            + ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
             let input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Write your review here...";
@@ -162,23 +167,6 @@ ready(function() {
       }
     }
   }, "");
-
-  //Make a New Post
-  /*document.getElementById("post").onclick = function(e){
-    e.preventDefault();
-    const queryString = "text=" + document.getElementById("postText").value
-      + "&date=" + (new Date()).toISOString();
-    ajaxPOST("/newPost", function(data){
-      if (data) {
-        let Data = JSON.parse(data);
-        if (Data.status == "fail") {
-          document.getElementById("errorMsg").innerHTML = Data.msg;
-        } else {
-          location.reload();
-        }
-      }
-    }, queryString);
-  };*/
 
   //Display User's Posts
   ajaxPOST("/displayPosts", function(data){

@@ -670,7 +670,7 @@ app.post("/getAllUserReviews", function(req, res){
   const userID = req.session.number;
 
   connection.connect();
-  var sql = "SELECT u.userName, s.title, r.songID, r.review, r.dateOfReview FROM bby_8_user u, bby_8_song s, bby_8_review r WHERE u.ID = r.userID AND s.ID = r.songID AND u.ID = ?";
+  var sql = "SELECT u.userName, s.title, s.filesrc, r.songID, r.review, r.dateOfReview FROM bby_8_user u, bby_8_song s, bby_8_review r WHERE u.ID = r.userID AND s.ID = r.songID AND u.ID = ?";
   connection.query(sql, [userID], function (err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
