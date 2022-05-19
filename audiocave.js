@@ -208,6 +208,18 @@ app.get("/search", function (req, res) {
   }
 });
 
+app.get("/chat", function (req, res) {
+  if (req.session.loggedIn) {
+    let main = fs.readFileSync("./public/html/chat.html", "utf8");
+    let mainDOM = new JSDOM(main);
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(mainDOM.serialize());
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
