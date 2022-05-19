@@ -133,10 +133,10 @@ app.get("/userprofile", function(req, res) {
           var profilePicture = "/upload/" + results[0].filesrc;
           mainDOM.window.document.getElementById("profile-picture").querySelector("img").setAttribute("src", profilePicture);
         }
-        mainDOM.window.document.querySelector("#username h1").innerHTML = username;
-        mainDOM.window.document.querySelector("#email h1").innerHTML = email;
-        mainDOM.window.document.querySelector("#password h1").innerHTML = password;
-        mainDOM.window.document.querySelector("#age h1").innerHTML = age;
+        mainDOM.window.document.querySelector("#username .fill").innerHTML = username;
+        mainDOM.window.document.querySelector("#email .fill").innerHTML = email;
+        mainDOM.window.document.querySelector("#password .fill").innerHTML = password;
+        mainDOM.window.document.querySelector("#age .fill").innerHTML = age;
 
         res.set("Server", "Wazubi Engine");
         res.set("X-Powered-By", "Wazubi");
@@ -172,7 +172,7 @@ app.get("/survey", function(req, res) {
   }
 });
 
-app.get("/library", function (req, res) {
+app.get("/library", function(req, res) {
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/library.html", "utf8");
     let mainDOM = new JSDOM(main);
@@ -184,7 +184,7 @@ app.get("/library", function (req, res) {
   }
 });
 
-app.get("/new", function (req, res) {
+app.get("/new", function(req, res) {
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/newalbums.html", "utf8");
     let mainDOM = new JSDOM(main);
@@ -196,7 +196,7 @@ app.get("/new", function (req, res) {
   }
 });
 
-app.get("/search", function (req, res) {
+app.get("/search", function(req, res) {
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/search.html", "utf8");
     let mainDOM = new JSDOM(main);
@@ -715,7 +715,7 @@ app.post("/getAllUserReviews", function(req, res) {
 
   connection.connect();
   var sql = "SELECT u.userName, s.title, s.filesrc, r.songID, r.review, r.dateOfReview FROM bby_8_user u, bby_8_song s, bby_8_review r WHERE u.ID = r.userID AND s.ID = r.songID AND u.ID = ? order by r.dateOfReview DESC";
-  connection.query(sql, [userID], function (err, data, fields) {
+  connection.query(sql, [userID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send(data);
@@ -748,74 +748,74 @@ app.post("/deleteReview", function(req, res) {
   })
 });
 
-app.post("/add-to-library", function(req, res ){
+app.post("/add-to-library", function(req, res) {
   connection.connect(function(err) {
     var sql = "INSERT INTO bby_8_library (userID, songID) VALUES ('" + req.session.number + "', '" + req.body.songID + "')";
     connection.query(sql, function(err, data, fields) {
       if (err) throw err;
-        res.send({status: "success"});
+      res.send({ status: "success" });
     })
   })
 });
 
-app.post("/check-if-in-library", function(req, res ){
+app.post("/check-if-in-library", function(req, res) {
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_library WHERE userID = ? AND songID = ?";
-    connection.query(sql,[req.session.number, req.body.songID] , function(err, data, fields) {
+    connection.query(sql, [req.session.number, req.body.songID], function(err, data, fields) {
       if (data.length > 0) {
-        res.send({status: "success"});
+        res.send({ status: "success" });
       } else {
-        res.send({status: "fail"});
+        res.send({ status: "fail" });
       }
     })
   })
 });
 
-app.post("/get-songs-in-library", function(req, res ){
+app.post("/get-songs-in-library", function(req, res) {
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_library INNER JOIN bby_8_song ON bby_8_library.songID = bby_8_song.ID WHERE bby_8_library.userID = ?";
     connection.query(sql, req.session.number, function(err, data, fields) {
       if (data.length > 0) {
-        res.send({status: "success", rows: data})
+        res.send({ status: "success", rows: data })
       }
     })
   })
 });
 
-app.post("/get-new-albums", function(req, res ){
+app.post("/get-new-albums", function(req, res) {
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_album ORDER BY dateOfRelease DESC LIMIT 5";
     connection.query(sql, req.session.number, function(err, data, fields) {
       if (data.length > 0) {
-        res.send({status: "success", rows: data})
+        res.send({ status: "success", rows: data })
       }
     })
   })
 });
 
-app.post("/get-songs-in-album", function(req, res ){
+app.post("/get-songs-in-album", function(req, res) {
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_song WHERE album IN (SELECT title FROM bby_8_album WHERE ID = ?)";
     connection.query(sql, req.body.albumID, function(err, data, fields) {
       if (data.length > 0) {
         console.log(data);
-        res.send({status: "success", rows: data})
+        res.send({ status: "success", rows: data })
       }
     })
   })
 });
 
-app.post("/get-all-songs", function(req, res ){
+app.post("/get-all-songs", function(req, res) {
   connection.connect(function(err) {
     var sql = "SELECT * FROM bby_8_song";
     connection.query(sql, function(err, data, fields) {
       if (err) throw err;
-        res.send({status: "success", rows: data});
+      res.send({ status: "success", rows: data });
     })
   })
 });
 
-app.post("/newPost", upload.array("files"), function(req, res){
+app.post("/newPost", upload.array("files"), function(req, res) {
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -835,13 +835,13 @@ app.post("/newPost", upload.array("files"), function(req, res){
   const filesrc = req.files[0] ? req.files[0].filename : "default";
 
   connection.connect();
-  if (text.trim().length <= 0){
+  if (text.trim().length <= 0) {
     res.setHeader("Content-Type", "application/json");
-    res.send({status: "fail", msg: "Post can't be empty"});
+    res.send({ status: "fail", msg: "Post can't be empty" });
   } else {
-    var sql = "INSERT INTO BBY_8_post (userID, dateOfPost, post, filesrc) VALUES ('" 
-        + userID + "', '" + dateOfPost + "', '" + text + "', '" + filesrc + "')";
-    connection.query(sql, function (err, result) {
+    var sql = "INSERT INTO BBY_8_post (userID, dateOfPost, post, filesrc) VALUES ('" +
+      userID + "', '" + dateOfPost + "', '" + text + "', '" + filesrc + "')";
+    connection.query(sql, function(err, result) {
       if (err) throw err;
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "success" });
@@ -853,7 +853,7 @@ app.post("/newPost", upload.array("files"), function(req, res){
   }
 });
 
-app.post("/displayPosts", function(req, res){
+app.post("/displayPosts", function(req, res) {
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -871,14 +871,14 @@ app.post("/displayPosts", function(req, res){
 
   connection.connect();
   var sql = "SELECT u.userName, p.* FROM bby_8_user u, bby_8_post p WHERE p.userID=? AND u.ID = p.userID order by p.dateOfPost DESC";
-  connection.query(sql, [userID], function (err, data, fields) {
+  connection.query(sql, [userID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send(data);
   })
 });
 
-app.post("/editPost", function(req, res){
+app.post("/editPost", function(req, res) {
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -899,14 +899,14 @@ app.post("/editPost", function(req, res){
 
   connection.connect();
   var sql = "UPDATE bby_8_post SET dateOfPost=?, post=?, filesrc=? WHERE ID=?";
-  connection.query(sql, [dateOfPost, text, filesrc, postID], function (err, data, fields) {
+  connection.query(sql, [dateOfPost, text, filesrc, postID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
-    res.send({status: "success"});
+    res.send({ status: "success" });
   })
 });
 
-app.post("/deletePost", function(req, res){
+app.post("/deletePost", function(req, res) {
   var mysql = require("mysql2");
   const connection = isHeroku ? mysql.createConnection({
     host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -924,10 +924,10 @@ app.post("/deletePost", function(req, res){
 
   connection.connect();
   var sql = "DELETE FROM bby_8_post WHERE ID=?";
-  connection.query(sql, [postID], function (err, data, fields) {
+  connection.query(sql, [postID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
-    res.send({status: "success"});
+    res.send({ status: "success" });
   })
 });
 

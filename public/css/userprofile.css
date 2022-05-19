@@ -90,13 +90,10 @@ main #profile {
   grid-template-columns: 30% 70%;
 }
 
-main #profile h1 {
-  color: #0D1821;
-}
-
 main #profile #profile-picture {
   display: grid;
   justify-items: center;
+  row-gap: 15px;
 }
 
 main #profile #profile-picture img {
@@ -106,24 +103,16 @@ main #profile #profile-picture img {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-main #profile #profile-picture input {
-  width: 50%;
-  border: 3px solid #ff575a;
-  border-radius: 40px;
-  font-size: 17pt;
-  background: #ff575a;
-}
-
 main #profile #profile-picture #image-upload {
   display: none;
 }
 
 main #profile #profile-picture .image-upload-wrapper {
-  display: inline-block;
-  width: 50%;
+  display: none;
+  width: 70%;
   border: 3px solid #ff575a;
   border-radius: 40px;
-  font-size: 13pt;
+  font-size: 15pt;
   text-align: center;
   cursor: pointer;
   background: #ff575a;
@@ -133,11 +122,55 @@ main #profile #profile-picture .image-upload-wrapper p {
   margin: 3px;
 }
 
+main #profile #profile-picture .image-upload-wrapper:hover {
+  background-color: #0D1821;
+}
+
+main #profile #username {
+  display: grid;
+  align-content: start;
+  row-gap: 5px;
+  padding: 15px 0;
+}
+
+main #profile #username h4 {
+  margin: 0;
+  color: #0D1821;
+}
+
+main #profile #username h1 {
+  margin: 0;
+  color: #0D1821;
+  font-weight: 800;
+  font-size: 35pt;
+}
+
+main #information {
+  display: grid;
+  width: 70%;
+  align-self: start;
+  row-gap: 20px;
+}
+
+main #information h1 {
+  margin: 0;
+  color: #0D1821;
+}
+
+main #information h4 {
+  margin: 0;
+  color: #0D1821;
+}
+
 main #edit {
   display: none;
 }
 
-#Timeline{
+main #cancel {
+  display: none;
+}
+
+#Timeline {
   background-color: #0D1821;
 }
 

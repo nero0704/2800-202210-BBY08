@@ -57,16 +57,6 @@ ready(function() {
     let username = document.querySelector("#username input").value;
     let age = document.querySelector("#age input").value;
 
-    let emailH1 = "<h1>" + email + "</h1>";
-    let passwordH1 = "<h1>" + password + "</h1>";
-    let usernameH1 = "<h1>" + username + "</h1>";
-    let ageH1 = "<h1>" + age + "</h1>";
-
-    document.getElementById("email").innerHTML = emailH1;
-    document.getElementById("password").innerHTML = passwordH1;
-    document.getElementById("username").innerHTML = usernameH1;
-    document.getElementById("age").innerHTML = ageH1;
-
     let queryString = "email=" + email + "&password=" + password + "&username=" + username + "&age=" + age;
     ajaxPOST("/updateprofile", function(data) {
 
@@ -75,7 +65,8 @@ ready(function() {
         window.location.replace("/userprofile");
       }
     }, queryString);
-    document.getElementById("edit").style = "display: none";
+    uploadImages(e);
+    uploadPostImages(e);
   });
 
   document.querySelector("#edit-profile").addEventListener("click", (e) => {
@@ -84,12 +75,18 @@ ready(function() {
     let passwordInput = "<input id='password' type='password' value='" + document.querySelector("#password h1").innerHTML + "'>";
     let usernameInput = "<input id='username' type='username' value='" + document.querySelector("#username h1").innerHTML + "'>";
     let ageInput = "<input id='age' type='age' value='" + document.querySelector("#age h1").innerHTML + "'>";
-
+    document.getElementById("cancel").addEventListener("click", () => {
+      window.location.replace("/userprofile");
+    })
     document.getElementById("email").innerHTML = emailInput;
     document.getElementById("password").innerHTML = passwordInput;
     document.getElementById("username").innerHTML = usernameInput;
     document.getElementById("age").innerHTML = ageInput;
-    document.getElementById("edit").style = "display: block";
+    document.getElementById("cancel").style = "display: block;";
+    document.getElementById("edit").style = "display: block;";
+    document.getElementById("edit-profile").style = "display: none;";
+    document.querySelector("#profile-picture .image-upload-wrapper").style = "display: grid; align-items: center;"
+
   })
   ajaxPOST("/getAllUserReviews", function(data) {
     if (data) {
@@ -109,9 +106,9 @@ ready(function() {
           review.classList.add("review");
           const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
           const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-          review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview 
-            + ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
-            +"<p>" + dataParsed.review + "</p>";
+          review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview +
+            ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>" +
+            "<p>" + dataParsed.review + "</p>";
           let editReview = document.createElement("p");
           editReview.classList.add("material-symbols-outlined");
           editReview.innerHTML = "edit";
@@ -127,8 +124,8 @@ ready(function() {
             event.preventDefault();
             const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
             const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview 
-            + ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
+            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview +
+              ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
             let input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Write your review here...";
@@ -189,7 +186,7 @@ ready(function() {
   }, "");
 
   //Display User's Posts
-  ajaxPOST("/displayPosts", function(data){
+  ajaxPOST("/displayPosts", function(data) {
     if (data) {
       let Data = JSON.parse(data);
       if (Data.status == "fail") {
@@ -207,9 +204,9 @@ ready(function() {
           post.classList.add("post");
           const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
           const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-          post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost 
-            + ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'><p>" 
-            + dataParsed.post + "</p>";
+          post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost +
+            ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'><p>" +
+            dataParsed.post + "</p>";
           let editPost = document.createElement("p");
           editPost.classList.add("material-symbols-outlined");
           editPost.innerHTML = "edit";
@@ -221,14 +218,14 @@ ready(function() {
           container.appendChild(editPost);
           container.appendChild(deletePost);
 
-          editPost.onclick = function(event){ 
+          editPost.onclick = function(event) {
             event.preventDefault();
             const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
             const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost 
-            + ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'>"
-            + "<div class='upload-btn-wrapper'><label><input id='change-post-image' type='file' accept='image/png, image/gif, image/jpeg' multiple='multiple'/>"
-            + "<p class='btn'>Change Picture</p></label></div>";
+            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost +
+              ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'>" +
+              "<div class='upload-btn-wrapper'><label><input id='change-post-image' type='file' accept='image/png, image/gif, image/jpeg' multiple='multiple'/>" +
+              "<p class='btn'>Change Picture</p></label></div>";
             let input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Write here...";
@@ -244,17 +241,17 @@ ready(function() {
             post.appendChild(cancel);
             container.innerHTML = "";
             container.appendChild(post);
-    
+
             //Submit New Post
             confirm.onclick = function(event) {
               event.preventDefault();
               const image = document.getElementById("change-post-image");
               const filesrc = image.value == "" ? dataParsed.filesrc : image.value.replace("C:\\fakepath\\", "my-app-");
-              let queryString = "text=" + input.value 
-                + "&date=" + (new Date()).toISOString()
-                + "&postID=" + dataParsed.ID
-                + "&filesrc=" + filesrc;
-              ajaxPOST("/editPost", function(data){
+              let queryString = "text=" + input.value +
+                "&date=" + (new Date()).toISOString() +
+                "&postID=" + dataParsed.ID +
+                "&filesrc=" + filesrc;
+              ajaxPOST("/editPost", function(data) {
                 if (data) {
                   let dataParsed = JSON.parse(data);
                   if (dataParsed.status == "fail") {
@@ -265,7 +262,7 @@ ready(function() {
                 }
               }, queryString);
             };
-    
+
             // Cancel Post Editing
             cancel.onclick = function(event) {
               event.preventDefault();
@@ -273,9 +270,9 @@ ready(function() {
             };
           };
 
-          deletePost.onclick = function(e){
+          deletePost.onclick = function(e) {
             e.preventDefault();
-            ajaxPOST("/deletePost", function(data){
+            ajaxPOST("/deletePost", function(data) {
               if (data) {
                 let Data = JSON.parse(data);
                 if (Data.status == "fail") {
@@ -310,7 +307,8 @@ function uploadImages(e) {
     console.log(res);
     location.reload();
   }).catch(function(err) {
-    ("Error:", err) });
+    ("Error:", err)
+  });
 }
 
 function uploadPostImages(e) {
