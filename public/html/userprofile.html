@@ -115,23 +115,14 @@
       <div id="Timeline">
         <div id="postForm">
           <p>Make a new post!</p>
-          <form class="info" id="upload-images-post-form">
-            <div>
-              <div class="upload-btn-wrapper">
-                <label>
-                  <input id="post-image-upload" type="file" accept="image/png, image/gif, image/jpeg" multiple="multiple" />
-                  <p class="btn">Upload a Picture</p>
-                </label>
-                <input id="postText" type="text" placeholder="Write here...">
-                <input id="post" type="submit" value="Post">
-              </div>
-            </div>
-          </form>
-          <form action="/newPost" method="post">
-            
-          </form>
+          <label>
+            <input id="post-image-upload" type="file" accept="image/png, image/gif, image/jpeg" multiple="multiple" />
+            <p class="btn">Upload a Picture</p>
+          </label>
+          <input id="postText" type="text" placeholder="Write here...">
+          <input id="post" type="submit" value="Post">
         </div>
-          <p id="errorMsg"></p>
+        <p id="errorMsg"></p>
         <div id="userPosts"></div>
         <div id="userReviews"></div>
       </div>

@@ -1,7 +1,6 @@
 "use strict";
 document.getElementById("submit").addEventListener("submit", uploadImages);
-const upLoadPostForm = document.getElementById("upload-images-post-form");
-upLoadPostForm.addEventListener("submit", uploadPostImages);
+document.getElementById("post").addEventListener("click", uploadPostImages);
 
 ready(function() {
 
