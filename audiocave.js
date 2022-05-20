@@ -24,16 +24,18 @@ app.use(express.urlencoded({ extended: true }));
 const isHeroku = process.env.IS_HEROKU || false;
 
 const mysql = require("mysql2");
-const connection = isHeroku ? mysql.createConnection({
+const connection = isHeroku ? mysql.createPool({
+  connectionLimit : 100,
   host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
   user: "xu76mlcd3o67jwnx",
   password: "xhqasmzcj6v8di7m",
   database: "zyt8w00z5yriluwj",
-}) : mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "comp2800",
+}) : mysql.createPool({
+  connectionLimit : 100,
+  host     : "localhost",
+  user     : "root",
+  password : "",
+  database : "comp2800",
 });
 
 const storage = multer.diskStorage({
@@ -109,19 +111,6 @@ app.get("/userprofile", function(req, res) {
   if (req.session.loggedIn) {
     let main = fs.readFileSync("./public/html/userprofile.html", "utf8");
     let mainDOM = new JSDOM(main);
-    const mysql = require("mysql2");
-    const connection = isHeroku ? mysql.createConnection({
-      host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-      user: "xu76mlcd3o67jwnx",
-      password: "xhqasmzcj6v8di7m",
-      database: "zyt8w00z5yriluwj",
-    }) : mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "comp2800",
-    });
-    connection.connect();
     connection.query(
       "SELECT * FROM BBY_8_user WHERE ID = ?", [req.session.number],
       function(error, results) {
@@ -142,7 +131,7 @@ app.get("/userprofile", function(req, res) {
         res.set("X-Powered-By", "Wazubi");
         res.send(mainDOM.serialize());
       }
-    )
+    );
   } else {
     res.redirect("/");
   }
@@ -243,18 +232,7 @@ app.post("/login", function(req, res) {
 });
 
 app.post("/signup", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
+  
   var fname = req.body.fname;
   var lname = req.body.lname;
   var email = req.body.email;
@@ -264,57 +242,41 @@ app.post("/signup", function(req, res) {
   var age = req.body.age;
   var filesrc = "default";
 
-  connection.connect(function(err) {
+  var sql = "SELECT * FROM BBY_8_user WHERE email =?";
+  connection.query(sql, email, function(err, data, fields) {
     if (err) throw err;
-    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
-    connection.query(sql, email, function(err, data, fields) {
-      if (err) throw err;
-      if (data.length > 1) {
+    if (data.length > 1) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "fail", msg: "Email already exists." });
+    } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
+      password.trim().length <= 0 || username.trim().length <= 0 || mbti.trim().length <= 0 || age.trim().length <= 0) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "fail", msg: "Missing Information." });
+    } else {
+      var sql =
+        "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES (?, ?, ?, ?, 'R', ?, ?, ?, ?)";
+      connection.query(sql, [fname, lname, email, password, username, age, mbti, filesrc], function(err, result) {
+        if (err) throw err;
         res.setHeader("Content-Type", "application/json");
-        res.send({ status: "fail", msg: "Email already exists." });
-      } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
-        password.trim().length <= 0 || username.trim().length <= 0 || mbti.trim().length <= 0 || age.trim().length <= 0) {
-        res.setHeader("Content-Type", "application/json");
-        res.send({ status: "fail", msg: "Missing Information." });
-      } else {
-        var sql =
-          "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES (?, ?, ?, ?, 'R', ?, ?, ?, ?)";
-        connection.query(sql, [fname, lname, email, password, username, age, mbti, filesrc], function(err, result) {
-          if (err) throw err;
-          res.setHeader("Content-Type", "application/json");
-          res.send({ status: "success" });
-        });
-      }
-    });
+        res.send({ status: "success" });
+      });
+    }
   });
 });
 
 app.post("/updateprofile", function(req, res) {
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-  connection.connect(function(err) {
-    if (err) throw err;
-    connection.query(
-      "UPDATE BBY_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?", [req.body.email, req.body.password, req.body.username, req.body.age, req.session.number],
-      function(error, results, fields) {
-        if (error) {
-          throw error;
-        }
-        res.setHeader("Content-Type", "application/json");
-        res.send({ status: "success", msg: "profile updated." });
+  
+  connection.query(
+    "UPDATE BBY_8_user SET email = ?, password = ?, username = ?, age = ? WHERE ID = ?", [req.body.email, req.body.password, req.body.username, req.body.age, req.session.number],
+    function(error, results, fields) {
+      if (error) {
+        throw error;
       }
-    );
-    connection.end();
-  });
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "success", msg: "profile updated." });
+    }
+  );
+  
 });
 
 app.post("/userInfo", function(req, res) {
@@ -324,19 +286,7 @@ app.post("/userInfo", function(req, res) {
 });
 
 app.post('/upload-images', upload.array("files"), function(req, res) {
-  const mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-  connection.connect();
+  
   connection.query(
     "UPDATE BBY_8_user SET filesrc = ? WHERE ID = ?", [req.files[0].filename, req.session.number],
     function(error, results, fields) {
@@ -347,7 +297,6 @@ app.post('/upload-images', upload.array("files"), function(req, res) {
       res.send({ status: "success", msg: "profile picture updated." });
     }
   );
-  connection.end();
   for (let i = 0; i < req.files.length; i++) {
     req.files[i].filename = req.files[i].originalname;
   }
@@ -366,18 +315,6 @@ app.get("/logout", function(req, res) {
 });
 
 app.post("/addUser", function(req, res) {
-  const mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
 
   let fname = req.body.fname;
   let lname = req.body.lname;
@@ -388,45 +325,29 @@ app.post("/addUser", function(req, res) {
   let age = req.body.age;
   let role = req.body.role;
 
-  connection.connect(function(err) {
+  var sql = "SELECT * FROM BBY_8_user WHERE email =?";
+  connection.query(sql, email, function(err, data, fields) {
     if (err) throw err;
-    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
-    connection.query(sql, email, function(err, data, fields) {
-      if (err) throw err;
-      if (data.length > 0) {
+    if (data.length > 0) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "fail", msg: "Email already exists." });
+    } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
+      password.trim().length <= 0 || username.trim().length <= 0 || mbti.trim().length <= 0 || age.trim().length <= 0) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "fail", msg: "Missing Information." });
+    } else {
+      let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default')";
+      connection.query(sql, [fname, lname, email, password, role, username, age, mbti], function(err, result) {
+        if (err) throw err;
         res.setHeader("Content-Type", "application/json");
-        res.send({ status: "fail", msg: "Email already exists." });
-      } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
-        password.trim().length <= 0 || username.trim().length <= 0 || mbti.trim().length <= 0 || age.trim().length <= 0) {
-        res.setHeader("Content-Type", "application/json");
-        res.send({ status: "fail", msg: "Missing Information." });
-      } else {
-        let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default')";
-        connection.query(sql, [fname, lname, email, password, role, username, age, mbti], function(err, result) {
-          if (err) throw err;
-          res.setHeader("Content-Type", "application/json");
-          res.send({ status: "success" });
-        });
-      }
-    })
+        res.send({ status: "success" });
+      });
+    }
   });
 });
 
 app.post("/deleteUser", function(req, res) {
-  const mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-  connection.connect(function(err) {
-    if (err) throw err;
+  
     var sql = "SELECT * FROM BBY_8_user WHERE role =?";
     connection.query(sql, req.body.role, function(err, data, fields) {
       if (err) throw err;
@@ -441,24 +362,11 @@ app.post("/deleteUser", function(req, res) {
           res.send({ status: "success" });
         });
       }
-    })
-  });
+    });
 });
 
 app.post("/editUser", function(req, res) {
-  const mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-
+  
   let fname = req.body.fname;
   let lname = req.body.lname;
   let email = req.body.email;
@@ -469,72 +377,53 @@ app.post("/editUser", function(req, res) {
   let age = req.body.age;
   let role = req.body.role;
 
-  connection.connect(function(err) {
+  var sql = "SELECT * FROM BBY_8_user WHERE email =?";
+  connection.query(sql, newEmail, function(err, data, fields) {
     if (err) throw err;
-    var sql = "SELECT * FROM BBY_8_user WHERE email =?";
-    connection.query(sql, newEmail, function(err, data, fields) {
-      if (err) throw err;
-      if (data.length > 0 && email != newEmail) {
+    if (data.length > 0 && email != newEmail) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({ status: "fail", msg: "Email already exists." });
+    } else {
+      let sql = "UPDATE BBY_8_user SET firstName=?, lastName=?, email=?, password=?, role=?, userName=?, age=?, personality=? WHERE email=?";
+      connection.query(sql, [fname, lname, newEmail, password, role, username, age, mbti, email], function(err, result) {
+        if (err) throw err;
         res.setHeader("Content-Type", "application/json");
-        res.send({ status: "fail", msg: "Email already exists." });
-      } else {
-        let sql = "UPDATE BBY_8_user SET firstName=?, lastName=?, email=?, password=?, role=?, userName=?, age=?, personality=? WHERE email=?";
-        connection.query(sql, [fname, lname, newEmail, password, role, username, age, mbti, email], function(err, result) {
-          if (err) throw err;
-          res.setHeader("Content-Type", "application/json");
-          res.send({ status: "success" });
-        });
-      }
-    })
+        res.send({ status: "success" });
+      });
+    }
   });
 });
 
 app.post("/get-suggestions", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
-    connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {
-      if (data.length > 0) {
-        var sql = "SELECT * FROM bby_8_song WHERE mood IN (SELECT survey FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?) ORDER BY RAND() LIMIT 5";
-        connection.query(sql, [req.session.number, req.body.date], function(err, results) {
-          res.send({ status: "success", rows: results });
-        });
-      } else {
-        var sql = "SELECT * FROM bby_8_song WHERE personality IN (SELECT personality FROM bby_8_user WHERE ID =?) ORDER BY RAND() LIMIT 5";
-        connection.query(sql, req.session.number, function(err, results) {
-          res.send({ status: "success", rows: results });
-        });
-      }
-    })
-  })
+  var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
+  connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {
+    if (data.length > 0) {
+      var sql = "SELECT * FROM bby_8_song WHERE mood IN (SELECT survey FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?) ORDER BY RAND() LIMIT 5";
+      connection.query(sql, [req.session.number, req.body.date], function(err, results) {
+        res.send({ status: "success", rows: results });
+      });
+    } else {
+      var sql = "SELECT * FROM bby_8_song WHERE personality IN (SELECT personality FROM bby_8_user WHERE ID =?) ORDER BY RAND() LIMIT 5";
+      connection.query(sql, req.session.number, function(err, results) {
+        res.send({ status: "success", rows: results });
+      });
+    }
+  });
 });
 
 app.post("/get-song-info", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_song WHERE ID=?";
-    connection.query(sql, [req.body.songID], function(err, data, fields) {
-      if (data.length > 0) {
-        res.send({ status: "success", rows: data });
-      } else {
-        res.send({ status: "failed" });
-      }
-    })
-  })
+  var sql = "SELECT * FROM bby_8_song WHERE ID=?";
+  connection.query(sql, [req.body.songID], function(err, data, fields) {
+    if (data.length > 0) {
+      res.send({ status: "success", rows: data });
+    } else {
+      res.send({ status: "failed" });
+    }
+  });
 });
 
 app.post("/daily-survey", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-  connection.connect();
+  
   var sql = "SELECT * FROM bby_8_survey WHERE userID =? AND dateOfSurvey =?";
   connection.query(sql, [req.session.number, req.body.date], function(err, data, fields) {
     if (err) throw err;
@@ -544,38 +433,25 @@ app.post("/daily-survey", function(req, res) {
         if (err) throw err;
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success" });
-      })
+      });
     } else {
       var sql = "INSERT INTO bby_8_survey (userID, dateOfSurvey, survey) VALUES ('" + req.session.number + "', '" + req.body.date + "', '" + req.body.mood + "')";
       connection.query(sql, function(err, result) {
         if (err) throw err;
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success" });
-      })
+      });
     }
-  })
+  });
 });
 
 app.post("/reviewSong", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
 
   const userID = req.session.number;
   const songID = req.body.song;
   const dateOfReview = req.body.date;
   const review = req.body.review;
 
-  connection.connect();
   var sql = "SELECT * FROM bby_8_review WHERE userID =? AND songID =?";
   connection.query(sql, [userID, songID], function(err, data, fields) {
     if (err) throw err;
@@ -591,29 +467,16 @@ app.post("/reviewSong", function(req, res) {
         if (err) throw err;
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success" });
-      })
+      });
     }
-  })
+  });
 });
 
 app.post("/displayUserReview", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-
+  
   const userID = req.session.number;
   const songID = req.body.song;
 
-  connection.connect();
   var sql = "SELECT u.userName, r.review FROM bby_8_user u, bby_8_review  r WHERE r.userID = ? AND r.songID = ? AND r.userID = u.ID";
   connection.query(sql, [userID, songID], function(err, data, fields) {
     if (err) throw err;
@@ -624,27 +487,14 @@ app.post("/displayUserReview", function(req, res) {
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "fail" });
     }
-  })
+  });
 });
 
 app.post("/displayOtherReviews", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-
+  
   const userID = req.session.number;
   const songID = req.body.song;
 
-  connection.connect();
   var sql = "SELECT u.userName, r.review FROM bby_8_user u, bby_8_review  r WHERE r.userID <> ? AND r.songID = ? AND r.userID = u.ID";
   connection.query(sql, [userID, songID], function(err, data, fields) {
     if (err) throw err;
@@ -655,22 +505,10 @@ app.post("/displayOtherReviews", function(req, res) {
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "fail" });
     }
-  })
+  });
 });
 
 app.post("/editReview", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
 
   const userID = req.session.number;
   const songID = req.body.song;
@@ -683,153 +521,101 @@ app.post("/editReview", function(req, res) {
     return;
   }
 
-  connection.connect();
   var sql = "UPDATE bby_8_review SET dateOfReview = ?, review = ? WHERE userID = ? AND songID = ?";
   connection.query(sql, [dateOfReview, review, userID, songID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send({ status: "success" });
-  })
+  });
 });
 
 app.post("/getAllUserReviews", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-
+  
   const userID = req.session.number;
 
-  connection.connect();
   var sql = "SELECT u.userName, s.title, s.filesrc, r.songID, r.review, r.dateOfReview FROM bby_8_user u, bby_8_song s, bby_8_review r WHERE u.ID = r.userID AND s.ID = r.songID AND u.ID = ? order by r.dateOfReview DESC";
   connection.query(sql, [userID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send(data);
-  })
+  });
 });
 
 app.post("/deleteReview", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
 
   const userID = req.session.number;
   const songID = req.body.song;
 
-  connection.connect();
   var sql = "DELETE FROM bby_8_review WHERE userID = ? AND songID = ?";
   connection.query(sql, [userID, songID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send({ status: "success" });
-  })
+  });
 });
 
 app.post("/add-to-library", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "INSERT INTO bby_8_library (userID, songID) VALUES (?, ?)";
-    connection.query(sql, [req.session.number, req.body.songID], function(err, data, fields) {
-      if (err) throw err;
-      res.send({ status: "success" });
-    })
-  })
+  var sql = "INSERT INTO bby_8_library (userID, songID) VALUES (?, ?)";
+  connection.query(sql, [req.session.number, req.body.songID], function(err, data, fields) {
+    if (err) throw err;
+    res.send({ status: "success" });
+  });
 });
 
 app.post("/check-if-in-library", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_library WHERE userID = ? AND songID = ?";
-    connection.query(sql, [req.session.number, req.body.songID], function(err, data, fields) {
-      if (data.length > 0) {
-        res.send({ status: "success" });
-      } else {
-        res.send({ status: "fail" });
-      }
-    })
-  })
+  var sql = "SELECT * FROM bby_8_library WHERE userID = ? AND songID = ?";
+  connection.query(sql, [req.session.number, req.body.songID], function(err, data, fields) {
+    if (data.length > 0) {
+      res.send({ status: "success" });
+    } else {
+      res.send({ status: "fail" });
+    }
+  });
 });
 
 app.post("/get-songs-in-library", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_library INNER JOIN bby_8_song ON bby_8_library.songID = bby_8_song.ID WHERE bby_8_library.userID = ?";
-    connection.query(sql, req.session.number, function(err, data, fields) {
-      if (data.length > 0) {
-        res.send({ status: "success", rows: data })
-      }
-    })
-  })
+  var sql = "SELECT * FROM bby_8_library INNER JOIN bby_8_song ON bby_8_library.songID = bby_8_song.ID WHERE bby_8_library.userID = ?";
+  connection.query(sql, req.session.number, function(err, data, fields) {
+    if (data.length > 0) {
+      res.send({ status: "success", rows: data })
+    }
+  });
 });
 
 app.post("/get-new-albums", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_album ORDER BY dateOfRelease DESC LIMIT 5";
-    connection.query(sql, req.session.number, function(err, data, fields) {
-      if (data.length > 0) {
-        res.send({ status: "success", rows: data })
-      }
-    })
-  })
+  var sql = "SELECT * FROM bby_8_album ORDER BY dateOfRelease DESC LIMIT 5";
+  connection.query(sql, req.session.number, function(err, data, fields) {
+    if (data.length > 0) {
+      res.send({ status: "success", rows: data })
+    }
+  });
 });
 
 app.post("/get-songs-in-album", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_song WHERE album IN (SELECT title FROM bby_8_album WHERE ID = ?)";
-    connection.query(sql, req.body.albumID, function(err, data, fields) {
-      if (data.length > 0) {
-        console.log(data);
-        res.send({ status: "success", rows: data })
-      }
-    })
-  })
+  var sql = "SELECT * FROM bby_8_song WHERE album IN (SELECT title FROM bby_8_album WHERE ID = ?)";
+  connection.query(sql, req.body.albumID, function(err, data, fields) {
+    if (data.length > 0) {
+      console.log(data);
+      res.send({ status: "success", rows: data })
+    }
+  });
 });
 
 app.post("/get-all-songs", function(req, res) {
-  connection.connect(function(err) {
-    var sql = "SELECT * FROM bby_8_song";
-    connection.query(sql, function(err, data, fields) {
-      if (err) throw err;
-      res.send({ status: "success", rows: data });
-    })
-  })
+  var sql = "SELECT * FROM bby_8_song";
+  connection.query(sql, function(err, data, fields) {
+    if (err) throw err;
+    res.send({ status: "success", rows: data });
+  });
 });
 
 app.post("/newPost", upload.array("files"), function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-
+  
   const userID = req.session.number;
   const dateOfPost = req.body.body[1];
   const text = req.body.body[0];
   const filesrc = req.files[0] ? req.files[0].filename : "default";
 
-  connection.connect();
   if (text.trim().length <= 0) {
     res.setHeader("Content-Type", "application/json");
     res.send({ status: "fail", msg: "Post can't be empty" });
@@ -839,8 +625,7 @@ app.post("/newPost", upload.array("files"), function(req, res) {
       if (err) throw err;
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "success" });
-    })
-    connection.end();
+    });
     for (let i = 0; i < req.files.length; i++) {
       req.files[i].filename = req.files[i].originalname;
     }
@@ -848,97 +633,46 @@ app.post("/newPost", upload.array("files"), function(req, res) {
 });
 
 app.post("/displayPosts", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
 
   const userID = req.session.number;
 
-  connection.connect();
   var sql = "SELECT u.userName, p.* FROM bby_8_user u, bby_8_post p WHERE p.userID=? AND u.ID = p.userID order by p.dateOfPost DESC";
   connection.query(sql, [userID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send(data);
-  })
+  });
 });
 
 app.post("/editPost", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-
+  
   const postID = req.body.postID;
   const dateOfPost = req.body.date;
   const text = req.body.text;
   let filesrc = req.body.filesrc;
 
-  connection.connect();
   var sql = "UPDATE bby_8_post SET dateOfPost=?, post=?, filesrc=? WHERE ID=?";
   connection.query(sql, [dateOfPost, text, filesrc, postID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send({ status: "success" });
-  })
+  });
 });
 
 app.post("/deletePost", function(req, res) {
-  var mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
 
   const postID = req.body.postID;
 
-  connection.connect();
   var sql = "DELETE FROM bby_8_post WHERE ID=?";
   connection.query(sql, [postID], function(err, data, fields) {
     if (err) throw err;
     res.setHeader("Content-Type", "application/json");
     res.send({ status: "success" });
-  })
+  });
 });
 
 function authenticate(email, pwd, callback) {
-  const mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-  connection.connect();
+  
   connection.query(
     "SELECT * FROM BBY_8_user WHERE email = ? AND password = ?", [email, pwd],
     function(error, results, fields) {
@@ -960,19 +694,7 @@ function authenticate(email, pwd, callback) {
 }
 
 function getUserInfo(userType, callback) {
-  const mysql = require("mysql2");
-  const connection = isHeroku ? mysql.createConnection({
-    host: "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    user: "xu76mlcd3o67jwnx",
-    password: "xhqasmzcj6v8di7m",
-    database: "zyt8w00z5yriluwj",
-  }) : mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp2800",
-  });
-  connection.connect();
+  
   connection.query(
     "SELECT * FROM BBY_8_user WHERE role = ?", [userType],
     function(error, results, fields) {
