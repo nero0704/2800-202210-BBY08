@@ -106,7 +106,7 @@ ready(function() {
           review.classList.add("review");
           const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
           const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-          review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview +
+          review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + formatDate(dataParsed.dateOfReview) +
             ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>" +
             "<p>" + dataParsed.review + "</p>";
           let editReview = document.createElement("p");
@@ -124,7 +124,7 @@ ready(function() {
             event.preventDefault();
             const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
             const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + dataParsed.dateOfReview +
+            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + formatDate(dataParsed.dateOfReview) +
               ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
             let input = document.createElement("input");
             input.type = "text";
@@ -207,7 +207,7 @@ ready(function() {
           post.classList.add("post");
           const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
           const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-          post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost +
+          post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + formatDate(dataParsed.dateOfPost) +
             ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'><p>" +
             dataParsed.post + "</p>";
           let editPost = document.createElement("p");
@@ -225,7 +225,7 @@ ready(function() {
             event.preventDefault();
             const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
             const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + dataParsed.dateOfPost +
+            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + formatDate(dataParsed.dateOfPost) +
               ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'>" +
               "<div class='upload-btn-wrapper'><label><input id='change-post-image' type='file' accept='image/png, image/gif, image/jpeg' multiple='multiple'/>" +
               "<p class='btn'>Change Picture</p></label></div>";
@@ -338,6 +338,35 @@ function uploadPostImages(e) {
   }).catch(function(err) {
     ("Error:", err)
   });
+}
+
+function formatDate(date){
+  console.log(date);
+  let newDate = "";
+  let start = 0;
+  let end = date.indexOf("-");
+  const year = date.substring(start, end);
+  start = end + 1;
+  date = date.replace("-", " ");
+  end = date.indexOf("-");
+  const month = date.substring(start, end);
+  start = end + 1;
+  date = date.replace("-", " ");
+  end = date.indexOf("T");
+  const day = date.substring(start, end);
+  start = end + 1;
+  date = date.replace("T", " ");
+  end = date.indexOf(":");
+  const hours = date.substring(start, end);
+  start = end + 1;
+  date = date.replace(":", " ");
+  end = date.indexOf(":");
+  const minutes = date.substring(start, end);
+  start = end + 1;
+  end = date.indexOf(".");
+  const seconds = date.substring(start, end);
+  newDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
+  return newDate;
 }
 
 function ready(callback) {
