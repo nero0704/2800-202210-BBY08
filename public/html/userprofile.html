@@ -106,12 +106,12 @@
           <h4>Age</h4>
           <h1 class="fill">Age</h1>
         </div>
-      </div>
 
-      <div id="buttons">
-        <button id="edit-profile">Edit Profile</button>
-        <button id="edit">Edit</button>
-        <button id="cancel">Cancel</button>
+        <div id="buttons">
+          <button id="edit-profile">Edit Profile</button>
+          <button id="edit">Edit</button>
+          <button id="cancel">Cancel</button>
+        </div>
       </div>
 
       <div id="Timeline">
@@ -121,8 +121,10 @@
             <input id="post-image-upload" type="file" accept="image/png, image/gif, image/jpeg" multiple="multiple" />
             <p class="btn">Upload a Picture</p>
           </label>
-          <input id="postText" type="text" placeholder="Write here...">
-          <input id="post" type="submit" value="Post">
+          <div id="post-text">
+            <input id="postText" type="text" placeholder="Write here...">
+            <input id="post" type="submit" value="Post">
+          </div>
         </div>
         <p id="errorMsg"></p>
         <div id="userPosts"></div>

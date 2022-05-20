@@ -78,7 +78,8 @@ body {
 
 main {
   display: grid;
-  width: 100%;
+  width: 70%;
+  grid-template-rows: 30% 30% 40%;
   justify-items: center;
   align-items: center;
 }
@@ -87,13 +88,13 @@ main #profile {
   display: grid;
   height: 80%;
   width: 80%;
+  justify-self: left;
   grid-template-columns: 30% 70%;
 }
 
 main #profile #profile-picture {
   display: grid;
   justify-items: center;
-  row-gap: 15px;
 }
 
 main #profile #profile-picture img {
@@ -109,7 +110,7 @@ main #profile #profile-picture #image-upload {
 
 main #profile #profile-picture .image-upload-wrapper {
   display: none;
-  width: 70%;
+  height: fit-content;
   border: 3px solid #ff575a;
   border-radius: 40px;
   font-size: 15pt;
@@ -119,7 +120,10 @@ main #profile #profile-picture .image-upload-wrapper {
 }
 
 main #profile #profile-picture .image-upload-wrapper p {
-  margin: 3px;
+  width: fit-content;
+  margin: 0;
+  padding: 6px 10px;
+  font-weight: 700;
 }
 
 main #profile #profile-picture .image-upload-wrapper:hover {
@@ -140,21 +144,25 @@ main #profile #username h4 {
 
 main #profile #username h1 {
   margin: 0;
-  color: #0D1821;
-  font-weight: 800;
   font-size: 35pt;
+  font-weight: 800;
+  color: #0D1821;
+}
+
+main #profile #username input {
+  padding: 4px;
+  border: 2px solid #0D1821;
+  border-radius: 5px;
+  font-size: 35pt;
+  color: #344966;
 }
 
 main #information {
   display: grid;
-  width: 70%;
+  width: 40%;
   align-self: start;
+  justify-self: left;
   row-gap: 20px;
-}
-
-main #information h1 {
-  margin: 0;
-  color: #0D1821;
 }
 
 main #information h4 {
@@ -162,16 +170,82 @@ main #information h4 {
   color: #0D1821;
 }
 
-main #edit {
-  display: none;
+main #information h1 {
+  margin: 0;
+  color: #0D1821;
 }
 
-main #cancel {
-  display: none;
+main #information input {
+  border: 2px solid #0D1821;
+  border-radius: 5px;
+  font-size: 20pt;
+  color: #0D1821;
 }
 
-#Timeline {
+main #buttons {
+  display: grid;
+  grid-template-columns: 40% auto auto;
+  justify-items: center;
+  row-gap: 5px;
+}
+
+main #buttons #edit-profile {
+  width: fit-content;
+  padding: 6px 10px;
+  border: 3px solid #ff575a;
+  border-radius: 40px;
+  font-weight: 700;
+  font-size: 15pt;
+  text-align: center;
+  cursor: pointer;
+  background: #ff575a;
+}
+
+main #buttons #edit-profile:hover {
   background-color: #0D1821;
+}
+
+main #buttons #edit {
+  display: none;
+  width: fit-content;
+  padding: 6px 10px;
+  border: 3px solid #ff575a;
+  border-radius: 40px;
+  font-weight: 700;
+  font-size: 15pt;
+  text-align: center;
+  cursor: pointer;
+  background: #ff575a;
+}
+
+main #buttons #edit:hover {
+  background-color: #0D1821;
+}
+
+main #buttons #cancel {
+  display: none;
+  width: fit-content;
+  padding: 6px 10px;
+  border: 3px solid #ff575a;
+  border-radius: 40px;
+  font-size: 15pt;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  background: #ff575a;
+}
+
+main #buttons #cancel:hover {
+  background-color: #0D1821;
+}
+
+main #Timeline {
+  width: 100%;
+  background-color: #0D1821;
+}
+
+main #Timeline #postForm {
+  display: grid;
 }
 
 @media screen and (max-width: 1200px) {

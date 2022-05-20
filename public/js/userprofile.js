@@ -1,5 +1,4 @@
 "use strict";
-document.getElementById("submit").addEventListener("submit", uploadImages);
 document.getElementById("post").addEventListener("click", uploadPostImages);
 
 ready(function() {
@@ -43,13 +42,6 @@ ready(function() {
     xhr.send(params);
   }
 
-  // document.querySelector("#LogOut").addEventListener("click", function (e) {
-  //   e.preventDefault();
-  //   localStorage.removeItem("AudioCave_Email");
-  //   localStorage.removeItem("AudioCave_Password");
-  //   window.location.replace("/logout");
-  // })
-
   document.querySelector("#edit").addEventListener("click", function(e) {
     e.preventDefault();
     let email = document.querySelector("#email input").value;
@@ -71,10 +63,10 @@ ready(function() {
 
   document.querySelector("#edit-profile").addEventListener("click", (e) => {
     e.preventDefault();
-    let emailInput = "<input id='email' type='email' value='" + document.querySelector("#email h1").innerHTML + "'>";
-    let passwordInput = "<input id='password' type='password' value='" + document.querySelector("#password h1").innerHTML + "'>";
-    let usernameInput = "<input id='username' type='username' value='" + document.querySelector("#username h1").innerHTML + "'>";
-    let ageInput = "<input id='age' type='age' value='" + document.querySelector("#age h1").innerHTML + "'>";
+    let emailInput = "<h4>E-Mail</h4><input id='email' type='email' value='" + document.querySelector("#email h1").innerHTML + "'>";
+    let passwordInput = "<h4>Password</h4><input id='password' value='" + document.querySelector("#password h1").innerHTML + "'>";
+    let usernameInput = "<h4>USER</h4><input id='username' type='username' value='" + document.querySelector("#username h1").innerHTML + "'>";
+    let ageInput = "<h4>Age</h4><input id='age' type='age' value='" + document.querySelector("#age h1").innerHTML + "'>";
     document.getElementById("cancel").addEventListener("click", () => {
       window.location.replace("/userprofile");
     })
