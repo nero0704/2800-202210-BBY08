@@ -19,26 +19,26 @@
 <body>
   <div id="general-container">
 
-    <div id="topnav">
+    <nav id="top-nav">
       <a id="top-logo" class="active" href="/">
-        <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
+        <img src="/img/AudioCave_Logo_Blue_Red.png" alt="">
         <h1>Audiocave</h1>
       </a>
 
       <div id="top-menu">
         <a href="/">Home</a>
-        <a href="/">Search</a>
-        <a href="/">Library</a>
+        <a href="/search">Search</a>
+        <a href="/library">Library</a>
         <a href="/userprofile">Profile</a>
-        <a href="/">New Albums</a>
-        <a href="/">Survey</a>
+        <a href="/new">New Albums</a>
+        <a href="/survey">Survey</a>
         <a href="/logout">Logout</a>
       </div>
 
       <i id="hamburger" class="fa fa-bars" onclick="hamburger()"></i>
-    </div>
+    </nav>
 
-    <div id="left-bar">
+    <nav id="left-nav">
       <br>
       <div id="logo">
         <img src="/img/AudioCAve_Logo_Blue_Red.png" alt="">
@@ -50,13 +50,11 @@
           <i class="fa-solid fa-house"></i>
           <p>Home</p>
         </a>
-        <!-- not implemented yet -->
-        <a href="/">
+        <a href="/search">
           <i class="fa-solid fa-magnifying-glass"></i>
           <p>Search</p>
         </a>
-        <!-- not implemented yet -->
-        <a href="/">
+        <a href="/library">
           <i class="fa-solid fa-book"></i>
           <p>Library</p>
         </a>
@@ -64,8 +62,7 @@
           <i class="fa-solid fa-user"></i>
           <p>Profile</p>
         </a>
-        <!-- not implemented yet -->
-        <a href="/">
+        <a href="/new">
           <i class="fa-solid fa-compact-disc"></i>
           <p>New Albums</p>
         </a>
@@ -77,9 +74,9 @@
       <br>
       <a href="/logout">Logout</a>
       <br>
-    </div>
+    </nav>
 
-    <div id="main">
+    <main>
       <div id="timeline">
         <h1>Timeline</h1>
         <div id="post-container">
@@ -118,18 +115,19 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
-    <div id="right-bar">
+    <nav id="right-nav">
       <h1>Suggestions</h1>
       <div id="music-suggestion-container">
 
       </div>
-    </div>
+    </nav>
 
   </div>
   <script src="/js/musicsuggestion.js"></script>
   <script src="/js/main.js"></script>
+  <script src="/js/easteregg.js"></script>
 </body>
 
 </html>

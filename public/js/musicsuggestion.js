@@ -50,7 +50,7 @@ ready(function() {
         for (let i = 0; i < dataParsed.rows.length; i++) {
           let row = dataParsed.rows[i];
           str += ('<div class="suggested-song" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
-            '" class="music-rec" style="width:100px;height:100px alt="' + row.ID +
+            '" class="music-rec" style="width:100px;height:100px" alt="' + row.ID +
             '">' +
             '<h1>' + row.title +
             '</h1><h3>' + row.artist +
@@ -64,7 +64,7 @@ ready(function() {
         for (let j = 0; j < records.length; j++) {
           records[j].addEventListener("click", function(e) {
             e.preventDefault();
-            songID = this.id;
+            let songID = this.id;
             sessionStorage.setItem("song", songID)
             window.location = "/songinfo";
           })

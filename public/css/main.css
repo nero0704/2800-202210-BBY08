@@ -16,7 +16,7 @@ body {
   background-color: #B4CDED;
 }
 
-#topnav {
+#top-nav {
   display: none;
 }
 
@@ -24,14 +24,15 @@ body {
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-areas: "left-bar main right-bar";
+  grid-template-areas: "left-nav main right-nav";
   grid-template-columns: 15% 70% 15%;
   justify-items: center;
   margin: auto;
 }
 
-#left-bar {
+#left-nav {
   display: grid;
+  grid-area: left-nav;
   width: 100%;
   height: 100%;
   grid-template-rows: 5% 20% 3% auto auto 5% 5%;
@@ -40,34 +41,34 @@ body {
   background-color: #0D1821;
 }
 
-#left-bar #logo {
+#left-nav #logo {
   display: grid;
   justify-items: center;
 }
 
-#left-bar #logo img {
+#left-nav #logo img {
   width: 50%;
 }
 
-#left-bar #menu {
+#left-nav #menu {
   display: grid;
   grid-template-rows: repeat(7, 1fr);
 }
 
-#left-bar #menu a {
+#left-nav #menu a {
   display: grid;
   grid-template-columns: 40px auto;
 }
 
-#left-bar #menu a i {
+#left-nav #menu a i {
   font-size: 17pt;
 }
 
-#left-bar #menu a p {
+#left-nav #menu a p {
   margin: 0;
 }
 
-#left-bar a {
+#left-nav a {
   text-decoration: none;
 }
 
@@ -75,37 +76,38 @@ a [href="/logout"] {
   text-decoration: none;
 }
 
-#main {
+main {
   display: grid;
+  grid-area: main;
   width: 100%;
   height: 100%;
   justify-items: center;
   align-items: center;
 }
 
-#main h1,
+main h1,
 h3 {
   margin: 0;
   color: #0D1821;
 }
 
-#main #timeline {
+main #timeline {
   display: grid;
   width: 60%;
   justify-items: center;
   row-gap: 20px;
 }
 
-#main #timeline h1 {
+main #timeline h1 {
   height: fit-content;
 }
 
-#main #timeline #post-container {
+main #timeline #post-container {
   display: grid;
   row-gap: 20px;
 }
 
-#main #timeline #post-container .post {
+main #timeline #post-container .post {
   display: grid;
   grid-template-columns: 20% 80%;
   column-gap: 10px;
@@ -114,82 +116,86 @@ h3 {
   background: #0D1821;
 }
 
-#main #timeline #post-container .post .song {
+main #timeline #post-container .post .song {
   display: grid;
   width: fit-content;
   justify-items: center;
 }
 
-#main #timeline #post-container .post .song img {
+main #timeline #post-container .post .song img {
   width: 100%;
 }
 
-#main #timeline #post-container .post .song h1 {
+main #timeline #post-container .post .song h1 {
   width: fit-content;
   font-size: 15pt;
   color: #B4CDED;
 }
 
-#main #timeline #post-container .post .song h3 {
+main #timeline #post-container .post .song h3 {
   width: fit-content;
   font-size: 13pt;
   color: #B4CDED;
 }
 
-#main #timeline #post-container .post .comment {
+main #timeline #post-container .post .comment {
   display: grid;
   width: 95%;
   grid-template-rows: 15% auto;
   row-gap: 5px;
 }
 
-#main #timeline #post-container .post .comment h1 {
+main #timeline #post-container .post .comment h1 {
   width: fit-content;
   font-size: 15pt;
   color: #B4CDED;
 }
 
-#main #timeline #post-container .post .comment p {
+main #timeline #post-container .post .comment p {
   margin: 0;
   color: #B4CDED;
 }
 
-#right-bar {
+#right-nav {
   width: 100%;
   height: 100%;
   padding: 20px;
+  grid-area: right-nav;
   background-color: #0D1821;
 }
 
-#right-bar h1 {
+#right-nav h1 {
   font-size: 20pt;
 }
 
-#right-bar #music-suggestion-container {
+#right-nav #music-suggestion-container {
   display: grid;
-  row-gap: 20px;
+  row-gap: 15px;
 }
 
-#right-bar #music-suggestion-container .suggested-song {
+#right-nav #music-suggestion-container .suggested-song {
   display: grid;
+  width: 100%;
+  justify-items: center;
   row-gap: 2px;
+  text-align: center;
 }
 
-#right-bar #music-suggestion-container .suggested-song img {
+#right-nav #music-suggestion-container .suggested-song img {
   width: 100%;
   border-radius: 7px;
 }
 
-#right-bar #music-suggestion-container .suggested-song h1 {
+#right-nav #music-suggestion-container .suggested-song h1 {
   width: fit-content;
   margin: 0;
   font-size: 15pt;
   color: #B4CDED;
 }
 
-#right-bar #music-suggestion-container .suggested-song h3 {
+#right-nav #music-suggestion-container .suggested-song h3 {
   width: fit-content;
-  font-size: 13pt;
+  font-size: 10pt;
   color: #B4CDED;
 }
 
@@ -204,7 +210,7 @@ h3 {
     grid-template-rows: 10vh auto;
     justify-items: center;
   }
-  #topnav {
+  #top-nav {
     display: grid;
     grid-template-areas: "top-logo ." "top-menu top-menu";
     grid-template-columns: 30% 70%;
@@ -213,19 +219,19 @@ h3 {
     position: relative;
     background-color: #0D1821;
   }
-  #topnav #top-menu {
+  #top-nav #top-menu {
     display: none;
     padding: 20px 0;
     grid-area: top-menu;
     row-gap: 20px;
     background-color: #0D1821;
   }
-  #topnav #top-menu a {
+  #top-nav #top-menu a {
     padding-left: 10px;
     text-decoration: none;
     font-size: 17pt;
   }
-  #topnav #top-logo {
+  #top-nav #top-logo {
     display: grid;
     grid-template-columns: 40% 60%;
     grid-area: top-logo;
@@ -235,19 +241,19 @@ h3 {
     font-size: 17px;
     color: #B4CDED;
   }
-  #topnav img {
+  #top-nav img {
     height: 7vh;
   }
-  #topnav h1 {
+  #top-nav h1 {
     margin: 0;
   }
-  #topnav #hamburger {
+  #top-nav #hamburger {
     position: absolute;
     right: 10px;
     top: 10px;
     font-size: 20pt;
   }
-  #topnav #hamburger:hover {
+  #top-nav #hamburger:hover {
     cursor: pointer;
     background-color: #0D1821;
     color: #B4CDED;
@@ -256,10 +262,10 @@ h3 {
     background-color: #0D1821;
     color: #B4CDED;
   }
-  #left-bar {
+  #left-nav {
     display: none;
   }
-  #right-bar {
+  #right-nav {
     display: none;
   }
 }

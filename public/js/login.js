@@ -64,7 +64,7 @@ ready(function() {
         if (data) {
           let dataParsed = JSON.parse(data);
           if (dataParsed.role == 'A') {
-            window.location.replace("../html/admindashboard.html");
+            window.location.replace("/admindashboard");
           }
         }
 
@@ -96,7 +96,7 @@ ready(function() {
         if (dataParsed.status == "fail") {
           document.getElementById("errorMsg").innerHTML = dataParsed.msg;
         } else if (dataParsed.role == 'A') {
-          window.location.replace("../html/admindashboard.html");
+          window.location.replace("/admindashboard");
         } else {
           window.location.replace("/main");
         }
