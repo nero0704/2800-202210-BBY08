@@ -278,8 +278,8 @@ app.post("/signup", function(req, res) {
         res.send({ status: "fail", msg: "Missing Information." });
       } else {
         var sql =
-          "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" + fname + "', '" + lname + "', '" + email + "', '" + password + "', 'R', '" + username + "', '" + age + "', '" + mbti + "', '" + filesrc + "')";
-        connection.query(sql, function(err, result) {
+          "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES (?, ?, ?, ?, 'R', ?, ?, ?, ?)";
+        connection.query(sql, [fname, lname, email, password, username, age, mbti, filesrc], function(err, result) {
           if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -401,10 +401,8 @@ app.post("/addUser", function(req, res) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Missing Information." });
       } else {
-        let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES ('" +
-          fname + "', '" + lname + "', '" + email + "', '" + password + "', '" + role + "', '" + username + "', '" +
-          age + "', '" + mbti + "', 'default')";
-        connection.query(sql, function(err, result) {
+        let sql = "INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'default')";
+        connection.query(sql, [fname, lname, email, password, role, username, age, mbti], function(err, result) {
           if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -436,8 +434,8 @@ app.post("/deleteUser", function(req, res) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "At least one admin needed." });
       } else {
-        let sql = "DELETE FROM BBY_8_user WHERE email = '" + req.body.email + "'";
-        connection.query(sql, function(err, result) {
+        let sql = "DELETE FROM BBY_8_user WHERE email = ?";
+        connection.query(sql, [req.body.email], function(err, result) {
           if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -480,10 +478,8 @@ app.post("/editUser", function(req, res) {
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "fail", msg: "Email already exists." });
       } else {
-        let sql = "UPDATE BBY_8_user SET firstName='" + fname + "', lastName='" + lname + "', email='" +
-          newEmail + "', password='" + password + "', role='" + role + "', userName='" + username +
-          "', age='" + age + "', personality='" + mbti + "' WHERE email='" + email + "'";
-        connection.query(sql, function(err, result) {
+        let sql = "UPDATE BBY_8_user SET firstName=?, lastName=?, email=?, password=?, role=?, userName=?, age=?, personality=? WHERE email=?";
+        connection.query(sql, [fname, lname, newEmail, password, role, username, age, mbti, email], function(err, result) {
           if (err) throw err;
           res.setHeader("Content-Type", "application/json");
           res.send({ status: "success" });
@@ -590,9 +586,8 @@ app.post("/reviewSong", function(req, res) {
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "fail", msg: "Review can't be empty" });
     } else {
-      var sql = "INSERT INTO BBY_8_review (userID, songID, dateOfReview, review) VALUES ('" +
-        userID + "', '" + songID + "', '" + dateOfReview + "', '" + review + "')";
-      connection.query(sql, function(err, result) {
+      var sql = "INSERT INTO BBY_8_review (userID, songID, dateOfReview, review) VALUES (?, ?, ?, ?)";
+      connection.query(sql, [userID, songID, dateOfReview, review], function(err, result) {
         if (err) throw err;
         res.setHeader("Content-Type", "application/json");
         res.send({ status: "success" });
@@ -750,8 +745,8 @@ app.post("/deleteReview", function(req, res) {
 
 app.post("/add-to-library", function(req, res) {
   connection.connect(function(err) {
-    var sql = "INSERT INTO bby_8_library (userID, songID) VALUES ('" + req.session.number + "', '" + req.body.songID + "')";
-    connection.query(sql, function(err, data, fields) {
+    var sql = "INSERT INTO bby_8_library (userID, songID) VALUES (?, ?)";
+    connection.query(sql, [req.session.number, req.body.songID], function(err, data, fields) {
       if (err) throw err;
       res.send({ status: "success" });
     })
@@ -839,9 +834,8 @@ app.post("/newPost", upload.array("files"), function(req, res) {
     res.setHeader("Content-Type", "application/json");
     res.send({ status: "fail", msg: "Post can't be empty" });
   } else {
-    var sql = "INSERT INTO BBY_8_post (userID, dateOfPost, post, filesrc) VALUES ('" +
-      userID + "', '" + dateOfPost + "', '" + text + "', '" + filesrc + "')";
-    connection.query(sql, function(err, result) {
+    var sql = "INSERT INTO BBY_8_post (userID, dateOfPost, post, filesrc) VALUES (?, ?, ?, ?)";
+    connection.query(sql, [userID, dateOfPost, text, filesrc], function(err, result) {
       if (err) throw err;
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "success" });

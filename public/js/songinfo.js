@@ -166,6 +166,9 @@ ready(function() {
 
       deleteReview.onclick = function(e){
         e.preventDefault();
+        if (!window.confirm("Are you sure you want to delete this review?")) {
+          return;
+        }
         ajaxPOST("/deleteReview", function(data){
           if (data) {
             let Data = JSON.parse(data);

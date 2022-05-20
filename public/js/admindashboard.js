@@ -160,6 +160,9 @@ ready(function() {
       //Delete User
       deleteUserButton.onclick = function(event) {
         event.preventDefault();
+        if (!window.confirm("Are you sure you want to delete this user?")) {
+          return;
+        }
         let queryString = "email=" + dataParsed.email + "&role=" + dataParsed.role;
         ajaxPOST("/deleteUser", function(data) {
           if (data) {

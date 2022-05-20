@@ -19,7 +19,7 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             dateOfSurvey DATE,
             survey varchar(30),
             PRIMARY KEY (userID, dateOfSurvey),
-            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID)
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID) ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS BBY_8_album (
             ID int NOT NULL AUTO_INCREMENT,
@@ -46,8 +46,8 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             userID int NOT NULL,
             songID int NOT NULL,
             PRIMARY KEY (userID, songID),
-            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID),
-            FOREIGN KEY (songID) REFERENCES BBY_8_song(ID)
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID) ON DELETE CASCADE,
+            FOREIGN KEY (songID) REFERENCES BBY_8_song(ID) ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS BBY_8_review (
             userID int NOT NULL,
@@ -55,8 +55,8 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             dateOfReview DATE,
             review varchar(150),
             PRIMARY KEY (userID, songID, dateOfReview),
-            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID),
-            FOREIGN KEY (songID) REFERENCES BBY_8_song(ID)
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID) ON DELETE CASCADE,
+            FOREIGN KEY (songID) REFERENCES BBY_8_song(ID) ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS BBY_8_post (
 			ID int NOT NULL AUTO_INCREMENT,
@@ -65,7 +65,7 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
             post varchar(150),
             filesrc varchar (100),
             PRIMARY KEY (ID),
-            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID)
+            FOREIGN KEY (userID) REFERENCES BBY_8_user(ID) ON DELETE CASCADE
         );
 INSERT INTO BBY_8_user (firstName, lastname, email, password, role, userName, age, personality, filesrc)
     VALUES ("John", "Smith", "JS@test.ca", "1234", 'A', "JohnCena420", "69", "INFJ", "default");
