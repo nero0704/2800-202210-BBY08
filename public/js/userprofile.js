@@ -79,7 +79,8 @@ ready(function() {
     document.getElementById("edit-profile").style = "display: none;";
     document.querySelector("#profile-picture .image-upload-wrapper").style = "display: grid; align-items: center;"
 
-  })
+  });
+
   ajaxPOST("/getAllUserReviews", function(data) {
     if (data) {
       let dataParsed = JSON.parse(data);
@@ -359,16 +360,6 @@ function formatDate(date){
   const seconds = date.substring(start, end);
   newDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
   return newDate;
-}
-
-function ready(callback) {
-  if (document.readyState != "loading") {
-    callback();
-    console.log("ready state is 'complete'");
-  } else {
-    document.addEventListener("DOMContentLoaded", callback);
-    console.log("Listener was invoked");
-  }
 }
 
 function ready(callback) {

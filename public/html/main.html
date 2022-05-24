@@ -11,8 +11,9 @@
   </style>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
-  <link href="/img/Popcorn.png" rel="icon" type="image/x-icon" />
   <link href="/css/main.css" rel="stylesheet" />
 </head>
 
@@ -79,41 +80,20 @@
     <main>
       <div id="timeline">
         <h1>Timeline</h1>
-        <div id="post-container">
-          <div class="post">
-            <div class="song">
-              <img src="/img/album.jpg" alt="">
-              <h1>DAWN</h1>
-              <h3>Aimer</h3>
-            </div>
-            <div class="comment">
-              <h1>David Nam</h1>
-              <p>Aliquam elit turpis, scelerisque vitae nulla sit amet, maximus molestie quam. Fusce euismod tempor venenatis. Mauris fringilla euismod lorem. Aenean in libero libero. Sed bibendum faucibus quam, a fermentum purus porttitor sit amet.</p>
-            </div>
-          </div>
-          <div class="post">
-            <div class="song">
-              <img src="/img/album.jpg" alt="">
-              <h1>DAWN</h1>
-              <h3>Aimer</h3>
-            </div>
-            <div class="comment">
-              <h1>David Nam</h1>
-              <p>Aliquam elit turpis, scelerisque vitae nulla sit amet, maximus molestie quam. Fusce euismod tempor venenatis. Mauris fringilla euismod lorem. Aenean in libero libero. Sed bibendum faucibus quam, a fermentum purus porttitor sit amet.</p>
-            </div>
-          </div>
-          <div class="post">
-            <div class="song">
-              <img src="/img/album.jpg" alt="">
-              <h1>DAWN</h1>
-              <h3>Aimer</h3>
-            </div>
-            <div class="comment">
-              <h1>David Nam</h1>
-              <p>Aliquam elit turpis, scelerisque vitae nulla sit amet, maximus molestie quam. Fusce euismod tempor venenatis. Mauris fringilla euismod lorem. Aenean in libero libero. Sed bibendum faucibus quam, a fermentum purus porttitor sit amet.</p>
-            </div>
+        <div id="postForm">
+          <p>Make a new post!</p>
+          <label>
+            <input id="post-image-upload" type="file" accept="image/png, image/gif, image/jpeg" multiple="multiple" />
+            <p class="btn">Upload a Picture</p>
+          </label>
+          <div id="post-text">
+            <input id="postText" type="text" placeholder="Write here...">
+            <input id="post" type="submit" value="Post">
           </div>
         </div>
+        <p id="errorMsg"></p>
+        <div id="post-container"></div>
+        <div id="review-container"></div>
       </div>
     </main>
 
