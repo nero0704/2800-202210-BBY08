@@ -199,7 +199,7 @@ main #timeline #post-container .post .comment p {
   color: #B4CDED;
 }
 
-.material-symbols-outlined, #review-container, #postForm{ /*To test if everything is there*/
+.material-symbols-outlined, #post-container, #postForm{ /*To test if everything is there*/
   background-color: #0D1821;
 }
 

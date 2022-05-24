@@ -48,7 +48,7 @@ ready(function() {
       if (dataParsed.status == "fail") {
         document.getElementById("errorMsg").innerHTML = dataParsed.msg;
       } else {
-        const container = document.getElementById("review-container");
+        const container = document.getElementById("post-container");
         while (data.indexOf("{") > 0) {
           let startRecord = data.indexOf("{");
           let endRecord = data.indexOf("}");
