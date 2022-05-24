@@ -175,20 +175,22 @@ input[type=text]:focus {
     height: inherit;
     width: inherit;
     margin: auto;
-    grid-template-areas: "top-nav" "main";
+    grid-template-areas: "top-nav""right-nav""main";
     grid-template-columns: auto;
-    grid-template-rows: 10vh auto;
+    grid-template-rows: 10vh auto auto;
     justify-items: center;
   }
+
   #top-nav {
     display: grid;
-    grid-template-areas: "top-logo ." "top-menu top-menu";
+    grid-template-areas: "top-logo .""top-menu top-menu";
     grid-template-columns: 30% 70%;
     grid-area: top-nav;
     width: 100%;
     position: relative;
     background-color: #0D1821;
   }
+
   #top-nav #top-menu {
     display: none;
     padding: 20px 0;
@@ -196,11 +198,13 @@ input[type=text]:focus {
     row-gap: 20px;
     background-color: #0D1821;
   }
+
   #top-nav #top-menu a {
     padding-left: 10px;
     text-decoration: none;
     font-size: 17pt;
   }
+
   #top-nav #top-logo {
     display: grid;
     grid-template-columns: 40% 60%;
@@ -211,31 +215,116 @@ input[type=text]:focus {
     font-size: 17px;
     color: #B4CDED;
   }
+
   #top-nav img {
     height: 7vh;
   }
+
   #top-nav h1 {
     margin: 0;
   }
+
   #top-nav #hamburger {
     position: absolute;
     right: 10px;
     top: 10px;
     font-size: 20pt;
   }
+
   #top-nav #hamburger:hover {
     cursor: pointer;
     background-color: #0D1821;
     color: #B4CDED;
   }
+
   .active {
     background-color: #0D1821;
     color: #B4CDED;
   }
+
   #left-nav {
     display: none;
   }
   #right-nav {
-    display: none;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    grid-area: right-nav;
+    background-color: #0D1821;
+    grid-template-rows: 10vh auto;
   }
+  #right-nav h1 {
+    text-align: left;
+  }
+  #right-nav #music-suggestion-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    grid-gap: 10px;
+  } 
+}
+
+@media screen and (max-width: 480px) {
+  
+  #top-nav {
+    grid-template-columns: 50vw auto;
+    grid-area: top-nav;
+    width: 100%;
+    position: relative;
+    background-color: #0D1821;
+  }
+
+  #top-nav #top-logo img {
+    width: 50px;
+    height: 50px;
+  }
+
+  #right-nav {
+    padding-top: 0;
+    grid-template-rows: 5vh auto;
+  }
+
+  #right-nav h1 {
+    font-size: 20px;
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  #right-nav #music-suggestion-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    grid-gap: 10px;
+  } 
+
+  #right-nav #music-suggestion-container .suggested-song img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  #right-nav #music-suggestion-container .suggested-song h1 {
+    font-size: 13px;
+    word-wrap: break-word;
+    width: 70px;
+  }
+
+  #right-nav #music-suggestion-container .suggested-song h3 {
+    font-size: 10px;
+  }
+
+  #general-container {
+    display: grid;
+    height: inherit;
+    width: inherit;
+    margin: auto;
+    grid-template-areas: "top-nav""right-nav""main";
+    grid-template-columns: auto;
+    grid-template-rows: 10vh auto auto;
+    justify-items: center;
+  }
+
+  ul.ba {
+    list-style-type: none;
+  }
+  
 }
