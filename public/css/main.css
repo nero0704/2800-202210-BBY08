@@ -165,7 +165,9 @@ main #timeline #post-container .post .comment p {
 }
 
 #right-nav h1 {
+  margin: 35px 0;
   font-size: 20pt;
+  text-align: center;
 }
 
 #right-nav #music-suggestion-container {
@@ -199,25 +201,29 @@ main #timeline #post-container .post .comment p {
   color: #B4CDED;
 }
 
-.material-symbols-outlined, #post-container, #postForm{ /*To test if everything is there*/
+.material-symbols-outlined,
+#post-container,
+#postForm {
+  /*To test if everything is there*/
   background-color: #0D1821;
 }
 
 @media screen and (max-width: 1200px) {
   #general-container {
+    overflow-y: hidden;
     display: grid;
     height: inherit;
     width: inherit;
     margin: auto;
-    grid-template-areas: "top-nav" "main";
-    grid-template-columns: auto;
+    grid-template-areas: "top-nav top-nav" "main right-nav";
+    grid-template-columns: 85% 15%;
     grid-template-rows: 10vh auto;
     justify-items: center;
   }
   #top-nav {
     display: grid;
     grid-template-areas: "top-logo ." "top-menu top-menu";
-    grid-template-columns: 30% 70%;
+    grid-template-columns: auto auto;
     grid-area: top-nav;
     width: 100%;
     position: relative;
@@ -237,7 +243,9 @@ main #timeline #post-container .post .comment p {
   }
   #top-nav #top-logo {
     display: grid;
-    grid-template-columns: 40% 60%;
+    height: 9vh;
+    width: 350px;
+    grid-template-columns: 9vh 70%;
     grid-area: top-logo;
     justify-items: center;
     align-items: center;
@@ -250,12 +258,90 @@ main #timeline #post-container .post .comment p {
   }
   #top-nav h1 {
     margin: 0;
+    font-size: 35pt;
   }
   #top-nav #hamburger {
     position: absolute;
     right: 10px;
     top: 10px;
-    font-size: 20pt;
+    align-self: center;
+    font-size: 45pt;
+  }
+  #top-nav #hamburger:hover {
+    cursor: pointer;
+    background-color: #0D1821;
+    color: #B4CDED;
+  }
+  .active {
+    background-color: #0D1821;
+    color: #B4CDED;
+  }
+  #left-nav {
+    display: none;
+  }
+  #right-nav h1 {
+    margin: 8px 0;
+    font-size: 17pt;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #general-container {
+    display: grid;
+    height: inherit;
+    width: inherit;
+    margin: auto;
+    grid-template-areas: "top-nav" "main";
+    grid-template-columns: auto;
+    grid-template-rows: 10vh auto;
+    justify-items: center;
+  }
+  #top-nav {
+    display: grid;
+    grid-template-areas: "top-logo ." "top-menu top-menu";
+    grid-template-columns: auto auto;
+    grid-area: top-nav;
+    width: 100%;
+    position: relative;
+    background-color: #0D1821;
+  }
+  #top-nav #top-menu {
+    display: none;
+    padding: 20px 0;
+    grid-area: top-menu;
+    row-gap: 20px;
+    background-color: #0D1821;
+  }
+  #top-nav #top-menu a {
+    padding-left: 10px;
+    text-decoration: none;
+    font-size: 17pt;
+  }
+  #top-nav #top-logo {
+    display: grid;
+    height: 9vh;
+    width: 300px;
+    grid-template-columns: 9vh 70%;
+    grid-area: top-logo;
+    justify-items: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 17px;
+    color: #B4CDED;
+  }
+  #top-nav img {
+    height: 7vh;
+  }
+  #top-nav h1 {
+    margin: 0;
+    font-size: 30pt;
+  }
+  #top-nav #hamburger {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    align-self: center;
+    font-size: 45pt;
   }
   #top-nav #hamburger:hover {
     cursor: pointer;
