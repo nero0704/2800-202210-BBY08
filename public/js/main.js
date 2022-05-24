@@ -63,80 +63,8 @@ ready(function() {
           review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + formatDate(dataParsed.dateOfReview) +
             ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>" +
             "<p>" + dataParsed.review + "</p>";
-          let editReview = document.createElement("p");
-          editReview.classList.add("material-symbols-outlined");
-          editReview.innerHTML = "edit";
-          let deleteReview = document.createElement("p");
-          deleteReview.classList.add("material-symbols-outlined");
-          deleteReview.innerHTML = "delete";
 
           container.appendChild(review);
-          container.appendChild(editReview);
-          container.appendChild(deleteReview);
-
-          editReview.onclick = function(event) { // Display at the top of the reviews
-            event.preventDefault();
-            const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
-            const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-            review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + formatDate(dataParsed.dateOfReview) +
-              ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>"
-            let input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Write your review here...";
-            input.value = dataParsed.review;
-            let confirm = document.createElement("p");
-            confirm.classList.add("material-symbols-outlined");
-            confirm.innerHTML = "done";
-            let cancel = document.createElement("p");
-            cancel.classList.add("material-symbols-outlined");
-            cancel.innerHTML = "close";
-            review.appendChild(input);
-            review.appendChild(confirm);
-            review.appendChild(cancel);
-            container.innerHTML = "";
-            container.appendChild(review);
-
-            //Submit New Review
-            confirm.onclick = function(event) {
-              event.preventDefault();
-              let queryString = "review=" + input.value +
-                "&song=" + dataParsed.songID +
-                "&date=" + (new Date()).toISOString();
-              ajaxPOST("/editReview", function(data) {
-                if (data) {
-                  let dataParsed = JSON.parse(data);
-                  if (dataParsed.status == "fail") {
-                    document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-                  } else {
-                    location.reload();
-                  }
-                }
-              }, queryString);
-            };
-
-            // Cancel Review Editing
-            cancel.onclick = function(event) {
-              event.preventDefault();
-              location.reload();
-            };
-          };
-
-          deleteReview.onclick = function(e) {
-            e.preventDefault();
-            if (!window.confirm("Are you sure you want to delete this review?")) {
-              return;
-            }
-            ajaxPOST("/deleteReview", function(data) {
-              if (data) {
-                let Data = JSON.parse(data);
-                if (Data.status == "fail") {
-                  document.getElementById("errorMsg").innerHTML = Data.msg;
-                } else {
-                  location.reload();
-                }
-              }
-            }, "song=" + dataParsed.songID);
-          }
         }
       }
     }
@@ -164,85 +92,8 @@ ready(function() {
           post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + formatDate(dataParsed.dateOfPost) +
             ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'><p>" +
             dataParsed.post + "</p>";
-          let editPost = document.createElement("p");
-          editPost.classList.add("material-symbols-outlined");
-          editPost.innerHTML = "edit";
-          let deletePost = document.createElement("p");
-          deletePost.classList.add("material-symbols-outlined");
-          deletePost.innerHTML = "delete";
 
           container.appendChild(post);
-          container.appendChild(editPost);
-          container.appendChild(deletePost);
-
-          editPost.onclick = function(event) {
-            event.preventDefault();
-            const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
-            const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
-            post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + formatDate(dataParsed.dateOfPost) +
-              ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'>" +
-              "<div class='upload-btn-wrapper'><label><input id='change-post-image' type='file' accept='image/png, image/gif, image/jpeg' multiple='multiple'/>" +
-              "<p class='btn'>Change Picture</p></label></div>";
-            let input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Write here...";
-            input.value = dataParsed.post;
-            let confirm = document.createElement("p");
-            confirm.classList.add("material-symbols-outlined");
-            confirm.innerHTML = "done";
-            let cancel = document.createElement("p");
-            cancel.classList.add("material-symbols-outlined");
-            cancel.innerHTML = "close";
-            post.appendChild(input);
-            post.appendChild(confirm);
-            post.appendChild(cancel);
-            container.innerHTML = "";
-            container.appendChild(post);
-
-            //Submit New Post
-            confirm.onclick = function(event) {
-              event.preventDefault();
-              const image = document.getElementById("change-post-image");
-              const filesrc = image.value == "" ? dataParsed.filesrc : image.value.replace("C:\\fakepath\\", "my-app-");
-              let queryString = "text=" + input.value +
-                "&date=" + (new Date()).toISOString() +
-                "&postID=" + dataParsed.ID +
-                "&filesrc=" + filesrc;
-              ajaxPOST("/editPost", function(data) {
-                if (data) {
-                  let dataParsed = JSON.parse(data);
-                  if (dataParsed.status == "fail") {
-                    document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-                  } else {
-                    location.reload();
-                  }
-                }
-              }, queryString);
-            };
-
-            // Cancel Post Editing
-            cancel.onclick = function(event) {
-              event.preventDefault();
-              location.reload();
-            };
-          };
-
-          deletePost.onclick = function(e) {
-            e.preventDefault();
-            if (!window.confirm("Are you sure you want to delete this post?")) {
-              return;
-            }
-            ajaxPOST("/deletePost", function(data) {
-              if (data) {
-                let Data = JSON.parse(data);
-                if (Data.status == "fail") {
-                  document.getElementById("errorMsg").innerHTML = Data.msg;
-                } else {
-                  location.reload();
-                }
-              }
-            }, "postID=" + dataParsed.ID);
-          }
         }
       }
     }
