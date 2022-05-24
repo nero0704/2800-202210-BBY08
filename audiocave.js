@@ -245,7 +245,7 @@ app.post("/signup", function(req, res) {
   var sql = "SELECT * FROM BBY_8_user WHERE email =?";
   connection.query(sql, email, function(err, data, fields) {
     if (err) throw err;
-    if (data.length > 1) {
+    if (data.length > 0) {
       res.setHeader("Content-Type", "application/json");
       res.send({ status: "fail", msg: "Email already exists." });
     } else if (fname.trim().length <= 0 || lname.trim().length <= 0 || email.trim().length <= 0 ||
