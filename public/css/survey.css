@@ -1,13 +1,13 @@
 /* To Implement Into Each Page */
 
-body {font-family: Arial, Helvetica, sans-serif;}
+/* body {font-family: Arial, Helvetica, sans-serif;} */
 
 /*
 
 CSS for Nav Bar
 
 */
-ul {
+/* ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -29,7 +29,7 @@ ul {
   
   li a:hover {
     background-color: #111;
-  }
+  } */
 
 /* 
 
@@ -38,43 +38,74 @@ CSS for Modal
 */
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
 }
 
 /* Modal Content */
 .modal-content {
   position: relative;
-  background-color: #fefefe;
+  background-color: #B4CDED;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
   width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s
 }
 
+.modal-body h2 {
+  color: #0D1821;
+}
+
+.modal-body label {
+  color: #0D1821;
+}
+
 /* Add Animation */
 @-webkit-keyframes animatetop {
-  from {top:-300px; opacity:0} 
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
 }
 
 @keyframes animatetop {
-  from {top:-300px; opacity:0}
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
 }
 
 /* The Close Button */
@@ -94,13 +125,13 @@ CSS for Modal
 
 .modal-header {
   padding: 2px 16px;
-  background-color: #5cb85c;
+  background-color: #0D1821;
   color: white;
 }
 
 .modal-body {
-    margin:150px;
-    padding: 2px 16px;
+  margin: 150px;
+  padding: 2px 16px;
 }
 
 .modal-footer {
@@ -111,34 +142,44 @@ CSS for Modal
 
 /* Set a style for all buttons */
 button {
-    background-color: #04AA6D;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    opacity: 0.9;
-  }
-  
-  button:hover {
-    opacity:1;
-  }
-  
-  /* Float cancel and delete buttons and add an equal width */
-  .cancelbtn, .submitbtn {
-    float: left;
-    width: 50%;
-  }
-  
-  /* Add a color to the cancel button */
-  .cancelbtn {
-    background-color: #ccc;
-    color: black;
-  }
-  
-  /* Add a color to the delete button */
-  .deletebtn {
-    background-color: #f44336;
-  }
+  background-color: #0D1821;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
 
+button:hover {
+  opacity: 1;
+}
+
+/* Float cancel and delete buttons and add an equal width */
+.cancelbtn,
+.submitbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+  background-color: #ccc;
+  color: black;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+  background-color: #f44336;
+}
+
+@media screen and (max-width: 480px) {
+  .modal-body {
+    margin: 10px;
+    margin-bottom: 80px;
+  }
+  .modal-header {
+    margin: 10px;
+  }
+}

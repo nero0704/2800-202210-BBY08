@@ -7,14 +7,25 @@
 // Get the modal
 var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+// Get the button that opens the modal on mobile
+var btn = document.getElementsByClassName("myBtn")[0];
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
+// Get the button that opens the modal
+var btn2 = document.getElementsByClassName("myBtn")[1];
+
 // When the user clicks the button, open the modal 
 btn.onclick = function () {
+    modal.style.display = "block";
+    var x = document.getElementById("top-menu");
+    if (x.style.display === "grid") {
+        x.style.display = "none";
+    }
+}
+
+btn2.onclick = function () {
     modal.style.display = "block";
 }
 
@@ -78,7 +89,7 @@ ready(function () {
 
     document.querySelector("#submit-survey").addEventListener("click", function (e) {
         e.preventDefault();
-        document.getElementById('myModal').style.display='none';
+        document.getElementById('myModal').style.display = 'none';
         let mood = document.querySelector('input[name="mood"]:checked').value
         let date = (new Date()).toISOString().split('T')[0];
         let queryString = "mood=" + mood + "&date=" + date;
