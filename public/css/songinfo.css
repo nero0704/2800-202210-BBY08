@@ -5,7 +5,7 @@
 
 * {
   font-family: Raleway;
-  color: #B4CDED;
+  /* color: #B4CDED; */
   box-sizing: border-box;
 }
 
@@ -44,6 +44,10 @@ h6 {
   justify-items: center;
 }
 
+.review{
+  color: #0D1821;
+}
+
 #left-nav {
   display: grid;
   grid-area: left-nav;
@@ -53,6 +57,7 @@ h6 {
   row-gap: 2vh;
   justify-items: center;
   background-color: #0D1821;
+  color: #B4CDED;
 }
 
 #left-nav #logo {
@@ -203,6 +208,7 @@ form h3{
     width: 100%;
     position: relative;
     background-color: #0D1821;
+    color: #B4CDED;
   }
   #top-nav #top-menu {
     display: none;
