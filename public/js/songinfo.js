@@ -69,6 +69,7 @@ ready(function() {
           '<h2>' + row.title +
           '</h2><h3>' + row.artist +
           '</h3></div>' +
+          '<div class="links">' +
           '<a href="' + row.youtubeLink +
           '"><img src="/img/songs/youtube-logo.png' +
           '" class="music-youtube-link" alt="Youtube"' +
@@ -76,7 +77,8 @@ ready(function() {
           '<a href="' + row.spotifyLink +
           '"><img src="/img/songs/spotify-logo.png' +
           '" class="music-spotify-link" alt="Spotify"' +
-          '"></a>'
+          '"></a>' +
+          '</div>'
 
         document.getElementById("song").innerHTML = str;
       }
