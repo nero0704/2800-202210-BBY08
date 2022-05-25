@@ -83,6 +83,10 @@ CSS for Modal
   color: #0D1821;
 }
 
+.myBtn{
+  cursor: pointer;
+}
+
 /* Add Animation */
 @-webkit-keyframes animatetop {
   from {

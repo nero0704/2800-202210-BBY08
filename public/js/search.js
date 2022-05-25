@@ -116,3 +116,12 @@ function ready(callback) {
     console.log("Listener was invoked");
   }
 }
+
+function hamburger() {
+  var x = document.getElementById("top-menu");
+  if (x.style.display === "grid") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "grid";
+  }
+}
