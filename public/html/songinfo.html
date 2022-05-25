@@ -11,12 +11,33 @@
   </style>
   <script src="https://kit.fontawesome.com/3da2767e3a.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
   <link href="/css/songinfo.css" rel="stylesheet" />
 </head>
 
 <body>
   <div id="general-container">
-    <div id="left-bar">
+
+    <nav id="top-nav">
+      <a id="top-logo" class="active" href="/">
+        <img src="/img/AudioCave_Logo_Blue_Red.png" alt="">
+        <h1>Audiocave</h1>
+      </a>
+
+      <div id="top-menu">
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/library">Library</a>
+        <a href="/userprofile">Profile</a>
+        <a href="/new">New Albums</a>
+        <a href="/survey">Survey</a>
+        <a href="/logout">Logout</a>
+      </div>
+
+      <i id="hamburger" class="fa fa-bars" onclick="hamburger()"></i>
+    </nav>
+
+    <nav id="left-nav">
       <br>
       <div id="logo">
         <img src="/img/AudioCave_Logo_Blue_Red.png" alt="">
@@ -52,8 +73,9 @@
       <br>
       <a href="/logout">Logout</a>
       <br>
-    </div>
-    <div id="main">
+    </nav>
+
+    <main>
       <div id="song-info">
         <div id="song"></div>
         <div id="comment"></div>
@@ -72,9 +94,10 @@
         <div id="userReview"></div>
         <div id="otherReviews"></div>
       </div>
-    </div>
+    </main>
+
   </div>
-  
+
   <script src="/js/main.js"></script>
   <script src="/js/songinfo.js"></script>
 </body>
