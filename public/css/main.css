@@ -101,6 +101,7 @@ main {
   height: 100%;
   justify-items: center;
   align-items: center;
+  overflow-y: scroll;
   /* background-image: url("/img/background/5.jpg");
   background-size: cover; */
 }
