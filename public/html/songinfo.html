@@ -13,9 +13,42 @@
   <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
   <link href="/css/songinfo.css" rel="stylesheet" />
+  <link href="/css/survey.css" rel="stylesheet" />
 </head>
 
 <body>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close">&times;</span>
+        <h2>Daily Survey</h2>
+      </div>
+      <form id="daily-survey" action="/daily-survey" method="post">
+        <div class="modal-body">
+          <h2>How are you feeling today?</h2>
+          <input type="radio" id="angry" name="mood" value="Angry">
+          <label for="angry">Angry</label><br>
+          <input type="radio" id="excited" name="mood" value="Excited">
+          <label for="excited">Excited</label><br>
+          <input type="radio" id="happy" name="mood" value="Happy">
+          <label for="happy">Happy</label><br>
+          <input type="radio" id="neutral" name="mood" value="Neutral">
+          <label for="neutral">Neutral</label><br>
+          <input type="radio" id="sad" name="mood" value="Sad">
+          <label for="sad">Sad</label><br>
+          <input type="radio" id="stressed" name="mood" value="Stressed">
+          <label for="stressed">Stressed</label><br>
+          <button type="button" onclick="document.getElementById('myModal').style.display='none'"
+            class="cancelbtn">Cancel</button>
+          <button id="submit-survey" type="button" class="submitbtn">Submit</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
   <div id="general-container">
 
     <nav id="top-nav">
@@ -30,7 +63,7 @@
         <a href="/library">Library</a>
         <a href="/userprofile">Profile</a>
         <a href="/new">New Albums</a>
-        <a href="/survey">Survey</a>
+        <a class="myBtn">Survey</a>
         <a href="/logout">Logout</a>
       </div>
 
@@ -65,7 +98,7 @@
           <i class="fa-solid fa-compact-disc"></i>
           <p>New Albums</p>
         </a>
-        <a href="/survey">
+        <a class="myBtn">
           <i class="fa-solid fa-file-pen"></i>
           <p>Survey</p>
         </a>
@@ -100,6 +133,7 @@
 
   <script src="/js/main.js"></script>
   <script src="/js/songinfo.js"></script>
+  <script src="/js/survey.js"></script>
 </body>
 
 </html>
