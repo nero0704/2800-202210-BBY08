@@ -49,8 +49,8 @@ ready(function() {
         let str = ""
         for (let i = 0; i < dataParsed.rows.length; i++) {
           let row = dataParsed.rows[i];
-          str += ('<div class="suggested-song" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
-            '" class="music-rec" style="width:100px;height:100px" alt="' + row.ID +
+          str += ('<div class="suggested-song num-' + i + '" id="' + row.ID + '"><img src="/img/songs/' + row.filesrc +
+            '" class="music-rec" alt="' + row.ID +
             '">' +
             '<h1>' + row.title +
             '</h1><h3>' + row.artist +

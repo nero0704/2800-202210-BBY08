@@ -12,8 +12,22 @@
 body {
   width: 100vw;
   height: 100vh;
+  font-size: initial;
+  font-family: Raleway;
+  line-height: initial;
   margin: 0;
   background-color: #B4CDED;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Raleway;
+  font-weight: 700;
+  margin: initial;
 }
 
 #top-nav {
@@ -24,16 +38,16 @@ body {
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-areas: "left-nav main right-nav";
-  grid-template-columns: 15% 70% 15%;
-  justify-items: center;
   margin: auto;
+  grid-template-areas: "left-nav main right-nav";
+  grid-template-columns: 200px auto 200px;
+  justify-items: center;
 }
 
 #left-nav {
   display: grid;
   grid-area: left-nav;
-  width: 100%;
+  width: 200px;
   height: 100%;
   grid-template-rows: 5% 20% 3% auto auto 5% 5%;
   row-gap: 2vh;
@@ -47,7 +61,11 @@ body {
 }
 
 #left-nav #logo img {
-  width: 50%;
+  width: 130px;
+}
+
+#left-nav #logo h1 {
+  font-size: 25pt;
 }
 
 #left-nav #menu {
@@ -83,6 +101,8 @@ main {
   height: 100%;
   justify-items: center;
   align-items: center;
+  /* background-image: url("/img/background/5.jpg");
+  background-size: cover; */
 }
 
 main h1,
@@ -157,20 +177,21 @@ main #timeline #post-container .post .comment p {
 }
 
 #right-nav {
-  width: 100%;
+  width: 200px;
   height: 100%;
-  padding: 20px;
+  padding: 10px;
   grid-area: right-nav;
   background-color: #0D1821;
 }
 
 #right-nav h1 {
-  margin: 35px 0;
+  margin-top: 40px;
   font-size: 20pt;
   text-align: center;
 }
 
 #right-nav #music-suggestion-container {
+  margin-top: 40px;
   display: grid;
   row-gap: 15px;
 }
@@ -184,7 +205,7 @@ main #timeline #post-container .post .comment p {
 }
 
 #right-nav #music-suggestion-container .suggested-song img {
-  width: 100%;
+  width: 100px;
   border-radius: 7px;
 }
 
@@ -211,12 +232,11 @@ main #timeline #post-container .post .comment p {
 @media screen and (max-width: 1200px) {
   #general-container {
     overflow-y: hidden;
-    display: grid;
     height: inherit;
     width: inherit;
     margin: auto;
     grid-template-areas: "top-nav top-nav" "main right-nav";
-    grid-template-columns: 85% 15%;
+    grid-template-columns: auto 150px;
     grid-template-rows: 10vh auto;
     justify-items: center;
   }
@@ -231,9 +251,12 @@ main #timeline #post-container .post .comment p {
   }
   #top-nav #top-menu {
     display: none;
+    width: 100vw;
     padding: 20px 0;
+    z-index: 1;
     grid-area: top-menu;
     row-gap: 20px;
+    transition: 1s;
     background-color: #0D1821;
   }
   #top-nav #top-menu a {
@@ -245,6 +268,7 @@ main #timeline #post-container .post .comment p {
     display: grid;
     height: 9vh;
     width: 350px;
+    z-index: 2;
     grid-template-columns: 9vh 70%;
     grid-area: top-logo;
     justify-items: center;
@@ -279,83 +303,74 @@ main #timeline #post-container .post .comment p {
   #left-nav {
     display: none;
   }
+  #right-nav {
+    width: 150px;
+  }
   #right-nav h1 {
-    margin: 8px 0;
+    margin-top: 20px;
     font-size: 17pt;
+  }
+  #right-nav #music-suggestion-container {
+    margin-top: 40px;
+  }
+  #right-nav #music-suggestion-container .suggested-song img {
+    width: 90px;
+  }
+  #right-nav #music-suggestion-container .suggested-song h1 {
+    font-size: 13pt;
+  }
+  #right-nav #music-suggestion-container .suggested-song h3 {
+    font-size: 8pt;
   }
 }
 
 @media screen and (max-width: 480px) {
   #general-container {
-    display: grid;
-    height: inherit;
-    width: inherit;
-    margin: auto;
-    grid-template-areas: "top-nav" "main";
+    grid-template-areas: "top-nav" "right-nav" "main";
+    grid-template-rows: 6vh 13vh auto;
     grid-template-columns: auto;
-    grid-template-rows: 10vh auto;
-    justify-items: center;
-  }
-  #top-nav {
-    display: grid;
-    grid-template-areas: "top-logo ." "top-menu top-menu";
-    grid-template-columns: auto auto;
-    grid-area: top-nav;
-    width: 100%;
-    position: relative;
-    background-color: #0D1821;
-  }
-  #top-nav #top-menu {
-    display: none;
-    padding: 20px 0;
-    grid-area: top-menu;
-    row-gap: 20px;
-    background-color: #0D1821;
-  }
-  #top-nav #top-menu a {
-    padding-left: 10px;
-    text-decoration: none;
-    font-size: 17pt;
   }
   #top-nav #top-logo {
-    display: grid;
-    height: 9vh;
+    height: 6vh;
     width: 300px;
-    grid-template-columns: 9vh 70%;
-    grid-area: top-logo;
-    justify-items: center;
-    align-items: center;
-    text-decoration: none;
-    font-size: 17px;
-    color: #B4CDED;
   }
-  #top-nav img {
-    height: 7vh;
+  #top-nav #top-logo img {
+    height: 4vh;
   }
-  #top-nav h1 {
-    margin: 0;
+  #top-nav #top-logo h1 {
     font-size: 30pt;
   }
   #top-nav #hamburger {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    align-self: center;
-    font-size: 45pt;
-  }
-  #top-nav #hamburger:hover {
-    cursor: pointer;
-    background-color: #0D1821;
-    color: #B4CDED;
-  }
-  .active {
-    background-color: #0D1821;
-    color: #B4CDED;
-  }
-  #left-nav {
-    display: none;
+    font-size: 30pt;
   }
   #right-nav {
+    width: 100vw;
+    padding: 0;
+  }
+  #right-nav h1 {
+    display: none;
+  }
+  #right-nav #music-suggestion-container {
+    width: 100%;
+    margin: 5px 0;
+    grid-template-columns: auto auto auto auto;
+    justify-content: center;
+  }
+  #right-nav #music-suggestion-container .suggested-song {
+    width: 90px;
+  }
+  #right-nav #music-suggestion-container .num-4 {
+    display: none;
+  }
+  #right-nav #music-suggestion-container .suggested-song img {
+    width: 70px;
+  }
+  #right-nav #music-suggestion-container .suggested-song h1 {
+    display: inline;
+    font-size: 10pt;
+    text-overflow: ellipsis;
+  }
+  #right-nav #music-suggestion-container .suggested-song h3 {
     display: none;
   }
 }
