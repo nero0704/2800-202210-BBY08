@@ -61,7 +61,7 @@ ready(function() {
           const path = dataParsed.filesrc == "default" ? "./img/" : "./img/songs/";
           const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
           review.innerHTML = "<h5>" + dataParsed.title + "'s Review (" + formatDate(dataParsed.dateOfReview) +
-            ")</h5><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:300px;height:300px;'>" +
+            ")</h5><div class='songimg'><img class='image' src=" + path + filesrc + " alt='Review Picture' style='width:150px;height:150px;'></div>" +
             "<p>" + dataParsed.review + "</p>";
 
           container.appendChild(review);
@@ -90,7 +90,7 @@ ready(function() {
           const path = dataParsed.filesrc == "default" ? "./img/" : "./upload/";
           const filesrc = dataParsed.filesrc == "default" ? "default.img" : dataParsed.filesrc;
           post.innerHTML = "<h5>" + dataParsed.userName + "'s Post (" + formatDate(dataParsed.dateOfPost) +
-            ")</h5><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:300px;height:300px;'><p>" +
+            ")</h5><div class='songimg'><img class='image' src=" + path + filesrc + " alt='Post Picture' style='width:150px;height:150px;'></div><p>" +
             dataParsed.post + "</p>";
 
           container.appendChild(post);
